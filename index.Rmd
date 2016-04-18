@@ -1,6 +1,6 @@
 ---
-title: "index"
-author: "Philipp Staender"
+title: "Final Project"
+author: "Philip & Philipp"
 date: "18 April 2016"
 output: html_document
 ---
