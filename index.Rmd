@@ -12,6 +12,16 @@ output:
 ```{r setup, include=FALSE}
 # Load packages and initialize data here
 library(flexdashboard)
+
+if(!file.exists("data_final.rda")) {
+  source('data_combine.R')
+}
+
+# Opens data_final.rda if not already loaded as an object
+if(!exists("z.df" )) {
+  load("data_final.rda")
+}
+
 ```
 
 Column {data-width=650}
@@ -20,7 +30,23 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
-# Code for Chart A
+happy_dist <- table(z$happy)/sum(table(z$happy))*100
+satjob_dist <- table(z$satjob)/sum(table(z$happy))*100
+
+par(mfrow=c(1,2)) 
+
+
+barplot(happy_dist, 
+        col=c("navyblue"),
+        xlab = "Overall life satisfaction categories",
+        legend = c("Life satisfaction"),
+        ylim = c(0, 80))
+
+barplot(satjob_dist, 
+        col=c("navyblue"),
+        xlab = "Job satisfaction categories",
+        legend = c("Job satisfcation"),
+        ylim = c(0, 80))
 ```
 
 Column {data-width=350}
