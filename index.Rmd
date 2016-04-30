@@ -55,12 +55,20 @@ Column {data-width=350}
 ### Chart B
 
 ```{r}
-# Code for Chart B
+library(dygraphs)
+library(magrittr)
+
+
+
+happy <- cbind(z$vhappy, z$jobsat)
+dygraph(happy) %>% dyRangeSelector()
 ```
 
 ### Chart C
 
 ```{r}
-# Code for Chart C
+library(ggplot2)
+mort_plot <- ggplot(data = MortalityGDP, aes(x = InfantMortality,
+        y = GDPperCapita)) + geom_point()
 ```
 
