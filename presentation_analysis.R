@@ -89,9 +89,20 @@ z$breadwin[z$married==1 & z$shareinc>0.7] <- 2
 table(z$breadwin, z$sex)
 
 ##Marriage happiness
+
+
+z$hapmarr <- NA
+z$hapmarr[z$hapmar==3] <- 1
+z$hapmarr[z$hapmar==2] <- 2
+z$hapmarr[z$hapmar==1] <- 3
+
+z$hapmar <- NULL
+z <- rename(z, c(hapmarr="hapmar"))
+
 z$vhapmar <- NA
-z$vhapmar[z$hapmar==2 | z$hapmar==3] <- 0
-z$vhapmar[z$hapmar==1] <- 1
+z$vhapmar[z$hapmar==1 | z$hapmar==2] <- 0
+z$vhapmar[z$hapmar==3] <- 1
+
 
 ###
 table(z$vhapmar, z$vhappyb)
