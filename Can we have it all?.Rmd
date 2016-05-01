@@ -18,8 +18,8 @@ knitr::opts_chunk$set(echo = FALSE)
 PackagesUsed <- c("ggplot2", "repmis", "plyr", "dplyr", "MASS", "Hmisc", "interplot", "gridExtra", "repmis", "car", "reshape", "gmodels", "quantmod", "foreign")
 
 # Set working directory
-#setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
-setwd("~/R_data/Final_Project_P-P") # Staender
+setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
+# setwd("~/R_data/Final_Project_P-P") # Staender
 
 # Load PackagesUsed
 repmis::LoadandCite(PackagesUsed, file = "packages_pres.bib", install = FALSE)
@@ -171,7 +171,7 @@ ggplot() +
 *Sample restrictions: college educated men and women*
 
 ## Family status and income
-```{r,warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 5: Happiness and family constellation"}
+```{r,warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 4: Happiness and family constellation"}
 
 # Create career based on 50th cohort income percentile
 z$career1 <- z$rinc > z$p50
@@ -199,7 +199,7 @@ ggplot() +
 
 # Regression analysis
 
-## Model 1: Interaction effects of marriage and job income
+## Model 1: Interaction effects of marriage and job income {.smaller}
 ```{r, results='asis'}
 
 M1a <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
@@ -219,7 +219,7 @@ stargazer::stargazer(M1a, M2a,
 
 ## Illustration of interaction effect
 
-```{r, warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 6: Interaction effects of marriage and job income on life satisfaction"}
+```{r, warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 5: Interaction effects of marriage and job income on life satisfaction"}
 
 interM1 <- interplot(M1a, var1 = "married", var2 = "career1") +
   ggtitle("Women") +
@@ -238,7 +238,7 @@ grid.arrange(interM1, interM2, ncol = 2)
 
 ```
 
-## Model 2: Double-click on married individuals
+## Model 2: Double-click on married individuals {.smaller}
 ```{r, results='asis'}
 
 # Create a variable for partner's income
@@ -251,7 +251,7 @@ M3 <- lm(vhappyb ~ career1 + keepinghouse + age + agesq + as.factor(othinccat) +
 M4 <- lm(vhappyb ~ career1 + keepinghouse + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race)          + as.factor(bdec), data = subset(z, sex==1 & educat == 4 & married == 1))
 
 stargazer::stargazer(M3, M4,
-    type = 'text',
+    type = 'html',
     omit = c("othinccat", "age", "agesq", "year", "bdec", "race"),
     omit.labels = c("Partner's income", "Age", "Age-squared", "Year", "Race", "Cohort"),
     column.labels = c("Women", "Men"),

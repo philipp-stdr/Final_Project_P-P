@@ -88,14 +88,14 @@ Operationalization
 
 ## Family status and income
 <div class="figure">
-<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-5-1.png" alt="Figure 5: Happiness and family constellation"  />
-<p class="caption">Figure 5: Happiness and family constellation</p>
+<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-5-1.png" alt="Figure 4: Happiness and family constellation"  />
+<p class="caption">Figure 4: Happiness and family constellation</p>
 </div>
 *Sample restrictions: college educated men and women*
 
 # Regression analysis
 
-## Model 1: Interaction effects of marriage and job income
+## Model 1: Interaction effects of marriage and job income {.smaller}
 
 <table style="text-align:center"><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2"><em>Dependent variable:</em></td></tr>
 <tr><td></td><td colspan="2" style="border-bottom: 1px solid black"></td></tr>
@@ -131,43 +131,39 @@ Operationalization
 ## Illustration of interaction effect
 
 <div class="figure">
-<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-7-1.png" alt="Figure 6: Interaction effects of marriage and job income on life satisfaction"  />
-<p class="caption">Figure 6: Interaction effects of marriage and job income on life satisfaction</p>
+<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-7-1.png" alt="Figure 5: Interaction effects of marriage and job income on life satisfaction"  />
+<p class="caption">Figure 5: Interaction effects of marriage and job income on life satisfaction</p>
 </div>
 
-## Model 2: Double-click on married individuals
+## Model 2: Double-click on married individuals {.smaller}
 
-=====================================================================
-                                   Dependent variable:               
-                    -------------------------------------------------
-                                       Very happy                    
-                             Women                     Men           
-                              (1)                      (2)           
----------------------------------------------------------------------
-High-income                  1.864                   8.483***        
-                            (3.823)                  (2.748)         
-                                                                     
-Keeping house               6.110**                   -3.897         
-                            (3.064)                  (11.620)        
-                                                                     
-Constant                   151.317***                 7.694          
-                            (46.158)                 (39.116)        
-                                                                     
----------------------------------------------------------------------
-Partner's income              Yes                      Yes           
-Age                           Yes                      Yes           
-Age-squared                   Yes                      Yes           
-Year                          Yes                      Yes           
-Race                          Yes                      Yes           
-Cohort                        Yes                      Yes           
----------------------------------------------------------------------
-Observations                 2,362                    2,446          
-R2                           0.049                    0.040          
-Adjusted R2                  0.024                    0.017          
-Residual Std. Error    49.268 (df = 2300)       48.653 (df = 2388)   
-F Statistic         1.939*** (df = 61; 2300) 1.725*** (df = 57; 2388)
-=====================================================================
-Note:                                     *p<0.1; **p<0.05; ***p<0.01
+<table style="text-align:center"><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="2" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td colspan="2">Very happy</td></tr>
+<tr><td style="text-align:left"></td><td>Women</td><td>Men</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td></tr>
+<tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">High-income</td><td>1.864</td><td>8.483<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(3.823)</td><td>(2.748)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Keeping house</td><td>6.110<sup>**</sup></td><td>-3.897</td></tr>
+<tr><td style="text-align:left"></td><td>(3.064)</td><td>(11.620)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>151.317<sup>***</sup></td><td>7.694</td></tr>
+<tr><td style="text-align:left"></td><td>(46.158)</td><td>(39.116)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td></tr>
+<tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Partner's income</td><td>Yes</td><td>Yes</td></tr>
+<tr><td style="text-align:left">Age</td><td>Yes</td><td>Yes</td></tr>
+<tr><td style="text-align:left">Age-squared</td><td>Yes</td><td>Yes</td></tr>
+<tr><td style="text-align:left">Year</td><td>Yes</td><td>Yes</td></tr>
+<tr><td style="text-align:left">Race</td><td>Yes</td><td>Yes</td></tr>
+<tr><td style="text-align:left">Cohort</td><td>Yes</td><td>Yes</td></tr>
+<tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>2,362</td><td>2,446</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.049</td><td>0.040</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.024</td><td>0.017</td></tr>
+<tr><td style="text-align:left">Residual Std. Error</td><td>49.268 (df = 2300)</td><td>48.653 (df = 2388)</td></tr>
+<tr><td style="text-align:left">F Statistic</td><td>1.939<sup>***</sup> (df = 61; 2300)</td><td>1.725<sup>***</sup> (df = 57; 2388)</td></tr>
+<tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="2" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+</table>
 *Sample restrictions: married, college educated men and women*
 
 
