@@ -5,7 +5,6 @@ date: "2 May 2016"
 output:
   ioslides_presentation:
     widescreen: true
-    smaller: true
     number_sections: yes
     fig_caption: yes
     keep_md: true
@@ -56,7 +55,9 @@ Anne-Marie Slaughter - Former director of policy planning for the U.S. State Dep
 </div>
 
 
-## Research Design | Data
+## Research Design 
+
+### Data
 
 <div class="black">
 General Social Survey
@@ -72,7 +73,9 @@ Current Population Survey
 
 - used to generate income percentiles in age and educational groups (reference group income)
 
-
+<div class="black">
+Personal Consumption Expenditure (price-deflator)
+</div>
 
 ## Research Design 
 
@@ -143,7 +146,7 @@ ggplot() +
   expand_limits(y=c(20,60)) +
   theme_bw()
 ```
-*Notes: Sample restricted to college educated men and women*
+*Sample restrictions: college educated men and women*
 
 ## Labour-market affiliation
 ```{r,fig.heigth=4,warning=FALSE,echo=FALSE,fig.cap="Figure 3: Happiness and labour-market affiliation"}
@@ -165,15 +168,22 @@ ggplot() +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
 ```
-*Notes: Sample restricted to college educated men and women*
+*Sample restrictions: college educated men and women*
 
 ## Family status and income
 ```{r,warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 5: Happiness and family constellation"}
+
+# Create career based on 50th cohort income percentile
+z$career1 <- z$rinc > z$p50
+z$career1 <- as.numeric(z$career1)
+z$career1[is.na(z$career1)] <- 0 
+
+# Create family constellation factors
 z$meanhap <- NA
-z$meanhap[z$family==0 & z$career==0] <- "Low-inc., no family"
-z$meanhap[z$family==0 & z$career==1] <- "High-inc., no family"
-z$meanhap[z$family==1 & z$career==0] <- "Low-inc., family"
-z$meanhap[z$family==1 & z$career==1] <- "High-inc., family"
+z$meanhap[z$family==0 & z$career1==0] <- "Low-inc., no family"
+z$meanhap[z$family==0 & z$career1==1] <- "High-inc., no family"
+z$meanhap[z$family==1 & z$career1==0] <- "Low-inc., family"
+z$meanhap[z$family==1 & z$career1==1] <- "High-inc., family"
 
 ggplot() + 
   stat_summary(data = z[z$sex == 1 & z$educat==4 ,], aes(x=factor(meanhap), y=vhappyb), 
@@ -185,18 +195,17 @@ ggplot() +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
 ```
-*Notes: Sample restricted to college educated men and women*
+*Sample restrictions: college educated men and women*
 
 # Regression analysis
 
 ## Model 1: Interaction effects of marriage and job income
 ```{r, results='asis'}
 
-M1a <- lm(vhappyb ~ career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+M1a <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
          data = subset(z, sex==2 & educat == 4))
-M2a <- lm(vhappyb ~ career*married + age + agesq + as.factor(year) +as.factor(race) + as.factor(bdec), 
+M2a <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) +as.factor(race) + as.factor(bdec), 
           data = subset(z, sex==1 & educat == 4))
-
 
 stargazer::stargazer(M1a, M2a,
     type = 'html',
@@ -206,20 +215,20 @@ stargazer::stargazer(M1a, M2a,
     covariate.labels = c("High-income", "Married", "High-income*Married"),
     dep.var.labels   = "Very happy")
 ```    
-*Sample restricted to college educated men and women*
+*Sample restrictions: college educated men and women*
 
 ## Illustration of interaction effect
 
 ```{r, warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 6: Interaction effects of marriage and job income on life satisfaction"}
 
-interM1 <- interplot(M1a, var1 = "married", var2 = "career") +
+interM1 <- interplot(M1a, var1 = "married", var2 = "career1") +
   ggtitle("Women") +
   xlab("1 = High-income") + 
   ylab("effect of marriage on life satisfaction") + 
   expand_limits(y=c(0,30)) +
   theme_bw()
 
-interM2 <- interplot(M2a, var1 = "married", var2 = "career") +
+interM2 <- interplot(M2a, var1 = "married", var2 = "career1") +
   ggtitle("Men") +
   xlab("1 = High-income") + 
   expand_limits(y=c(0,30)) +
@@ -229,8 +238,32 @@ grid.arrange(interM1, interM2, ncol = 2)
 
 ```
 
+## Model 2: Double-click on married individuals
+```{r, results='asis'}
+
+# Create a variable for partner's income
+z$othinccat <- trunc(z$def_othinc/10000)
+z$othinccat[is.na(z$othinc)] <- -1
+
+# Regressions
+M3 <- lm(vhappyb ~ career1 + keepinghouse + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) +         as.factor(bdec), data = subset(z, sex==2 & educat == 4 & married == 1))
+
+M4 <- lm(vhappyb ~ career1 + keepinghouse + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race)          + as.factor(bdec), data = subset(z, sex==1 & educat == 4 & married == 1))
+
+stargazer::stargazer(M3, M4,
+    type = 'text',
+    omit = c("othinccat", "age", "agesq", "year", "bdec", "race"),
+    omit.labels = c("Partner's income", "Age", "Age-squared", "Year", "Race", "Cohort"),
+    column.labels = c("Women", "Men"),
+    covariate.labels = c("High-income", "Keeping house"),
+    dep.var.labels   = "Very happy")
+```    
+*Sample restrictions: married, college educated men and women*
+
+
 ## Outlook
 
-- model specifications...
-- double click on married people
-    + 
+- Investigate drivers of when overall happiness and work satisfaction differ
+  + Regression design where sample is limited to individuals reporting high job-satisfaction
+  + Investigate effects of work intensity
+
