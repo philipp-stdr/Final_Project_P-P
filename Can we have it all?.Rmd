@@ -8,6 +8,8 @@ output:
     smaller: true
     number_sections: yes
     fig_caption: yes
+    keep_md: true
+    background: white
 ---
 
 ```{r setup, include=FALSE}
@@ -90,10 +92,9 @@ Operationalization
 
 # Descriptive statistics
 
-
 ## Measures of happiness
 
-```{r, fig1, warning=FALSE,echo=FALSE,fig.cap="Distribution of reported happiness, job-satisfaction and happiness with marriage"}
+```{r,warning=FALSE,echo=FALSE,fig.cap="Figure 1: Distribution of reported happiness, job-satisfaction and happiness with marriage"}
 
 z$hapmarr <- NA
 z$hapmarr[z$hapmar==3] <- 1
@@ -131,7 +132,7 @@ barplot(hapmar_dist,
 ```
 
 ## Gender and age
-```{r,warning=FALSE,echo=FALSE,fig.cap="Happiness and age (college educated men and women)"}
+```{r,warning=FALSE,echo=FALSE,fig.cap="Figure 2: Happiness and age"}
 ggplot() + 
   stat_summary(data = z[z$sex == 1 & z$educat == 4,], aes(x=factor(age), y=vhappyb), 
                fun.y="mean", geom="point", col="Navyblue") + 
@@ -142,11 +143,10 @@ ggplot() +
   expand_limits(y=c(20,60)) +
   theme_bw()
 ```
-Sample Restrictions...
+*Notes: Sample restricted to college educated men and women*
 
 ## Labour-market affiliation
-
-```{r,fig.heigth=5,warning=FALSE,echo=FALSE,fig.cap="Happiness and labour-market affiliation (college educated men and women)"}
+```{r,fig.heigth=4,warning=FALSE,echo=FALSE,fig.cap="Figure 3: Happiness and labour-market affiliation"}
 
 z$workstatus <- NA
 z$workstatus[z$wrkstat==1] <- "Full-time work"
@@ -165,11 +165,10 @@ ggplot() +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
 ```
-*Sample restrictions: highly educated men and women (college education)*
+*Notes: Sample restricted to college educated men and women*
 
 ## Family status and income
-Change to p50 - or at least attempt.
-```{r,warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Happiness and family constellation (college educated subsample)"}
+```{r,warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 5: Happiness and family constellation"}
 z$meanhap <- NA
 z$meanhap[z$family==0 & z$career==0] <- "Low-inc., no family"
 z$meanhap[z$family==0 & z$career==1] <- "High-inc., no family"
@@ -186,38 +185,32 @@ ggplot() +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
 ```
-*Sample restrictions: highly educated men and women (college education)*
+*Notes: Sample restricted to college educated men and women*
 
-## Regression analysis
+# Regression analysis
 
 ## Model 1: Interaction effects of marriage and job income
-take other controls to controls
 ```{r, results='asis'}
-
-stargazer::stargazer(M1a, M2a,
-    type = 'html',
-    omit = c("year", "bdec", "race"),
-    omit.labels = c("Year", "Race", "Cohort"),
-    column.labels = c("Women", "Men"),
-    covariate.labels = c("High-income", "Married", "Age",
-                               "Age-squared", "High-income*Married"),
-    dep.var.labels   = "Very happy")
-```    
-*Sample restrictions: college educated men and women*
-
-## Illustration of interaction effect
-
-```{r, warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Interaction effects of marriage and job income on life satisfaction"}
-
-z$working_ft <- as.numeric(z$working_ft)
-z$working_pt <- as.numeric(z$working_pt)
 
 M1a <- lm(vhappyb ~ career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
          data = subset(z, sex==2 & educat == 4))
 M2a <- lm(vhappyb ~ career*married + age + agesq + as.factor(year) +as.factor(race) + as.factor(bdec), 
           data = subset(z, sex==1 & educat == 4))
 
-# compare men and women
+
+stargazer::stargazer(M1a, M2a,
+    type = 'html',
+    omit = c("age", "agesq", "year", "bdec", "race"),
+    omit.labels = c("Age", "Age-squared", "Year", "Race", "Cohort"),
+    column.labels = c("Women", "Men"),
+    covariate.labels = c("High-income", "Married", "High-income*Married"),
+    dep.var.labels   = "Very happy")
+```    
+*Sample restricted to college educated men and women*
+
+## Illustration of interaction effect
+
+```{r, warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 6: Interaction effects of marriage and job income on life satisfaction"}
 
 interM1 <- interplot(M1a, var1 = "married", var2 = "career") +
   ggtitle("Women") +
