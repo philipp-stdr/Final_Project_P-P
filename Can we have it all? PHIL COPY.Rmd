@@ -1,0 +1,276 @@
+---
+title: "Can we have it all?"
+author: "Philip Unger & Philipp Staender"
+date: "2 May 2016"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+    number_sections: yes
+    fig_caption: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load packages and create BibTeX file for R-packages
+PackagesUsed <- c("ggplot2", "repmis", "plyr", "dplyr", "MASS", "Hmisc", "interplot", "gridExtra", "repmis", "car", "reshape", "gmodels", "quantmod", "foreign")
+
+# Set working directory
+setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
+# setwd("~/R_data/Final_Project_P-P") # Staender
+
+# Load PackagesUsed
+repmis::LoadandCite(PackagesUsed, file = "packages_pres.bib", install = FALSE)
+```
+
+```{r, include=FALSE}
+if(!file.exists("data/data_final.rda")) {
+  source('data_combine.R')
+}
+
+# Opens data_final.rda if not already loaded as an object
+if(!exists("z.df" )) {
+  load("data/data_final.rda")
+}
+```
+
+## Intro
+
+<div class="black">
+Research Question
+</div>
+
+*"Are career pursuits reconcilable with a happy life?"* 
+
+<div class="black">
+The debate
+</div>
+
+*'I still strongly believe that women can “have it all” (and that men can too). ... But not today, not with the way America’s economy and society are currently structured.'*
+
+<div class="black">
+Anne-Marie Slaughter - Former director of policy planning for the U.S. State Department
+</div>
+
+
+## Research Design | Data
+
+<div class="black">
+General Social Survey
+</div>
+
+- Cross-sectional survey of the adult population in the United States
+- Conducted between 1972 to 2014
+- Sample size around 60,000
+
+<div class="black">
+Current Population Survey
+</div>
+
+- used to generate income percentiles in age and educational groups (reference group income)
+
+
+
+## Research Design 
+
+<div class="black">
+Methodology
+</div>
+
+- Graphical analysis
+- Linear Probability Model
+
+<div class="black">
+Operationalization
+</div>
+
+- Defining career
+- Sample heterogeneity 
+
+# Descriptive statistics
+
+
+## Measures of happiness
+
+```{r, fig1, warning=FALSE,echo=FALSE,fig.cap="Distribution of reported happiness, job-satisfaction and happiness with marriage"}
+
+z$hapmarr <- NA
+z$hapmarr[z$hapmar==3] <- 1
+z$hapmarr[z$hapmar==2] <- 2
+z$hapmarr[z$hapmar==1] <- 3
+
+z$hapmar <- NULL
+z <- rename(z, c(hapmarr="hapmar"))
+
+happy_dist <- table(z$happy)/sum(table(z$happy))*100
+satjob_dist <- table(z$satjob)/sum(table(z$happy))*100
+t <- subset(z, z$married == 1)
+hapmar_dist <- table(t$hapmar)/sum(table(t$happy))*100
+
+par(mfrow=c(1,3)) 
+
+barplot(happy_dist, 
+        col=c("navyblue"),
+        xlab = "Reported happiness",
+        ylab = "Frequency (percent)",
+        legend = c("Happiness"),
+        ylim = c(0, 80))  
+
+barplot(satjob_dist, 
+        col=c("navyblue"),
+        xlab = "Reported job-satisfaction",
+        legend = c("Job-satisfcation"),
+        ylim = c(0, 80))
+
+barplot(hapmar_dist, 
+        col=c("navyblue"),
+        xlab = "Reported happiness with marriage",
+        legend = c("Marriage-happiness"),
+        ylim = c(0, 80))
+```
+
+## Gender and age
+```{r,warning=FALSE,echo=FALSE,fig.cap="Happiness and age (college educated men and women)"}
+ggplot() + 
+  stat_summary(data = z[z$sex == 1 & z$educat == 4,], aes(x=factor(age), y=vhappyb), 
+               fun.y="mean", geom="point", col="Navyblue") + 
+  stat_summary(data = z[z$sex == 2 & z$educat == 4,], aes(x=factor(age), y=vhappyb), 
+               fun.y="mean", geom="point", col="Red") + 
+  scale_x_discrete("Age") +
+  scale_y_continuous("Percentage very happy") +
+  expand_limits(y=c(20,60)) +
+  theme_bw()
+```
+Sample Restrictions...
+
+## Labour-market affiliation
+
+```{r,fig.heigth=5,warning=FALSE,echo=FALSE,fig.cap="Happiness and labour-market affiliation (college educated men and women)"}
+
+z$workstatus <- NA
+z$workstatus[z$wrkstat==1] <- "Full-time work"
+z$workstatus[z$wrkstat==2] <- "Part-time work"
+z$workstatus[z$wrkstat==7] <- "Keeping house"
+
+
+ggplot() + 
+  stat_summary(data = z[z$sex == 2 & z$educat==4,], aes(x=factor(workstatus), y=vhappyb), 
+               fun.y="mean", geom="point", col="Red") + 
+  stat_summary(data = z[z$sex == 1 & z$educat ==4,], aes(x=factor(workstatus), y=vhappyb), 
+               fun.y="mean", geom="point", col="Navyblue") + 
+  scale_x_discrete("Work status", limits=c("Full-time work", "Part-time work", 
+                "Keeping house")) +
+  expand_limits(y=c(20,60)) +
+  scale_y_continuous("Percentage very happy") +
+  theme_bw()
+```
+*Sample restrictions: highly educated men and women (college education)*
+
+## Family status and income
+
+```{r,warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Happiness and family constellation (college educated subsample)"}
+
+# Create career based on 50th cohort income percentile
+z$career1 <- z$rinc > z$p50
+z$career1 <- as.numeric(z$career1)
+z$career1[is.na(z$career1)] <- 0 
+
+# Create family constellation factors
+z$meanhap <- NA
+z$meanhap[z$family==0 & z$career1==0] <- "Low-inc., no family"
+z$meanhap[z$family==0 & z$career1==1] <- "High-inc., no family"
+z$meanhap[z$family==1 & z$career1==0] <- "Low-inc., family"
+z$meanhap[z$family==1 & z$career1==1] <- "High-inc., family"
+
+ggplot() + 
+  stat_summary(data = z[z$sex == 1 & z$educat==4 ,], aes(x=factor(meanhap), y=vhappyb), 
+               fun.y="mean", geom="point", col="Navyblue") +
+  stat_summary(data = z[z$sex == 2 & z$educat==4,], aes(x=factor(meanhap), y=vhappyb), 
+             fun.y="mean", geom="point", col="Red") +
+  scale_x_discrete("Family-work combination", limits=c("Low-inc., no family", 
+              "High-inc., no family", "Low-inc., family", "High-inc., family")) +
+  scale_y_continuous("Percentage very happy") +
+  theme_bw()
+```
+*Sample restrictions: highly educated men and women (college education)*
+
+## Regression analysis
+
+## Model 1: Interaction effects of marriage and job income
+take other controls to controls
+```{r, results='asis'}
+
+z$working_ft <- as.numeric(z$working_ft)
+z$working_pt <- as.numeric(z$working_pt)
+
+M1a <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+         data = subset(z, sex==2 & educat == 4))
+M2a <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) +as.factor(race) + as.factor(bdec), 
+          data = subset(z, sex==1 & educat == 4))
+
+stargazer::stargazer(M1a, M2a,
+    type = 'html',
+    omit = c("year", "bdec", "race"),
+    omit.labels = c("Year", "Race", "Cohort"),
+    column.labels = c("Women", "Men"),
+    covariate.labels = c("High-income", "Married", "Age",
+                          "Age-squared", "High-income*Married"),
+    dep.var.labels   = "Very happy")
+```    
+*Sample restrictions: college educated men and women*
+
+## Illustration of interaction effect
+
+```{r, warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Interaction effects of marriage and job income on life satisfaction"}
+
+# compare men and women
+
+interM1 <- interplot(M1a, var1 = "married", var2 = "career1") +
+  ggtitle("Women") +
+  xlab("1 = High-income") + 
+  ylab("effect of marriage on life satisfaction") + 
+  expand_limits(y=c(0,30)) +
+  theme_bw()
+
+interM2 <- interplot(M2a, var1 = "married", var2 = "career1") +
+  ggtitle("Men") +
+  xlab("1 = High-income") + 
+  expand_limits(y=c(0,30)) +
+  theme_bw()
+
+grid.arrange(interM1, interM2, ncol = 2) 
+
+```
+
+## Model 2: Double-click on married individuals
+take other controls to controls
+```{r, results='asis'}
+
+# Create a variable for partner's income
+z$othinccat <- trunc(z$def_othinc/10000)
+z$othinccat[is.na(z$othinc)] <- -1
+
+# Regressions
+M3 <- lm(vhappyb ~ career1 + keepinghouse + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) +         as.factor(bdec), data = subset(z, sex==2 & educat == 4 & married == 1))
+
+M4 <- lm(vhappyb ~ career1 + keepinghouse + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race)          + as.factor(bdec), data = subset(z, sex==1 & educat == 4 & married == 1))
+
+stargazer::stargazer(M3, M4,
+    type = 'text',
+    omit = c("othinccat", "year", "bdec", "race"),
+    omit.labels = c("Partner's income", "Year", "Race", "Cohort"),
+    column.labels = c("Women", "Men"),
+    covariate.labels = c("High-income", "Keeping house", "Age",
+                          "Age-squared"),
+    dep.var.labels   = "Very happy")
+```    
+*Sample restrictions: college educated men and women*
+
+
+## Outlook
+
+- Investigate drivers of when overall happiness and life-satisfaction differ
+  + Regression design where sample is limited to individuals reporting high job-satisfaction
+  + Investigate effects of work intensity
+

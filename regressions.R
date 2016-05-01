@@ -222,3 +222,23 @@ stargazer(PenM1, PenF1, PenM2, PenF2, PenM3, PenF3, PenM4, PenF4, PenM5, PenF5, 
           out="New regressions - lifesat penalty.txt")
 
 ## New double click
+
+PenM6 <- lm(vhappy ~ career1 + spouse_ft + spouse_home + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 1 & educat == 4 & family == 1 & vjobsat1 == 1))
+summary(PenM6)
+
+PenF6 <- lm(vhappy ~ career1 + spouse_ft + spouse_home + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 2 & educat == 4 & family == 1 & vjobsat1 == 1))
+summary(PenF6)
+
+PenM7 <- lm(vhappy ~ career1 + career1*kid + spouse_ft + spouse_home + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 1 & educat == 4 & family == 1 & vjobsat1 == 1))
+summary(PenM7)
+
+PenF7 <- lm(vhappy ~ career1 + career1*kid + spouse_ft + spouse_home + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 2 & educat == 4 & family == 1 & vjobsat1 == 1))
+summary(PenF7)
+
+
+stargazer(PenM6, PenF6, PenM7, PenF7, type="text",
+          out="New regressions 2 - lifesat penalty.txt")
