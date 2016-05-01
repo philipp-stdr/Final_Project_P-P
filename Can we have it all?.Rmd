@@ -5,6 +5,7 @@ date: "2 May 2016"
 output:
   ioslides_presentation:
     widescreen: true
+    smaller: true
     number_sections: yes
     fig_caption: yes
 ---
@@ -49,12 +50,44 @@ Sheryl Sandberg - Facebook's Chief Operating Officer
 </div>
 
 
-## Research Question
+## Intro
+
+<div class="black">
+Research Question
+</div>
 
 *"Are career pursuits reconcilable with a happy life?"* 
 
+<div class="black">
 Hypotheses:
-1. 
+</div>
+
+1. Women who pursue a career, and have success with respect to earnings relative to male peers, have equal life-satisfaction as women who chooses to establish a family.
+
+2. Career women report job-satisfaction equal to their male peers, while reporting lower overall life happiness
+
+3. Career women in earlier cohorts report lower life-satisfaction relative to later generations
+
+## Research Design | Data
+
+<div class="black">
+General Social Survey
+</div>
+- cross-sectional survey of the adult population in the United States
+- conducted from 1972 to 2014
+- socio-economic, attitudinal and behavioural questions
+
+<div class="black">
+Current Population Survey
+</div>
+- cross-sectional representative survey
+
+
+## Research Design | Methodology
+
+<div class="black">
+Methodology
+</div>
 
 ## Figure 1
 
