@@ -4,36 +4,147 @@ author: "Philip Unger & Philipp Staender"
 date: "2 May 2016"
 output:
   ioslides_presentation:
-    css: https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css
     widescreen: true
+    number_sections: yes
+    fig_caption: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
+# Load packages and create BibTeX file for R-packages
+PackagesUsed <- c("ggplot2", "repmis", "plyr", "dplyr", "MASS", "Hmisc", "interplot", "gridExtra", "repmis", "car", "reshape", "gmodels", "quantmod", "foreign")
+
+# Set working directory
+#setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
+setwd("~/R_data/Final_Project_P-P") # Staender
+
+# Load PackagesUsed
+repmis::LoadandCite(PackagesUsed, file = "packages_pres.bib", install = FALSE)
 ```
 
-## Intro | Subheading
+```{r, include=FALSE}
+if(!file.exists("data/data_final.rda")) {
+  source('data_combine.R')
+}
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
-
-## Slide with Bullets {.smaller}
-
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-## Slide with R Output
-
-```{r cars, echo = TRUE}
-summary(cars)
+# Opens data_final.rda if not already loaded as an object
+if(!exists("z.df" )) {
+  load("data/data_final.rda")
+}
 ```
 
-## Slide with Plot
+## Intro | The debate - Can women have it all? 
 
-```{r pressure}
-plot(pressure)
+*'I still strongly believe that women can “have it all” (and that men can too). ... But not today, not with the way America’s economy and society are currently structured.'*
+
+<div class="black">
+Anne-Marie Slaughter - Former director of policy planning for the U.S. State Department
+</div>
+
+*'Partner with the right person, because you cannot have a full career and a full life at home with the children if you are also doing all the housework and childcare.'*
+
+<div class="black">
+Sheryl Sandberg - Facebook's Chief Operating Officer
+</div>
+
+
+## Research Question
+
+*"Are career pursuits reconcilable with a happy life?"* 
+
+Hypotheses:
+1. 
+
+## Figure 1
+
+```{r, fig1,warning=FALSE,echo=FALSE,fig.cap="Distribution of reported happiness and job-satisfaction"}
+
+happy_dist <- table(z$happy)/sum(table(z$happy))*100
+satjob_dist <- table(z$satjob)/sum(table(z$happy))*100
+
+par(mfrow=c(1,2)) 
+
+barplot(happy_dist, 
+        col=c("navyblue"),
+        xlab = "Reported happiness",
+        ylab = "Frequency (percent)",
+        legend = c("Happiness"),
+        ylim = c(0, 80))  
+
+barplot(satjob_dist, 
+        col=c("navyblue"),
+        xlab = "Reported job-satisfaction",
+        legend = c("Job-satisfcation"),
+        ylim = c(0, 80))
+```
+
+## Figure 5
+
+```{r, fig5,fig.heigth=5,warning=FALSE,echo=FALSE,fig.cap="Happiness and labour-market affiliation (college educated men and women)"}
+
+z$workstatus <- NA
+z$workstatus[z$wrkstat==1] <- "Full-time work"
+z$workstatus[z$wrkstat==2] <- "Part-time work"
+z$workstatus[z$wrkstat==7] <- "Keeping house"
+
+
+ggplot() + 
+  stat_summary(data = z[z$sex == 2 & z$educat==4,], aes(x=factor(workstatus), y=vhappyb), 
+               fun.y="mean", geom="point", col="Red") + 
+  stat_summary(data = z[z$sex == 1 & z$educat ==4,], aes(x=factor(workstatus), y=vhappyb), 
+               fun.y="mean", geom="point", col="Navyblue") + 
+  scale_x_discrete("Work status", limits=c("Full-time work", "Part-time work", 
+                "Keeping house")) +
+  expand_limits(y=c(20,60)) +
+  scale_y_continuous("Percentage very happy") +
+  theme_bw()
+```
+- some comments
+- some more commments
+
+## Figure 7
+
+```{r, fig6,warning=FALSE,echo=FALSE,fig.cap="Happiness and income level"}
+
+z = z[z$year >= 1977 & z$year < 2012,]
+
+z$income_status[z$career==1] <- "High-income"
+z$income_status[z$career==0] <- "Low-income"
+
+  # Following Bertrand (2013), respondents who report no income (Not applicable) is coded as
+  # having low-income. Thus there are no N/A's in the career variables (see also below). 
+
+
+z$career1 <- z$rinc > z$p50
+z$career1 <- as.numeric(z$career1)
+z$career1[is.na(z$career1)] <- 0 
+
+z$income_status1[z$career1==1] <- "High-income"
+z$income_status1[z$career1==0] <- "Low-income"
+
+plot1 <- ggplot() + 
+  stat_summary(data = z[z$sex == 1 & z$educat==4,], aes(x=factor(income_status), y=vhappyb), 
+               fun.y="mean", geom="point", col="Navyblue") + 
+  stat_summary(data = z[z$sex == 2  & z$educat==4,], aes(x=factor(income_status), y=vhappyb), 
+               fun.y="mean", geom="point", col="Red") + 
+  expand_limits(y=c(25,45)) +
+  scale_x_discrete("High- or low-income job", limits=c("High-income", "Low-income")) +
+  scale_y_continuous("Percentage very happy") +
+  ggtitle("A. Threshold: 25th percentile") +
+  theme_bw()
+
+
+plot2 <- ggplot() + 
+  stat_summary(data = z[z$sex == 1 & z$educat==4,], aes(x=factor(income_status1), y=vhappyb), 
+               fun.y="mean", geom="point", col="Navyblue") + 
+  stat_summary(data = z[z$sex == 2  & z$educat==4,], aes(x=factor(income_status1), y=vhappyb),
+               fun.y="mean", geom="point", col="Red") + 
+  expand_limits(y=c(25,45)) +
+  scale_x_discrete("High- or low-income job", limits=c("High-income", "Low-income")) +
+  scale_y_continuous("") +
+  ggtitle("B. Threshold: 50th percentile") +
+  theme_bw()
+grid.arrange(plot1, plot2, ncol=2)
 ```
 
