@@ -74,22 +74,22 @@ Operationalization
 
 ## Gender and age
 <div class="figure">
-<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-3-1.png" alt="Figure 2: Happiness and age"  />
-<p class="caption">Figure 2: Happiness and age</p>
+<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-3-1.png" alt="Figure 2: Happiness and age, men (blue) and women (red) "  />
+<p class="caption">Figure 2: Happiness and age, men (blue) and women (red) </p>
 </div>
 *Sample restrictions: college educated men and women*
 
 ## Labour-market affiliation
 <div class="figure">
-<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-4-1.png" alt="Figure 3: Happiness and labour-market affiliation"  />
-<p class="caption">Figure 3: Happiness and labour-market affiliation</p>
+<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-4-1.png" alt="Figure 3: Happiness and labour-market affiliation, men (blue) and women (red)"  />
+<p class="caption">Figure 3: Happiness and labour-market affiliation, men (blue) and women (red)</p>
 </div>
 *Sample restrictions: college educated men and women*
 
 ## Family status and income
 <div class="figure">
-<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-5-1.png" alt="Figure 4: Happiness and family constellation"  />
-<p class="caption">Figure 4: Happiness and family constellation</p>
+<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-5-1.png" alt="Figure 4: Happiness and family constellation, men (blue) and women (red)"  />
+<p class="caption">Figure 4: Happiness and family constellation, men (blue) and women (red)</p>
 </div>
 *Sample restrictions: college educated men and women*
 

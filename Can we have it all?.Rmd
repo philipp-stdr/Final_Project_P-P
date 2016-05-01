@@ -135,7 +135,7 @@ barplot(hapmar_dist,
 ```
 
 ## Gender and age
-```{r,warning=FALSE,echo=FALSE,fig.cap="Figure 2: Happiness and age"}
+```{r,warning=FALSE,echo=FALSE,fig.cap="Figure 2: Happiness and age, men (blue) and women (red) "}
 ggplot() + 
   stat_summary(data = z[z$sex == 1 & z$educat == 4,], aes(x=factor(age), y=vhappyb), 
                fun.y="mean", geom="point", col="Navyblue") + 
@@ -149,7 +149,7 @@ ggplot() +
 *Sample restrictions: college educated men and women*
 
 ## Labour-market affiliation
-```{r,fig.heigth=4,warning=FALSE,echo=FALSE,fig.cap="Figure 3: Happiness and labour-market affiliation"}
+```{r,fig.heigth=4,warning=FALSE,echo=FALSE,fig.cap="Figure 3: Happiness and labour-market affiliation, men (blue) and women (red)"}
 
 z$workstatus <- NA
 z$workstatus[z$wrkstat==1] <- "Full-time work"
@@ -171,7 +171,7 @@ ggplot() +
 *Sample restrictions: college educated men and women*
 
 ## Family status and income
-```{r,warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 4: Happiness and family constellation"}
+```{r,warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 4: Happiness and family constellation, men (blue) and women (red)"}
 
 # Create career based on 50th cohort income percentile
 z$career1 <- z$rinc > z$p50
