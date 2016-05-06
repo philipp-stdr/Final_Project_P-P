@@ -45,7 +45,7 @@ z$spouse_home[z$spwrksta==1 | z$spwrksta==2] <- 0
 t <- z
 t = t[t$year >= 1977 & t$year < 2012,]
 
-# Regressions from Bertrand (2013), table 1
+# Replications of Table 1 in Bertrand (2013)
 M1a <- lm(vhappy ~ career + married + career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(t, sex==2 & educat == 4))
 summary(M1a)
@@ -54,7 +54,7 @@ M1c <- lm(vhappy ~ career + married + career*married + age + agesq + as.factor(y
           data = subset(t, sex==2 & educat == 4 & age>=40))
 summary(M1c)
 
-# Regressions from Bertrand (2013), table 1 - men
+# Replications of Table 1 in Bertrand (2013) - Men instead of women.
 M1ma <- lm(vhappy ~ career + married + career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(t, sex==1 & educat == 4))
 summary(M1ma)
@@ -63,7 +63,7 @@ M1mc <- lm(vhappy ~ career + married + career*married + age + agesq + as.factor(
           data = subset(t, sex==1 & educat == 4 & age>=40))
 summary(M1mc)
 
-# Regressions from Bertrand (2013) - carrer1, table 1
+# Replications of Table 1 in Bertrand (2013) - p50 carreer variable
 M1a_c1 <- lm(vhappy ~ career1 + married + career1*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(t, sex==2 & educat == 4))
 summary(M1a_c1)
@@ -72,7 +72,7 @@ M1c_c1 <- lm(vhappy ~ career1 + married + career1*married + age + agesq + as.fac
           data = subset(t, sex==2 & educat == 4 & age>=40))
 summary(M1c_c1)
 
-# Regressions from Bertrand (2013)- carrer1, table 1 - men
+# Replications of Table 1 in Bertrand (2013) - p50 carreer variable - Men sample
 M1ma_c1 <- lm(vhappy ~ career1 + married + career1*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex==1 & educat == 4))
 summary(M1ma_c1)
@@ -81,7 +81,7 @@ M1mc_c1 <- lm(vhappy ~ career1 + married + career1*married + age + agesq + as.fa
            data = subset(t, sex==1 & educat == 4 & age>=40))
 summary(M1mc_c1)
 
-# Regressions from Bertrand (2013), table 2
+# Replication of Table 2 in Bertrand (2013)
 
 M2a <- lm(vhappy ~ career + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(t, sex==2 & educat == 4 & married == 1))
@@ -95,7 +95,7 @@ M2c <- lm(vhappy ~ career + keepinghouse + age + agesq + as.factor(othinccat) + 
           data = subset(t, sex==2 & educat == 4 & married == 1))
 summary(M2c)
 
-# Do the same for men
+# # Replication of Table 2 in Bertrand (2013): Male sample
 M3a <- lm(vhappy ~ career + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(t, sex==1 & educat == 4 & married == 1))
 summary(M3a)
@@ -108,7 +108,7 @@ M3c <- lm(vhappy ~ career + keepinghouse + age + agesq + as.factor(othinccat) + 
           data = subset(t, sex==1 & educat == 4 & married == 1))
 summary(M3c)
 
-# Regressions from Bertrand (2013), table 2 (career 1)
+# # Replication of Table 2 in Bertrand (2013): p50 career variable 
 
 M2a_c1 <- lm(vhappy ~ career1 + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(t, sex==2 & educat == 4 & married == 1))
@@ -122,7 +122,7 @@ M2c_c1 <- lm(vhappy ~ career1 + keepinghouse + age + agesq + as.factor(othinccat
           data = subset(t, sex==2 & educat == 4 & married == 1))
 summary(M2c_c1)
 
-# Do the same for men (carreer1)
+# # Replication of Table 2 in Bertrand (2013): p50 career variable - Men sample
 M3a_c1 <- lm(vhappy ~ career1 + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(t, sex==1 & educat == 4 & married == 1))
 summary(M3a_c1)
@@ -148,7 +148,6 @@ stargazer(M1a, M1c, M1ma, M1mc, type="text",
 stargazer(M1a_c1, M1c_c1, M1ma_c1, M1mc_c1, type="text",
           out="bertrand table 1 - career1 - women and men.txt")
 
-## Life-satisfaction penalty
 
 # Bertrand table 2, including child dummy (career1)
 
@@ -159,6 +158,8 @@ summary(W3c_c1)
 Men3c_c1 <- lm(vhappy ~ career1 + keepinghouse + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
              data = subset(t, sex==1 & educat == 4 & married == 1))
 summary(Men3c_c1)
+
+## Adding a dummy for children does not change the overall results.
 
 # Bertrand table 2, including child and interaction (career1)
 
@@ -173,6 +174,8 @@ summary(Men3c_c1_k)
 stargazer(W3c_c1, W3c_c1_k, Men3c_c1, Men3c_c1_k, type="text",
           out="bertrand table 2 - career1 - kids.txt")
 
+table(t$kid[t$sex==1 & t$educat == 4 & t$married == 1])
+################################################################
 
 ## New section: What determines loss of life-satisfaction. 
 
@@ -221,7 +224,7 @@ summary(PenF5)
 stargazer(PenM1, PenF1, PenM2, PenF2, PenM3, PenF3, PenM4, PenF4, PenM5, PenF5, type="text",
           out="New regressions - lifesat penalty.txt")
 
-## New double click
+## New double click --> Importance of spouse work
 
 PenM6 <- lm(vhappy ~ career1 + spouse_ft + spouse_home + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
             data = subset(t, sex == 1 & educat == 4 & family == 1 & vjobsat1 == 1))
