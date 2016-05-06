@@ -20,6 +20,11 @@ z$rinccat <- trunc(z$def_rinc/10000)
 z$rinccat[is.na(z$def_rinc)] <- -1
 table(z$rinccat)
 
+z$inccat <- trunc(z$def_inc/10000)
+z$inccat[is.na(z$def_inc)] <- -1
+table(z$inccat)
+
+
 # Create career1
 z$career1 <- z$rinc > z$p50
 z$career1 <- as.numeric(z$career1)
@@ -36,21 +41,81 @@ z$spouse_ft <- NULL
 z$spouse_ft[z$spwrksta==1] <- 1
 z$spouse_ft[z$spwrksta==2 | z$spwrksta==7] <- 0
 
+z$spouse_pt <- NULL
+z$spouse_pt[z$spwrksta==2] <- 1
+z$spouse_pt[z$spwrksta==1 | z$spwrksta==7] <- 0
+
 z$spouse_home <- NULL
 z$spouse_home[z$spwrksta==7] <- 1
 z$spouse_home[z$spwrksta==1 | z$spwrksta==2] <- 0
 
+z$sp_nonft <- NULL
+z$sp_nonft[z$spwrksta==1] <- 0
+z$sp_nonft[z$spwrksta==7 | z$spwrksta==2] <- 1
+  
+z$nonft <- NULL
+z$nonft[z$wrksta==1] <- 0
+z$nonft[z$wrksta==7 | z$wrksta==2] <- 1  
+
+z$sp_hardw <- NULL
+z$sp_hardw[z$sphrs1>=50] <- 1
+z$sp_hardw[z$sphrs1<50] <- 0
+z$sp_hardw <- as.numeric(z$sp_hardw)
+
+z$hardw <- NULL
+z$hardw[z$hrs1 >= 50] <- 1
+z$hardw[z$hrs1 < 50] <- 0
+z$hardw <- as.numeric(z$hardw)
+
+##Marriage happiness
+z$hapmarr <- NA
+z$hapmarr[z$hapmar==3] <- 1
+z$hapmarr[z$hapmar==2] <- 2
+z$hapmarr[z$hapmar==1] <- 3
+
+z$hapmar <- NULL
+z <- rename(z, c(hapmarr="hapmar"))
+
+z$vhapmar <- NA
+z$vhapmar[z$hapmar==1 | z$hapmar==2] <- 0
+z$vhapmar[z$hapmar==3] <- 1
+
+# work hours into bins
+#z$hrs_cat <- NULL
+#z$hrs_cat[z$hrs1==0] <- 0
+#z$hrs_cat[z$hrs1>0 & z$hrs1<10] <- 1
+#z$hrs_cat[z$hrs1>=10 & z$hrs1<20] <- 2
+#z$hrs_cat[z$hrs1>=20 & z$hrs1<30] <- 3
+#z$hrs_cat[z$hrs1>=30 & z$hrs1<40] <- 4
+#z$hrs_cat[z$hrs1>=40 & z$hrs1<50] <- 5
+#z$hrs_cat[z$hrs1>=50 & z$hrs1<60] <- 6
+#z$hrs_cat[z$hrs1>=60 & z$hrs1<70] <- 7
+#z$hrs_cat[z$hrs1>=70 & z$hrs1<80] <- 8
+#z$hrs_cat[z$hrs1>=80] <- 9
+
+z$hrs_cat <- trunc(z$hrs1/10)
+z$sphrs_cat <- trunc(z$sphrs1/10)
+
+z$hrs_ft <- NULL
+z$hrs_ft[z$hrs1<40] <- 0 
+z$hrs_ft[z$hrs1>=40] <- 1
+
+z$sphrs_ft <- NULL
+z$sphrs_ft[z$sphrs1<40] <- 0 
+z$sphrs_ft[z$sphrs1>=40] <- 1
+
+z$working_ft <- as.numeric(z$working_ft)
 
 # Data-set "t" is limited to the years where "career" is defined
 t <- z
 t = t[t$year >= 1977 & t$year < 2012,]
 
 # Replications of Table 1 in Bertrand (2013)
-M1a <- lm(vhappy ~ career + married + career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+M1a <- lm(vhappy ~ career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(t, sex==2 & educat == 4))
 summary(M1a)
 
-M1c <- lm(vhappy ~ career + married + career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+M1c <- lm(vhappy ~ career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(t, sex==2 & educat == 4 & age>=40))
 summary(M1c)
 
@@ -187,15 +252,15 @@ PenF1 <- lm(vhappy ~ career1 + married + kid + age + agesq + as.factor(othinccat
             data = subset(t, sex == 2 & educat == 4 & vjobsat1 == 1))
 summary(PenF1)
 
-PenM2 <- lm(vhappy ~ career1 + married + married*career1 + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+PenM2 <- lm(vhappy ~ married*career1 + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
             data = subset(t, sex == 1 & educat == 4 & vjobsat1 == 1))
 summary(PenM2)
 
-PenF2 <- lm(vhappy ~ career1 + married + married*career1 + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+PenF2 <- lm(vhappy ~ married*career1 + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
             data = subset(t, sex == 2 & educat == 4 & vjobsat1 == 1))
 summary(PenF2)
 
-PenM3 <- lm(vhappy ~ career1 + married + married*career1 + hrs1 + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+PenM3 <- lm(vhappy ~ married*career1 + hrs1 + kid + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
             data = subset(t, sex == 1 & educat == 4 & vjobsat1 == 1))
 summary(PenM3)
 
@@ -243,5 +308,105 @@ PenF7 <- lm(vhappy ~ career1 + career1*kid + spouse_ft + spouse_home + kid + age
 summary(PenF7)
 
 
+
 stargazer(PenM6, PenF6, PenM7, PenF7, type="text",
           out="New regressions 2 - lifesat penalty.txt")
+
+
+## Spouse hrs worked (cat)
+
+SpF1 <- lm(vhappy ~ as.factor(hrs_cat) + as.factor(sphrs_cat) + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(SpF1)
+
+SpM1 <- lm(vhappy ~ as.factor(hrs_cat) + as.factor(sphrs_cat) + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & married ==1))
+summary(SpM1)
+
+# --> interesting difference here! women don't like to work more than 40 hrs and don't like their husbands working less than 30 hrs (10%)
+
+## Spouse hrs worked (dummy)
+
+SpF2 <- lm(vhappy ~ hrs_ft + sphrs_ft + spouse_home + kid + keepinghouse + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(SpF2)
+
+SpM2 <- lm(vhappy ~ hrs_ft + sphrs_ft + spouse_home + keepinghouse + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & married ==1))
+summary(SpM2)
+
+## 
+# keepinghouse working_pt working_ft 
+# spouse_home spouse_pt spouse_ft
+
+## Spouse Work Status (people with high job sat)
+
+SpF3 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1 & vjobsat1 == 1))
+summary(SpF3)
+
+SpM3 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 1 & educat == 4 & married ==1 & vjobsat1 == 1))
+summary(SpM3)
+# --> Interesting Non-findings: For people who are very happy with their job, spouse work status does not impact life happiness
+
+## Spouse Work Status
+SpF4 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(SpF4)
+
+SpM4 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & married ==1))
+summary(SpM4)
+# --> Men are significantly less happy when spouse works ft
+
+
+
+
+
+## Spouse Work Status
+SpF5 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(SpF4)
+
+SpM5 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(SpM4)
+
+## full-time part-time interaction
+SpF3 <- lm(vhappy ~ working_ft*spouse_pt + keepinghouse + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(SpF3)
+
+SpM3 <- lm(vhappy ~ working_ft*spouse_pt + keepinghouse + kid + age + agesq + + as.factor(rinccat) + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & married ==1))
+summary(SpM3)
+
+
+## full-time part-time interaction
+SpF3 <- lm(vhappy ~ working_ft*spouse_pt + keepinghouse + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(SpF3)
+
+SpM3 <- lm(vhappy ~ working_ft*spouse_pt + keepinghouse + kid + age + agesq + + as.factor(rinccat) + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & married ==1))
+summary(SpM3)
+
+
+
+
+
+
+SpM1 <- lm(vhapmar ~ hrs1 + sphrs1 + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 1 & educat == 4 & married ==1 & vjobsat1 == 1))
+summary(SpM1)
+
+SpF1 <- lm(vhappy ~ hrs1 + spouse_ft + sp_hardw + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(SpF1)
+
+SpF1 <- lm(vhappy ~ hrs1 + spouse_ft + sp_hardw + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+
+
+
