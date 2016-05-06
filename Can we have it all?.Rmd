@@ -71,7 +71,7 @@ General Social Survey
 Current Population Survey
 </div>
 
-- used to generate income percentiles in age and educational groups (reference group income)
+- Used to generate income percentiles in age and educational groups (reference group income)
 
 <div class="black">
 Personal Consumption Expenditure (price-deflator)
@@ -91,7 +91,7 @@ Operationalization
 </div>
 
 - Defining career
-- Sample heterogeneity 
+- Subjective well being measures
 
 # Descriptive statistics
 
@@ -216,27 +216,6 @@ stargazer::stargazer(M1a, M2a,
     dep.var.labels   = "Very happy")
 ```    
 *Sample restrictions: college educated men and women*
-
-## Illustration of interaction effect
-
-```{r, warning=FALSE,echo=FALSE,Cache=TRUE,fig.cap="Figure 5: Interaction effects of marriage and job income on life satisfaction"}
-
-interM1 <- interplot(M1a, var1 = "married", var2 = "career1") +
-  ggtitle("Women") +
-  xlab("1 = High-income") + 
-  ylab("effect of marriage on life satisfaction") + 
-  expand_limits(y=c(0,30)) +
-  theme_bw()
-
-interM2 <- interplot(M2a, var1 = "married", var2 = "career1") +
-  ggtitle("Men") +
-  xlab("1 = High-income") + 
-  expand_limits(y=c(0,30)) +
-  theme_bw()
-
-grid.arrange(interM1, interM2, ncol = 2) 
-
-```
 
 ## Model 2: Double-click on married individuals {.smaller}
 ```{r, results='asis'}

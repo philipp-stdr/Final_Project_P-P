@@ -41,7 +41,7 @@ General Social Survey
 Current Population Survey
 </div>
 
-- used to generate income percentiles in age and educational groups (reference group income)
+- Used to generate income percentiles in age and educational groups (reference group income)
 
 <div class="black">
 Personal Consumption Expenditure (price-deflator)
@@ -61,7 +61,7 @@ Operationalization
 </div>
 
 - Defining career
-- Sample heterogeneity 
+- Subjective well being measures
 
 # Descriptive statistics
 
@@ -127,13 +127,6 @@ Operationalization
 <tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="2" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
 *Sample restrictions: college educated men and women*
-
-## Illustration of interaction effect
-
-<div class="figure">
-<img src="Can_we_have_it_all__files/figure-html/unnamed-chunk-7-1.png" alt="Figure 5: Interaction effects of marriage and job income on life satisfaction"  />
-<p class="caption">Figure 5: Interaction effects of marriage and job income on life satisfaction</p>
-</div>
 
 ## Model 2: Double-click on married individuals {.smaller}
 
