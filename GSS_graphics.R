@@ -157,7 +157,7 @@ ggplot() +
   theme_bw()
 
 t$hardwork <- NULL
-t$hardwork[t$hrs1 > 50] <- 1
+t$hardwork[t$hrs1 >= 50] <- 1
 t$hardwork[t$hrs1 < 50] <- 0
 t$hardwork <- as.numeric(t$hardwork)
 table(t$hardwork)

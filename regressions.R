@@ -351,6 +351,7 @@ summary(SpM3)
 # --> Interesting Non-findings: For people who are very happy with their job, spouse work status does not impact life happiness
 
 ## Spouse Work Status
+
 SpF4 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex == 2 & educat == 4 & married ==1))
 summary(SpF4)
@@ -360,53 +361,58 @@ SpM4 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + ages
 summary(SpM4)
 # --> Men are significantly less happy when spouse works ft
 
+## Change base category to pt
 
-
-
-
-## Spouse Work Status
-SpF5 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+SpF5 <- lm(vhappy ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex == 2 & educat == 4 & married ==1))
-summary(SpF4)
+summary(SpF5)
 
-SpM5 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-           data = subset(t, sex == 2 & educat == 4 & married ==1))
-summary(SpM4)
-
-## full-time part-time interaction
-SpF3 <- lm(vhappy ~ working_ft*spouse_pt + keepinghouse + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-           data = subset(t, sex == 2 & educat == 4 & married ==1))
-summary(SpF3)
-
-SpM3 <- lm(vhappy ~ working_ft*spouse_pt + keepinghouse + kid + age + agesq + + as.factor(rinccat) + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+SpM5 <- lm(vhappy ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex == 1 & educat == 4 & married ==1))
-summary(SpM3)
+summary(SpM5)
 
+## Spouse Work Status (nonft)
 
-## full-time part-time interaction
-SpF3 <- lm(vhappy ~ working_ft*spouse_pt + keepinghouse + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+SpF5 <- lm(vhappy ~ sp_nonft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex == 2 & educat == 4 & married ==1))
-summary(SpF3)
+summary(SpF5)
 
-SpM3 <- lm(vhappy ~ working_ft*spouse_pt + keepinghouse + kid + age + agesq + + as.factor(rinccat) + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+SpM5 <- lm(vhappy ~ sp_nonft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex == 1 & educat == 4 & married ==1))
-summary(SpM3)
+summary(SpM5)
 
+############
+## Marriage happiness
+############
 
+## Spouse hrs worked (cat)
 
-
-
-
-SpM1 <- lm(vhapmar ~ hrs1 + sphrs1 + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
-            data = subset(t, sex == 1 & educat == 4 & married ==1 & vjobsat1 == 1))
-summary(SpM1)
-
-SpF1 <- lm(vhappy ~ hrs1 + spouse_ft + sp_hardw + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+MarF1 <- lm(vhapmar ~ as.factor(hrs_cat) + as.factor(sphrs_cat) + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex == 2 & educat == 4 & married ==1))
-summary(SpF1)
+summary(MarF1)
 
-SpF1 <- lm(vhappy ~ hrs1 + spouse_ft + sp_hardw + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+MarM1 <- lm(vhapmar ~ as.factor(hrs_cat) + as.factor(sphrs_cat) + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & married ==1))
+summary(MarM1)
+
+## Spouse work status
+
+MarF2 <- lm(vhapmar ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(MarF2)
 
+MarM2 <- lm(vhapmar ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & married ==1))
+summary(MarM2)
 
+##############
+## Comparing men and women
+##############
 
+GM1 <- lm(vhappy ~ sex*sp_nonft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, educat == 4 & married ==1))
+summary(GM1)
+
+GM2 <- lm(vhappy ~ sex*spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+          data = subset(t, educat == 4 & married ==1))
+summary(GM2)
