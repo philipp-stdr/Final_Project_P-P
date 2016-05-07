@@ -18,8 +18,8 @@ knitr::opts_chunk$set(echo = FALSE)
 PackagesUsed <- c("ggplot2", "repmis", "plyr", "dplyr", "MASS", "Hmisc", "interplot", "gridExtra", "repmis", "car", "reshape", "gmodels", "quantmod", "foreign")
 
 # Set working directory
-setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
-# setwd("~/R_data/Final_Project_P-P") # Staender
+#setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
+setwd("~/R_data/Final_Project_P-P") # Staender
 
 # Load PackagesUsed
 repmis::LoadandCite(PackagesUsed, file = "packages_pres.bib", install = FALSE)

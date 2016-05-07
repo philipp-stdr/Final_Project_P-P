@@ -7,12 +7,12 @@
 setwd("~/Documents/CDA/collaborative_projects/Assignment3_P-P") # Unger
 
 # Source PCE deflator 
-source('deflator.R')
+source('combine/bdeflator.R')
 
 # Source CPS income percentile data from Bertrand (2013)'s replication file
 # The file is only downloaded if not already present in working directory
 if(!file.exists('data/CPS_Bertrand.rda')) {
-  source('CPS_Bertrand.R')
+  source('combine/CPS_Bertrand.R')
 }
 
 # Opens CPS_Bertrand.rda if the previous step was skipped (to save computational power)
@@ -23,7 +23,7 @@ if(!exists("CPS.df" )) {
 # Source GSS downloader file if the dataset is not present on in the working directory
 
 if(!file.exists("data/GSS.CS.rda")) {
-  source('GSS_data_downloader.R')
+  source('combine/GSS_data_downloader.R')
 }
 
 # Open the GSS dataset if previous step was skipped, otherwise not to save computational power
@@ -38,7 +38,7 @@ if(!exists("GSS.CS.df" )) {
 # only if it hasn't been done priorly. 
 
 if(!file.exists("data/data_final.rda")) {
-  source('GSS_prep_dynamic.R')
+  source('combine/GSS_prep_dynamic.R')
 }
 
 

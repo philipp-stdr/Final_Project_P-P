@@ -29,7 +29,7 @@ repmis::LoadandCite(PackagesUsed, file = "packages.bib", install = FALSE)
 
 ```{r, include=FALSE}
 if(!file.exists("data/data_final.rda")) {
-  source('data_combine.R')
+  source('combine/data_combine.R')
 }
 
 # Opens data_final.rda if not already loaded as an object
