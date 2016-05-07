@@ -173,10 +173,19 @@ Two of the central variables for our research are reported happiness and job-sat
 
 ```{r, fig1,warning=FALSE,echo=FALSE,fig.cap="Distribution of reported happiness and job-satisfaction"}
 
+z$hapmarr <- NA
+z$hapmarr[z$hapmar==3] <- 1
+z$hapmarr[z$hapmar==2] <- 2
+z$hapmarr[z$hapmar==1] <- 3
+
+z$hapmar <- NULL
+z <- rename(z, c(hapmarr="hapmar"))
+
 happy_dist <- table(z$happy)/sum(table(z$happy))*100
 satjob_dist <- table(z$satjob)/sum(table(z$happy))*100
+hapmar_dist <- table(z$hapmar)/sum(table(z$happy))*100
 
-par(mfrow=c(1,2)) 
+par(mfrow=c(1,3)) 
 
 barplot(happy_dist, 
         col=c("navyblue"),
@@ -189,6 +198,12 @@ barplot(satjob_dist,
         col=c("navyblue"),
         xlab = "Reported job-satisfaction",
         legend = c("Job-satisfcation"),
+        ylim = c(0, 80))
+
+barplot(hapmar_dist, 
+        col=c("navyblue"),
+        xlab = "Reported happiness with marriage",
+        legend = c("Marriage-happiness"),
         ylim = c(0, 80))
 ```
 
@@ -223,6 +238,7 @@ ggplot() +
 ```
 
 ### Distribution of work-hours for full-time workers
+
 Work intensity is another variable of interest for the final research design. "Hours worked last week" is available across the full survey from 1972-2014. This is an imperfect proxy for respondents average working hours over a full year, which unfortunately is not available. Figure 4 shows the frequency of hours worked last week for full-time workers. It is apparent that most respondents have worked around 40 hours a week, but also that there is considerable variance. 
 
 ```{r, fig4,fig.heigth=5,warning=FALSE,echo=FALSE,fig.cap="Histogram of hours worked last week for full-time workers"}
@@ -330,6 +346,11 @@ ggplot() +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
 ```
+
+### Cohort 
+
+
+
 
 # Regression Analysis
 
