@@ -1,7 +1,7 @@
 ---
-title: "Pair Assignment 3"
+title: "Can we have it all?"
 author: "Philip Unger & Philipp Ständer"
-date: "14 Apr 2016"
+date: "13 May 2016"
 header-includes:
     - \usepackage{setspace}\doublespacing
 output: 
@@ -11,6 +11,7 @@ output:
     fig_height: 4
     fig_width: 6
     toc: yes
+subtitle: How reconcilability of career pursuits and life satisfaction differs between women and men
 bibliography: 
 - main.bib
 - packages.bib
@@ -70,6 +71,12 @@ We compare respondends with respect to
 - and at spouse characteristics
   - spouse income
   - spouse work status
+  
+4. Strategy: how do we approach our research question?
+- data
+- empirical strategy 
+
+5. How the paper proceeds
 
 
 
@@ -96,9 +103,7 @@ A priori, we hypothesize the following three relationships if norms are a drivin
 * As societal norms are likely to have become more constructive for career women over time, we would expect career women in earlier cohorts to report lower life-satisfaction relative to later generations (hypothesis 3). 
 
 
-# Theory
-
-## Literature Review
+# Literature Review
 
 (Assignment 2)
 The following literature review will focus on the gender-specific impact of career and work hour preferences on work and overall life satisfaction but also discuss related studies on gender identity, the division of wage and care work as well as the measurement of subjective well-being.
@@ -113,9 +118,9 @@ A study by @booth2008 lends support to this hypothesis by finding that British w
 
 To analyse how career pursuits affect life-satisfaction, we rely on direct reports on subjective well-being (SWB) from the General Social Survey. Using SWB (data) presents some methodological concerns, as insights from behavioural economics have questioned individual's’ ability to gauge their life-satisfaction and thus the robustness of SWB data [@kahneman2006; @bertrand2013]. The extent to which this constitutes a problem is widely contested. @nikolova2015, for instance, found that when survey participants were asked two similar life-satisfaction questions at two different points in time during the same survey, 14 per cent of the individuals reported significantly different levels of well-being. Particularly individuals of low socioeconomic status tended to report lower well-being at the second question, signifying the importance of question ordering. This implies a caveat when using SWB data, but it is nonetheless the most readily available data-source on life-satisfaction and no consensus has been reached on a superior measure that is circumscribed from methodological concerns.
 
-## Research Question & Hypotheses
-
 # Research Design
+
+## Research Question and Hypotheses
 
 ## Data 
 
