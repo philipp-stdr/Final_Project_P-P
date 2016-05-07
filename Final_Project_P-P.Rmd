@@ -42,6 +42,37 @@ if(!exists("z.df" )) {
 
 # Introduction
 
+Narrative
+
+1. The debate: "Can women have it all?" 
+- heated debate in the us. Should women strive for comibining comeptetive careers and families for the sake of equality? 
+- Social pressure/ expectations etc. - does it acutally make happy? - Bertrand paper looked into this
+- Reconcilability of work and family seems more difficult for women
+
+2. What is driving the happiness decrease? 
+- gender norms - women receive less rewards from work due to inconsistent/contradictory self-perception or perception by others
+- simply face other schedule than male counterparts - more care/housework responsibilities, family and work responsibilities are more difficult to reconcile 
+  --> Hipp research relevant here
+  
+3. What do we add?
+- focus on the second factor: We seek to understand how do career men and career women differ? 
+- Hypotheses: observable differences in the family-work context of male and female respondents explain part of the happiness penalty of women who "have it all".
+
+We compare respondends with respect to 
+  - income
+  - work status / intensity
+  - cohort
+
+- we look at different family constallations: 
+  - being married
+  - having kids (young kids)
+
+- and at spouse characteristics
+  - spouse income
+  - spouse work status
+
+
+
 (Assignment 2)
 In today’s society, most people expect more from their jobs and careers than simply making a living. A job is a key determinant for social status, identity, as well as an expression of independence. It is supposed to match your interests and educational achievements, it should be rewarding and subsequently it is an important factor for life-satisfaction. The importance of work is supported by academic studies, Allmendinger (forthcoming), for instance, found based on a German survey that employment was the factor that most respondent regarded as ‘highly important’, more so than any other goal or value in life [^zeit]. One could summarise it as such: “you spend too much time on work to do something you don’t like”.
 
@@ -49,7 +80,9 @@ In today’s society, most people expect more from their jobs and careers than s
 
 Empirical evidence, however, indicates that the instrumental importance of work for both men and women makes it difficult to reconcile work and family life, especially with respect to care responsibilities. Across industrialized countries, a majority of partnerships still end up in a single-breadwinner constellation (predominantly male) with asymmetric division of wage and care work [@hipp2015]. What are the implications of these two hardly reconcilable goals in life on work and overall life-satisfaction? Specifically women seem to be haunted by inconsistent expectations and persistent gender norms on household and labour market roles, which limits their ability to pursue a career and have a family.
 
-In the research project we wish to address the question: “Is career pursuits reconcilable with a happy life?”. The question has previously been addressed in academic literature (see the literature review), and studies have particularly established a contradictory relationship between career pursuits and self-reported life-satisfaction for women, whereas the relationship do not appear to be present for men. Therefore, we initially focus our analysis on women. We consider to address the question in three parts. 
+In this research paper we wish to address the question: *"Are career pursuits reconcilable with a happy life?"*. Our hypothesis is that under some conditions, pursuing a career makes it difficult to reconcile high work intensity with a family or a social life, which could decrease overall life-satisfaction. The link could be particularly pronounced for women. First, gender norms may impose a happiness penalty, if pursuing a career clashes with  gender roles in the society. Second, men are more likely to have a partner who work fewer hours, which could ease the tension between a career and family life.
+
+“Is career pursuits reconcilable with a happy life?”. The question has previously been addressed in academic literature (see the literature review), and studies have particularly established a contradictory relationship between career pursuits and self-reported life-satisfaction for women, whereas the relationship do not appear to be present for men. Therefore, we initially focus our analysis on women. We consider to address the question in three parts. 
 
 First, we want to build on a study by @bertrand2013 that found women with a family to report higher life-satisfaction than women with a career, regardless of whether the woman with a career has a family or not. We speculate that the deployed definition of a career (earning the equivalent to the 25th income percentile of men in the same age cohort) is too inclusive. Thus, we wish to investigate whether the result persists when looking at women who have a higher level of success relative to the age cohort. Intuitively, we speculate that women who decide to pursue a career do so, because they expect to thrive in such an environment, and it is thus paradoxical that they consistently report low life-satisfaction [^alt_career]. Thus hypothesis 1: Women who pursue a career, and have success with respect to earnings relative to male peers, have equal life-satisfaction as women who chooses to establish a family. 
 
@@ -62,8 +95,6 @@ A priori, we hypothesize the following three relationships if norms are a drivin
 * We have access to data on both job-satisfaction and overall life-satisfaction. If norms are a driving factor, we would expect career women to report job-satisfaction equal to their male peers, while reporting lower overall life happiness (hypothesis 2).
 * As societal norms are likely to have become more constructive for career women over time, we would expect career women in earlier cohorts to report lower life-satisfaction relative to later generations (hypothesis 3). 
 
-(Assignment 3)
-For the final project we wish to address the research question: *"Are career pursuits reconcilable with a happy life?"*. Our hypothesis is that under some conditions, pursuing a career makes it difficult to reconcile high work intensity with a family or a social life, which could decrease overall life-satisfaction. The link could be particularly pronounced for women. First, gender norms may impose a happiness penalty, if pursuing a career clashes with  gender roles in the society. Second, men are more likely to have a partner who work fewer hours, which could ease the tension between a career and family life.
 
 # Theory
 
