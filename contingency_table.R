@@ -132,6 +132,19 @@ z$sphrscat[z$sphrs_cat==6] <- "60-69"
 z$sphrscat[z$sphrs_cat==7] <- "70-79"
 z$sphrscat[z$sphrs_cat==8] <- "80+"
 
+z$income_status[z$career==1] <- "High-income"
+z$income_status[z$career==0] <- "Low-income"
+
+z$incstat[z$career1==1] <- "High-income"
+z$incstat[z$career1==0] <- "Low-income"
+
+z$speducat <- NULL
+z$speducat[z$speduc<12] <- 1
+z$speducat[z$speduc==12] <- 2
+z$speducat[z$speduc>12 & z$educ<16] <- 3
+z$speducat[z$speduc>=16] <- 4
+
+
 # Data-set "t" is limited to the years where "career" is defined
 z = z[z$year >= 1977 & z$year < 2012,]
 
@@ -162,6 +175,10 @@ CrossTable(mydata$myrowvar, mydata$mycolvar)
 mytable <- table(A, B, C) 
 ftable(mytable)
 
+mytable <- xtabs(~A+B+c, data=mydata)
+ftable(mytable) # print table 
+summary(mytable) # chi-square test of indepedence
+
 ####The Code
 
 # Gender and Spouse Work Status
@@ -177,10 +194,35 @@ prop.table(ge_hrs, 1)
 ge_hrs <- table(z$sexcat[z$educat==4 & z$married==1], z$sphrscat[z$educat==4 & z$married==1])
 prop.table(ge_hrs, 1)
 
-# Gender, Career1 and Spouse Work Status
-ge_sp_ca <- table(z$sexcat[z$educat==4 & z$married==1], z$career1[z$educat==4 & z$married==1], z$spwrkcat[z$educat==4 & z$married==1]) 
-prop.table(ge_sp_ca, 1)
-ftable(prop.table(ge_sp_ca, 1))
+# Gender, income and Spouse Work Status
+ge_sp_ca <- table(z$sexcat[z$educat==4 & z$married==1], z$incstat[z$educat==4 & z$married==1], z$spwrkcat[z$educat==4 & z$married==1]) 
+ftable(ge_sp_ca, 1)
+
+
+
+######### TEST: generate frequency table (with probabilities)
+t = as.data.frame.table(table(z))
+
+names(t) = c("sexcat","income_status","spwrkcat","freq") # Make names of t different from d1 so we can attach both
+attach(z)
+attach(t)
+
+ge_sp_ca2 <- xtabs(Freq~sexcat+income_status+spwrkcat, data = z[z$educat==4 & z$married==1,]) 
+ftable(ge_sp_ca2, row.vars=1:2)
+ftable(prop.table(ge_sp_ca, row.vars=1:2))
+############
+
+# Gender, income and spouse education
+# Gender and Spouse Work Hours
+ge_speducat <- table(z$sexcat[z$married==1], z$speducat[z$married==1])
+prop.table(ge_speducat, 1)
+
+ge_sp_edu <- table(z$sexcat[z$married==1], z$incstat[z$married==1], z$speducat[z$married==1]) 
+ftable(ge_sp_edu, 1)
+
+
+
+
 
 ftable(table(g1,g2,g3), row.vars=1:2)
-ftable(xtabs(freq~z$sexcat[z$educat==4 & z$married==1]+z$career1[z$educat==4 & z$married==1]+z$spwrkcat[z$educat==4 & z$married==1]), row.vars=1:2)
+ftable(xtabs(z$sexcat[z$educat==4 & z$married==1]+z$career1[z$educat==4 & z$married==1]+z$spwrkcat[z$educat==4 & z$married==1]), row.vars=1:2)
