@@ -312,7 +312,7 @@ summary(PenF7)
 stargazer(PenM6, PenF6, PenM7, PenF7, type="text",
           out="New regressions 2 - lifesat penalty.txt")
 
-
+######################################
 ## Spouse hrs worked (cat)
 
 SpF1 <- lm(vhappy ~ as.factor(hrs_cat) + as.factor(sphrs_cat) + spouse_home + kid + as.factor(rinccat) + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
