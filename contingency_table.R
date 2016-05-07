@@ -4,6 +4,7 @@
 
 
 library(stargazer)
+library(gmodels)
 
 # Set working directory
 #setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P")
@@ -152,35 +153,6 @@ z = z[z$year >= 1977 & z$year < 2012,]
 ## Tables
 ################################
 
-####The Code
-
-# 2-Way Frequency Table 
-attach(mydata)
-mytable <- table(A,B) # A will be rows, B will be columns 
-mytable # print table 
-
-margin.table(mytable, 1) # A frequencies (summed over B) 
-margin.table(mytable, 2) # B frequencies (summed over A)
-
-prop.table(mytable) # cell percentages
-prop.table(mytable, 1) # row percentages 
-prop.table(mytable, 2) # column percentages
-
-
-# 2-Way Cross Tabulation
-library(gmodels)
-CrossTable(mydata$myrowvar, mydata$mycolvar)
-
-# 3-Way Frequency Table 
-mytable <- table(A, B, C) 
-ftable(mytable)
-
-mytable <- xtabs(~A+B+c, data=mydata)
-ftable(mytable) # print table 
-summary(mytable) # chi-square test of indepedence
-
-####The Code
-
 # Gender and Spouse Work Status
 ge_sp_wrkst <- table(z$sexcat[z$educat==4], z$spwrkcat[z$educat==4])
 table(z$sexcat[z$educat==4], z$spwrkcat[z$educat==4])
@@ -198,31 +170,28 @@ prop.table(ge_hrs, 1)
 ge_sp_ca <- table(z$sexcat[z$educat==4 & z$married==1], z$incstat[z$educat==4 & z$married==1], z$spwrkcat[z$educat==4 & z$married==1]) 
 ftable(ge_sp_ca, 1)
 
+# Gender, income and Spouse Work Status (row probabilities)
+ge_sp_ca <- table(z$sexcat[z$educat==4 & z$married==1], z$incstat[z$educat==4 & z$married==1], z$spwrkcat[z$educat==4 & z$married==1]) 
+ftable(prop.table(ge_sp_ca, c(1,2)))
 
 
-######### TEST: generate frequency table (with probabilities)
-t = as.data.frame.table(table(z))
-
-names(t) = c("sexcat","income_status","spwrkcat","freq") # Make names of t different from d1 so we can attach both
-attach(z)
-attach(t)
-
-ge_sp_ca2 <- xtabs(Freq~sexcat+income_status+spwrkcat, data = z[z$educat==4 & z$married==1,]) 
-ftable(ge_sp_ca2, row.vars=1:2)
-ftable(prop.table(ge_sp_ca, row.vars=1:2))
-############
-
-# Gender, income and spouse education
-# Gender and Spouse Work Hours
+# Gender and spouse education
 ge_speducat <- table(z$sexcat[z$married==1], z$speducat[z$married==1])
 prop.table(ge_speducat, 1)
 
+# Gender, income and spouse education
 ge_sp_edu <- table(z$sexcat[z$married==1], z$incstat[z$married==1], z$speducat[z$married==1]) 
-ftable(ge_sp_edu, 1)
+ftable(ge_sp_edu)
+
+####### with row probabilities 
+ge_sp_edu <- table(z$sexcat[z$married==1], z$incstat[z$married==1], z$speducat[z$married==1]) 
+ftable(prop.table(ge_sp_edu,c(1,2)))
+
+
 
 
 
 
 
 ftable(table(g1,g2,g3), row.vars=1:2)
-ftable(xtabs(z$sexcat[z$educat==4 & z$married==1]+z$career1[z$educat==4 & z$married==1]+z$spwrkcat[z$educat==4 & z$married==1]), row.vars=1:2)
+ftable((z$sexcat[z$educat==4 & z$married==1]+z$career1[z$educat==4 & z$married==1]+z$spwrkcat[z$educat==4 & z$married==1]), row.vars=1:2)
