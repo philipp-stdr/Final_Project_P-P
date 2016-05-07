@@ -18,7 +18,7 @@ t$rinccat_new <- trunc(t$def_rinc/5000)
 t$rinccat_new[is.na(t$def_rinc)] <- -1
 table(t$rinccat_new)
 
-# Descriptive analysis: Income and average happiness
+# Descriptive analysis: Income-buckets and average happiness
 
 ggplot() + 
   stat_summary(data = t[t$sex == 1 & t$educat == 4,], aes(x=factor(rinccat_new), y=vhappyb), 
@@ -30,18 +30,6 @@ ggplot() +
   expand_limits(y=c(20,60)) +
   theme_bw()
 
-
-ggplot() + 
-  stat_summary(data = t[t$sex == 1 & t$educat == 4,], aes(x=factor(rinccat_new), y=vhappyb), 
-               fun.y="mean", geom="point", col="Navyblue") + 
-  stat_summary(data = t[t$sex == 2 & t$educat == 4,], aes(x=factor(rinccat_new), y=vhappyb), 
-               fun.y="mean", geom="point", col="Red") +
-  stat_smooth(data = t[t$sex == 1 & t$educat == 4,], aes(x=factor(rinccat_new), y=vhappyb)
-  ) +
-  scale_x_discrete("Respondent income group") +
-  scale_y_continuous("Percentage very happy") +
-  expand_limits(y=c(20,60)) +
-  theme_bw()
 
 ################################
 # Adding loess lines to charts #
@@ -63,10 +51,10 @@ ggplot() +
   
 ggplot(test, aes(x=rinccat_new, y=vhappyb)) +
   geom_smooth(method ="loess", formula = y ~ x)
-  stat_smooth(data = test[test$sex == 1,], aes(x=factor(rinccat_new), y=vhappyb), method="lm")
 
-
-# Job-satisfaction across genders
+#####################################
+# Job-satisfaction across genders   #
+#####################################
 
 Jobsat1 <- lm(vjobsat1 ~ kid*d_sex*career1 + as.factor(occ80),
             data = subset(t, educat == 4 & married == 1))
