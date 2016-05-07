@@ -143,10 +143,12 @@ ggplot() +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
 
-#- Take-aways: 1. With family and p25, we have a narrative that there are few generational changes. Issue, it cannot
-#- be implemented in a regression design as the observations are way too few in the high-income, family group. 
-#- 2. With p50, family, the point is different in high, fam, who "have it all". However, there is no significance. 
-#- 3. Married and p25 the narrative is blurry. But we do seem to see a "bettering". 
+# Take-aways (three cohorts):
+# 1. p25/family: No generational differences (we can't have it all). Interesting difference in no-family scenario 
+#    - newer generations report higher happiness when income is high. 
+# 2. p50/family: Generational differences. Young can have it all, old can't. 
+# 3. p25/married: Middle-way. We can kind of have it all, but not much. Weak story. 
+# 4. p50/married: Generational differences / we can have it all. 
 
 # - test of observation distribution
 table(t$meanhap_m1[t$sex == 2 & t$educat==4 & t$cohort == 4])
@@ -157,9 +159,9 @@ table(t$meanhap_m1[t$sex == 2 & t$educat==4 & t$cohort == 6])
 # - ggplot based on two cohorts
 
 ggplot() + 
-  stat_summary(data = t[t$sex == 2 & t$educat==4 & t$cohortd == 1,], aes(x=factor(meanhap1), y=vhappyb), 
+  stat_summary(data = t[t$sex == 2 & t$educat==4 & t$cohortd == 0,], aes(x=factor(meanhap_m1), y=vhappyb), 
                fun.y="mean", geom="point", col="Navyblue") +
-  stat_summary(data = t[t$sex == 2 & t$educat==4 & t$cohortd == 2,], aes(x=factor(meanhap1), y=vhappyb), 
+  stat_summary(data = t[t$sex == 2 & t$educat==4 & t$cohortd == 1,], aes(x=factor(meanhap_m1), y=vhappyb), 
                fun.y="mean", geom="point", col="Red") +
   scale_x_discrete("Family-work combination", limits=c("Low-inc., no family", 
                                                        "High-inc., no family", "Low-inc., family", "High-inc., family")) +
@@ -169,8 +171,8 @@ ggplot() +
 # Take away women: 
 #- family, p25: No generational differences. 
 #- family, p50: Generational differences.
-#-married, p50: Big generational differences. (Good) 
-#- married, p25: Less pronounced, but same story.
+#-married, p50: Big generational differences. (Good if that is our narrative). 
+#- married, p25: Less pronounced, but small generational differences. Or probably not... 
 
 #- Take-away men: With p25, family looks normal, whereas for married there is no happiness premium in new generations
 #- With p50, family: the thing looks weird. Big generational differences. 
@@ -188,13 +190,8 @@ M2c <- lm(vhappy ~ career + keepinghouse + age + agesq + as.factor(othinccat) + 
 summary(M2c)
 
 # Bertrand table 2; no cohort controls
-M2c <- lm(vhappy ~  cohortd*career1 + cohortd*keepinghouse + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race), 
-          data = subset(t, sex==2 & educat == 4 & family == 1))
+M2c <- lm(vhappyb ~  cohortd*career + kid + cohortd*keepinghouse + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race), 
+          data = subset(t, sex==2 & educat == 4 & married == 1))
 summary(M2c)
 
 #- cohortd*career1 for married individuals shows signs of something. 
-
-# Bertrand table 2; married and career1
-M2c_c1 <- lm(vhappy ~ career1 + keepinghouse + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
-             data = subset(t, sex==2 & educat == 4 & married == 1))
-summary(M2c_c1)

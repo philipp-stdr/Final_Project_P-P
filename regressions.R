@@ -468,3 +468,71 @@ summary(CarM_job)
 CarF_mar <- lm(vhappy ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex == 2 & educat == 4 & family ==1 & career == 1))
 summary(CarF)
+
+
+
+
+###############################################
+#        Games with small children            #
+###############################################
+
+
+t$young_child <- 0
+t$young_child[t$old1 <= 4 | t$old2 <= 4 | t$old3 <= 4 | t$old4 <= 4 | t$old5 <= 4 | t$old6 <= 4 
+              | t$old7 <= 4 | t$old8 <= 4 | t$old9 <= 4 | t$old10 <= 4] <- 1
+
+t$young_child2 <- 0
+t$young_child2[t$old1 <= 2 | t$old2 <= 2 | t$old3 <= 2 | t$old4 <= 2 | t$old5 <= 2 | t$old6 <= 2 
+               | t$old7 <= 2 | t$old8 <= 2 | t$old9 <= 2 | t$old10 <= 2] <- 1
+
+
+# Replication of Table 2 in Bertrand (2013)
+Lort1 <- lm(vhappyb ~  keepinghouse*young_child + young_child*career1 + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex==2 & educat == 4 & family == 1))
+summary(Lort1)
+
+#- This is pretty sweet. Women with a family are much more happy with their career when they don't have a small child. 
+
+Lort2 <- lm(vhapmar ~  keepinghouse*young_child + young_child*career1 + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex==2 & educat == 4 & family == 1))
+summary(Lort2)
+
+#- On marriage happiness, women can have it all. But less so when both having a career and young child. 
+
+Lort3 <- lm(vhappyb ~  young_child*career1 + age + agesq + as.factor(othinccat) + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex==1 & educat == 4 & family == 1))
+summary(Lort3)
+
+
+###############
+# What else can I do? 
+###########
+
+CarF <- lm(vhappy ~ spouse_ft*young_child+ as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & family ==1 & career == 1))
+summary(CarF)
+
+#- When looking at women with a career, there is no penalty to having a young child. 
+
+CarM <- lm(vhappyb ~ spouse_ft*young_child +  age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & family ==1))
+summary(CarM)
+
+#- The spouse analysis doesn't seem to be driven by child age. Why not?
+
+
+
+
+################################################
+# Management                                   #
+################################################
+
+t$management <- NA
+t$management[t$year >= 1988] <- 0
+t$management[t$year >= 1988 & t$occ80 < 40] <- 1
+
+table(t$management)
+
+Test <- lm(vhappyb ~ management*young_child + as.factor(othinccat) +  age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & family ==1))
+summary(Test)
