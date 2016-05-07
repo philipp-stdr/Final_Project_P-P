@@ -3,8 +3,8 @@
 ############################################
 
 # set your working directory.
-#setwd("~/R_data/Assignment3_P-P") # Staender
-# setwd("~/Documents/CDA/collaborative_projects/Assignment3_P-P") # Unger
+# setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
+# setwd("~/R_data/Final_Project_P-P") # Staender
 
 
 # Load packages
@@ -509,5 +509,5 @@ z$d_sex <- as.numeric(z$d_sex)
 # z = z[z$year >= 1977 & z$year < 2012,]
 
 # Save Dataset for Analysis !!
-save( z , file = "data/data_final.rda" )
+save( z , file = "data/data_sets/data_final.rda" )
 

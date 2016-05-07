@@ -74,6 +74,6 @@ gc()
 
 
 # save the cross-sectional cumulative gss r data frame inside an r data file (.rda)
-save( CPS.df , file = "data/CPS_Bertrand.rda" )
+save( CPS.df , file = "data/data_sets/CPS_Bertrand.rda" )
 
 rm(CPS.location, fn, td, tf)

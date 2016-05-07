@@ -10,31 +10,33 @@ output:
     fig_caption: yes
     fig_height: 4
     fig_width: 6
+    toc: yes
 bibliography: 
 - main.bib
 - packages.bib
 ---
+\pagebreak
 
 ```{r, message=FALSE, include=FALSE}
 # Load packages and create BibTeX file for R-packages
 PackagesUsed <- c("ggplot2", "repmis", "plyr", "dplyr", "MASS", "Hmisc", "interplot", "gridExtra", "repmis", "car", "reshape", "gmodels", "quantmod", "foreign")
 
 # Set working directory
-setwd("~/Documents/CDA/collaborative_projects/Assignment3_P-P") # Unger
-# setwd("~/R_data/Assignment3_P-P") # Staender
+# setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
+setwd("~/R_data/Final_Project_P-P") # Staender
 
 # Load PackagesUsed and create .bib BibTeX file
 repmis::LoadandCite(PackagesUsed, file = "packages.bib", install = FALSE)
 ```
 
 ```{r, include=FALSE}
-if(!file.exists("data/data_final.rda")) {
-  source('combine/data_combine.R')
+if(!file.exists("data/data_sets/data_final.rda")) {
+  source('data/data_combine.R')
 }
 
 # Opens data_final.rda if not already loaded as an object
 if(!exists("z.df" )) {
-  load("data/data_final.rda")
+  load("data/data_sets/data_final.rda")
 }
 ```
 
