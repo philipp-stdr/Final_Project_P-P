@@ -20,7 +20,7 @@ bibliography:
 
 ```{r, message=FALSE, include=FALSE}
 # Load packages and create BibTeX file for R-packages
-PackagesUsed <- c("ggplot2", "repmis", "plyr", "dplyr", "MASS", "Hmisc", "interplot", "gridExtra", "repmis", "car", "reshape", "gmodels", "quantmod", "foreign")
+PackagesUsed <- c("ggplot2", "repmis", "plyr", "dplyr", "MASS", "Hmisc", "interplot", "gridExtra", "repmis", "car", "reshape", "gmodels", "quantmod", "foreign", "stargazer")
 
 # Set working directory
  setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
@@ -130,9 +130,9 @@ ggplot() +
 
 ## Respondent's happiness and income 
 
-```{r, warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of income"}
+```{r, fig.height=6, warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of income"}
 
-par(mfrow=c(1,2))
+par(mfrow=c(2,1))
 hist(z$def_rinc[z$sex == 1 & z$educat == 4],
      col = c("Navyblue"),
      border = "White",
@@ -147,7 +147,7 @@ hist(z$def_rinc[z$sex == 2 & z$educat ==4],
      border = "White",
      xlim = c(0,250000),
      breaks = 20,
-     xlab = "Respondent's income (College educated men)",
+     xlab = "Respondent's income (College educated women)",
      main = ""
      )
 ```
@@ -336,41 +336,92 @@ ggplot() +
 
 # Regression Analysis
 
-## Interaction effects of marriage and job income for working men and women
+## Interaction effects of marriage and job income for working men and women *<Not updated to the inclusion of a regression prior to interaction figure>*. 
 
 The correlations shown in Figure 5-8 are influenced by omitted factors. To control for some of the confounding factors that are observable, we replicate a linear probability model by Bertrand (2013) and estimate the effect of marriage and the interaction effect of marriage and having a high-paid job (career) on the binary variable of being very happy. While @bertrand2013 limits her analysis to college-educated women who are working, we also compare these findings to college educated men. The model controls for age, age-squared, the survey year, race and decade of birth.
 
 Figure 9 shows the effect of marriage on the probability of being very happy for college educated men and women depending on job income. First, the effect of marriage is positive and significantly different from zero regardless of respondents' income level. The left panel shows that the effect of marriage on reported happiness is stronger for women who do not have a high-income job compared to women who do, as the interaction term between marriage and high job income is -0.07. Although this difference only is significant at the 10% level, job income seem to be much more important for the happiness of women compared to men, where having a high-paying job or not hardly influences the effect of marriage on happiness. 
 
+```{r, results='asis',warning=FALSE,echo=FALSE}
+
+T1.1 <- lm(vhappyb ~ career1*married, 
+         data = subset(z, sex==2 & educat == 4))
+T1.2 <- lm(vhappyb ~ career1*married, 
+          data = subset(z, sex==1 & educat == 4))
+T1.3 <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+         data = subset(z, sex==2 & educat == 4))
+T1.4 <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+          data = subset(z, sex==1 & educat == 4))
+
+
+stargazer(T1.1, T1.2, T1.3, T1.4,
+    type = 'text',
+    omit.stat = c("f", "rsq", "ser"),
+    omit = c("age", "agesq", "year", "race", "bdec"),
+    omit.labels = c("Age", "Age-squared", "Year", "Race", "Cohort"),
+    column.labels = c("Women", "Men", "Women", "Men"),
+    digits = 2,
+    covariate.labels = c("High-income", "Married", "High-income*Married"),
+    dep.var.labels   = "Very happy",
+    notes = "Models are restricted to college educated men and women")
+```    
+*NOTE: There is a problem with the omit.labels function. 
+
 
 ```{r,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Interaction effects of marriage and job income on life satisfaction"}
 
-z$working_ft <- as.numeric(z$working_ft)
-z$working_pt <- as.numeric(z$working_pt)
-
-M1a <- lm(vhappyb ~ career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-         data = subset(z, sex==2 & educat == 4))
-M2a <- lm(vhappyb ~ career*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-          data = subset(z, sex==1 & educat == 4))
-
-# compare men and women
-
-interM1 <- interplot(M1a, var1 = "married", var2 = "career") +
-  ggtitle("Working women") +
+# Illustration of interaction effect
+interM1 <- interplot(T1.3, var1 = "married", var2 = "career1") +
+  ggtitle("Women") +
   xlab("1 = High-income") + 
-  ylab("effect of marriage on life satisfaction") + 
-  expand_limits(y=c(0.05,0.3)) +
+  ylab("Effect of marriage on life satisfaction") + 
+  expand_limits(y=c(5,30)) +
   theme_bw()
 
-interM2 <- interplot(M2a, var1 = "married", var2 = "career") +
-  ggtitle("Working men") +
+interM2 <- interplot(T1.4, var1 = "married", var2 = "career1") +
+  ggtitle("Men") +
   xlab("1 = High-income") + 
-  expand_limits(y=c(0.05,0.3)) +
+  expand_limits(y=c(5,30)) +
   theme_bw()
 
 grid.arrange(interM1, interM2, ncol = 2) 
 
 ```
+
+### Bertrand table 2
+
+Model 2: Double-click on married individuals
+```{r, results='asis', warning=FALSE,echo=FALSE,cache=TRUE}
+
+# Create a variable for partner's income
+z$othinccat <- trunc(z$def_othinc/10000)
+z$othinccat[is.na(z$othinc)] <- -1
+
+# Regressions
+T2.1 <- lm(vhappyb ~ career1 + keepinghouse,
+           data = subset(z, sex==2 & educat == 4 & married == 1))
+
+T2.2 <- lm(vhappyb ~ career1 + keepinghouse, 
+           data = subset(z, sex==1 & educat == 4 & married == 1))
+
+T2.3 <- lm(vhappyb ~ career1 + keepinghouse + kid + as.factor(othinccat) + age + agesq + as.factor(year) +              as.factor(race) + as.factor(bdec), 
+           data = subset(z, sex==2 & educat == 4 & married == 1))
+
+T2.4 <- lm(vhappyb ~ career1 + keepinghouse + kid + as.factor(othinccat) + age + agesq + as.factor(year) +              as.factor(race) + as.factor(bdec), 
+           data = subset(z, sex==1 & educat == 4 & married == 1))
+
+stargazer(T2.1, T2.2, T2.3, T2.4,
+    type = 'text',
+    omit.stat = c("f", "rsq", "ser"),
+    digits = 2,
+    omit = c("othinccat", "age", "agesq", "year", "race", "bdec"),
+    omit.labels = c("Partner's income", "Age", "Age-squared", "Year", "Race", "Cohort"),
+    column.labels = c("Women", "Men", "Women", "Men"),
+    covariate.labels = c("High-income", "Keeping house", "Child"),
+    dep.var.labels   = "Very happy",
+    notes = "Models are restricted to married, college educated men and women")
+```    
+**The omit.label function is still bugging!!!!!!!!**
 
 ## Cohorts and norms
 
