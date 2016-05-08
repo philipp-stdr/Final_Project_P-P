@@ -359,6 +359,7 @@ summary(SpF4)
 SpM4 <- lm(vhappy ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
            data = subset(t, sex == 1 & educat == 4 & married ==1))
 summary(SpM4)
+
 # --> Men are significantly less happy when spouse works ft. [Also if you drop spouse_pt]
 
 ## Quick attempt: For women comparing to homegoing men might not make sense 
@@ -446,11 +447,11 @@ CarM_mar2 <- lm(vhapmar ~ spouse_ft + spouse_home + kid + age + agesq + as.facto
                data = subset(t, sex == 1 & educat == 4 & married ==1 & career1 == 1))
 summary(CarM_mar2)
 
-CarF_mar <- lm(vhapmar ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-               data = subset(t, sex == 2 & educat == 4 & married ==1 & career == 1))
+CarF_mar <- lm(vhapmar ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+               data = subset(t, sex == 2 & educat == 4 & married ==1 & career1 == 1))
 summary(CarF_mar)
 
-CarF_mar <- lm(vhapmar ~ spouse_ft + spouse_home + kid + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+CarF_mar <- lm(vhapmar ~ spouse_ft + kid + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
                data = subset(t, sex == 2 & educat == 4 & married ==1 & career1 == 1))
 summary(CarF_mar)
 

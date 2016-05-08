@@ -281,8 +281,94 @@ summary(LortM1)
 #        Spouse-relationships               #
 #############################################
 
-# Populate 
+# General spouse work status
 
+## Spouse Work Status With Controls
+
+SpF4 <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(SpF4)
+
+table(t$spouse_home[t$sex==1 & t$educat == 4 & t$married == 1])
+
+SpM4 <- lm(vhappyb ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & married ==1))
+summary(SpM4)
+
+#- Uncertain on perfect specification due to few but happy homegoing male spouses. But story: Men prefer their women 
+#- to not work full-time, women the opposite, though not significant. 
+
+# Spouse Work Status with controls - based on family. 
+SpF5 <- lm(vhappyb ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & family ==1))
+summary(SpF5)
+
+table(t$spouse_ft[t$sex==2 & t$educat == 4 & t$family == 1])
+
+SpM5 <- lm(vhappyb ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & family ==1))
+summary(SpM5)
+
+#- Doesn't tell terribly much. 
+
+# Spouse Work Status with controls - based on family and young children
+SpF6 <- lm(vhappyb ~ spouse_ft*young_child + spouse_pt*young_child + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & family ==1))
+summary(SpF6)
+
+## Spouse work status and Marriage happiness
+
+MarF1 <- lm(vhapmar ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 2 & educat == 4 & married ==1))
+summary(MarF1)
+
+MarF2 <- lm(vhapmar ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 2 & educat == 4 & family ==1))
+summary(MarF2)
+
+MarM1 <- lm(vhapmar ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 1 & educat == 4 & married ==1))
+summary(MarM1)
+
+MarM2 <- lm(vhapmar ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(t, sex == 1 & educat == 4 & family ==1))
+summary(MarM2)
+
+#- As we expect. Women significantly more happy when spouse is in full-time employment. 
+
+## --> From here we need a double click. 
+
+### Spouse-work and career ###
+
+CarM <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 1 & educat == 4 & married ==1 & career1 == 1))
+summary(CarM)
+
+CarF <- lm(vhappyb ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(t, sex == 2 & educat == 4 & married ==1 & career1 == 1))
+summary(CarF)
+
+#- Women are substantially less happy with marriage when husband is working full-time and career1. 
+
+CarM_mar <- lm(vhapmar ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+               data = subset(t, sex == 1 & educat == 4 & married ==1 & career1 == 1))
+summary(CarM_mar)
+
+CarF_mar <- lm(vhapmar ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+               data = subset(t, sex == 2 & educat == 4 & married ==1 & career1 == 1))
+summary(CarF_mar)
+
+#- The marriage happiness story here is quite strong. 
+
+CarkidM_mar <- lm(vhapmar ~ spouse_ft + spouse_home + young_child + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+               data = subset(t, sex == 1 & educat == 4 & family ==1 & career1 == 1))
+summary(CarkidM_mar)
+
+CarkidF_mar <- lm(vhappyb ~ spouse_ft + spouse_home + young_child + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+                  data = subset(t, sex == 2 & educat == 4 & family ==1 & career == 1))
+summary(CarkidF_mar)
+
+#### Marriage happiness and young children ### 
 
 ############################################
 #    Generational differences              #
