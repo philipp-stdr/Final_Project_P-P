@@ -136,14 +136,15 @@ z$sphrscat[z$sphrs_cat==8] <- "80+"
 z$income_status[z$career==1] <- "High-income"
 z$income_status[z$career==0] <- "Low-income"
 
-z$incstat[z$career1==1] <- "High-income"
-z$incstat[z$career1==0] <- "Low-income"
+z$income_status1 <- NULL
+z$income_status1[z$career1==1] <- "High-income"
+z$income_status1[z$career1==0] <- "Low-income"
 
 z$speducat <- NULL
-z$speducat[z$speduc<12] <- 1
-z$speducat[z$speduc==12] <- 2
-z$speducat[z$speduc>12 & z$educ<16] <- 3
-z$speducat[z$speduc>=16] <- 4
+z$speducat[z$speduc<12] <- "(1) less 12 years"
+z$speducat[z$speduc==12] <- "(2) Highschool"
+z$speducat[z$speduc>12 & z$educ<16] <- "(3) 12 to 16 years"
+z$speducat[z$speduc>=16] <- "(4) College educated"
 
 
 # Data-set "t" is limited to the years where "career" is defined
@@ -184,14 +185,8 @@ ge_sp_edu <- table(z$sexcat[z$married==1], z$incstat[z$married==1], z$speducat[z
 ftable(ge_sp_edu)
 
 ####### with row probabilities 
-ge_sp_edu <- table(z$sexcat[z$married==1], z$incstat[z$married==1], z$speducat[z$married==1]) 
+ge_sp_edu <- table(z$sexcat[z$married==1], z$income_status1[z$married==1], z$speducat[z$married==1]) 
 ftable(prop.table(ge_sp_edu,c(1,2)))
 
+summary(ge_sp_edu)
 
-
-
-
-
-
-ftable(table(g1,g2,g3), row.vars=1:2)
-ftable((z$sexcat[z$educat==4 & z$married==1]+z$career1[z$educat==4 & z$married==1]+z$spwrkcat[z$educat==4 & z$married==1]), row.vars=1:2)

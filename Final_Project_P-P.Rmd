@@ -258,7 +258,7 @@ In today's society the strive for gender equality often clashes with labour mark
 
 Figure 5 shows how reported happiness depends on labour-market affiliation for men (blue) and women (red) with a college degree. It shows that men are substantially more likely to report being very happy when in full-time employment relative to part-time employment, which is not the case for women. Further, both men and women report high happiness levels when keeping house. Note, in the full sample only 35 college educated men are keeping house (there are 650 women) and when looking at all men, the average share who reports being very happy while keeping house is only 24 %. 
 
-```{r,fig.heigth=5,warning=FALSE,echo=FALSE,cache=TRUE,results='asis'}
+```{r,results='asis',warning=FALSE,echo=FALSE}
 
 
 z$sexcat <- NULL
@@ -275,21 +275,53 @@ z$spwrkcat[z$spwrksta==1] <- "Full-time work"
 z$spwrkcat[z$spwrksta==2] <- "Part-time work"
 z$spwrkcat[z$spwrksta==7] <- "Keeping house"
 
-z$income_status[z$career==1] <- "High-income"
-z$income_status[z$career==0] <- "Low-income"
+z$career1 <- z$rinc > z$p50
+z$career1 <- as.numeric(z$career1)
+z$career1[is.na(z$career1)] <- 0 
+
+z$income_status1 <- NULL
+z$income_status1[z$career1==1] <- "High-income"
+z$income_status1[z$career1==0] <- "Low-income"
 
 # Gender and Spouse Work Status
 ge_sp_wrkst <- table(z$sexcat[z$educat==4], z$spwrkcat[z$educat==4])
-table(z$sexcat[z$educat==4], z$spwrkcat[z$educat==4])
-prop.table(ge_sp_wrkst, 1)
-
-# Gender, Career1 and Spouse Work Status
-ge_sp_ca <- table(z$sexcat[z$educat==4 & z$married==1], z$income_status[z$educat==4 & z$married==1], z$spwrkcat[z$educat==4 & z$married==1]) 
-ftable(ge_sp_ca)
-
 knitr::kable(prop.table(ge_sp_wrkst, 1), caption = "Gender and Spouse Work Status",digits = 2)
 ```
 
+```{r,results='asis',warning=FALSE,echo=FALSE}
+# Gender, Income and Spouse Work Status
+ge_sp_ca <- table(z$sexcat[z$educat==4 & z$married==1], z$income_status1[z$educat==4 & z$married==1], z$spwrkcat[z$educat==4 & z$married==1]) 
+knitr::kable(ftable(prop.table(ge_sp_ca,c(1,2))), caption = "Gender and Spouse Work Status",digits = 2)
+```
+
+\begin{table}[]
+\centering
+\caption{Gender, income and spouse work status (row percentages)}
+\label{my-label}
+\begin{tabular}{lllll}
+\hline
+       &             & Full-time & Part-time & Keeping house \\ \hline
+Female & High-income & 92.45     & 4.15      & 3.4           \\
+       & Low-income  & 95.62     & 0.99      & 3.39          \\
+Male   & High-income & 42.28     & 33.56     & 24.16         \\
+       & Low-income  & 54.86     & 25.06     & 20.08         \\ \hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[]
+\centering
+\caption{Gender, income and spouse education (row percentages)}
+\label{my-label}
+\begin{tabular}{llllll}
+\hline
+       &             & Less than highshcool & Highschool & Between 12 to 16 years & College educated \\ \hline
+Female & High-income & 9.37                 & 28.92      & 19.22                  & 42.49            \\
+       & Low-income  & 17.27                & 33.09      & 19.06                  & 30.58            \\
+Male   & High-income & 9.26                 & 34.6       & 21.39                  & 34.75            \\
+       & Low-income  & 14.94                & 41.96      & 16.41                  & 26.68            \\ \hline
+\end{tabular}
+\end{table}
 
 ```{r,fig.heigth=5,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and labour-market affiliation (college educated men and women)"}
 
@@ -318,13 +350,6 @@ z$income_status[z$career==0] <- "Low-income"
   # Following Bertrand (2013), respondents who report no income (Not applicable) is coded as
   # having low-income. Thus there are no N/A's in the career variables (see also below). 
 
-
-z$career1 <- z$rinc > z$p50
-z$career1 <- as.numeric(z$career1)
-z$career1[is.na(z$career1)] <- 0 
-
-z$income_status1[z$career1==1] <- "High-income"
-z$income_status1[z$career1==0] <- "Low-income"
 
 plot1 <- ggplot() + 
   stat_summary(data = z[z$sex == 1 & z$educat==4,], aes(x=factor(income_status), y=vhappyb), 
