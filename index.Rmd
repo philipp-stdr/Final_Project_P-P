@@ -1,74 +1,48 @@
 ---
-title: "Flex Dashboard"
-output: 
-  flexdashboard::flex_dashboard:
-    orientation: columns
-    vertical_layout: fill
+title: "Can we have it all?"
+author: "Philipp Staender"
+date: "8 May 2016"
+output: html_document
+bibliography: 
+- main.bib
+- packages.bib
 ---
 
-<!-- Learn more about flexdashboard at https://rstudio.github.io/flexdashboard -->
-
-
 ```{r setup, include=FALSE}
-# Load packages and initialize data here
-library(flexdashboard)
-
-if(!file.exists("data_final.rda")) {
-  source('data_combine.R')
-}
-
-# Opens data_final.rda if not already loaded as an object
-if(!exists("z.df" )) {
-  load("data_final.rda")
-}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(gdata) 
+load("~/R_data/Final_Project_P-P/data/data_final.rda")
 
 ```
 
-Column {data-width=650}
------------------------------------------------------------------------
+![](lead_large.jpg)
 
-### Chart A
+**References**
 
-```{r}
+@hipp2015
+
+## Headline
+
+
+```{r warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of reported happiness and job-satisfaction"}
+
 happy_dist <- table(z$happy)/sum(table(z$happy))*100
 satjob_dist <- table(z$satjob)/sum(table(z$happy))*100
 
 par(mfrow=c(1,2)) 
 
-
 barplot(happy_dist, 
         col=c("navyblue"),
-        xlab = "Overall life satisfaction categories",
-        legend = c("Life satisfaction"),
-        ylim = c(0, 80))
+        xlab = "Reported happiness",
+        ylab = "Frequency (percent)",
+        legend = c("Happiness"),
+        ylim = c(0, 80))  
 
 barplot(satjob_dist, 
         col=c("navyblue"),
-        xlab = "Job satisfaction categories",
-        legend = c("Job satisfcation"),
+        xlab = "Reported job-satisfaction",
+        legend = c("Job-satisfcation"),
         ylim = c(0, 80))
 ```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Chart B
-
-```{r}
-library(dygraphs)
-library(magrittr)
-
-
-
-happy <- cbind(z$vhappy, z$jobsat)
-dygraph(happy) %>% dyRangeSelector()
-```
-
-### Chart C
-
-```{r}
-library(ggplot2)
-mort_plot <- ggplot(data = MortalityGDP, aes(x = InfantMortality,
-        y = GDPperCapita)) + geom_point()
-```
-
