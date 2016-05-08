@@ -296,32 +296,34 @@ knitr::kable(ftable(prop.table(ge_sp_ca,c(1,2))), caption = "Gender and Spouse W
 
 \begin{table}[]
 \centering
-\caption{Gender, income and spouse work status (row percentages)}
+\caption{Gender, income (p50) and spouse work status (row percentages)}
 \label{my-label}
 \begin{tabular}{lllll}
 \hline
-       &             & Full-time & Part-time & Keeping house \\ \hline
-Female & High-income & 92.45     & 4.15      & 3.4           \\
-       & Low-income  & 95.62     & 0.99      & 3.39          \\
-Male   & High-income & 42.28     & 33.56     & 24.16         \\
-       & Low-income  & 54.86     & 25.06     & 20.08         \\ \hline
+       &             & Full-time & Part-time & Keeping house & n    \\ \hline
+Female & High-income & 92.45     & 4.15      & 3.4           & 265  \\
+       & Low-income  & 95.62     & 0.99      & 3.39          & 1713 \\
+Male   & High-income & 42.28     & 33.56     & 24.16         & 745  \\
+       & Low-income  & 54.86     & 25.06     & 20.08         & 1285 \\ \hline
 \end{tabular}
 \end{table}
-
 
 \begin{table}[]
 \centering
-\caption{Gender, income and spouse education (row percentages)}
+\caption{Gender, income (p25) and spouse work status (row percentages)}
 \label{my-label}
-\begin{tabular}{llllll}
+\begin{tabular}{lllll}
 \hline
-       &             & Less than highshcool & Highschool & Between 12 to 16 years & College educated \\ \hline
-Female & High-income & 9.37                 & 28.92      & 19.22                  & 42.49            \\
-       & Low-income  & 17.27                & 33.09      & 19.06                  & 30.58            \\
-Male   & High-income & 9.26                 & 34.6       & 21.39                  & 34.75            \\
-       & Low-income  & 14.94                & 41.96      & 16.41                  & 26.68            \\ \hline
+       &             & Full-time & Part-time & Keeping house & n    \\ \hline
+Female & High-income & 94.1      & 3.04      & 2.86          & 559  \\
+       & Low-income  & 95.63     & 0.78      & 3.59          & 1419 \\
+Male   & High-income & 47.71     & 28.98     & 23.31         & 1201 \\
+       & Low-income  & 53.92     & 27.02     & 19.06         & 829  \\ \hline
 \end{tabular}
 \end{table}
+
+
+
 
 ```{r,fig.heigth=5,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and labour-market affiliation (college educated men and women)"}
 
