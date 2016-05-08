@@ -87,7 +87,7 @@ fig_age <- ddply(z[z$educat==4,], c("age", "sex"), summarise,
 
 fig_age <- na.omit(fig_age)
 
-hap_age <-  ggplot() +
+hap_age <- ggplot() +
                 geom_point(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), color="Navyblue") + 
                 geom_point(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), color="Red") +
                 stat_smooth(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Navyblue") +
