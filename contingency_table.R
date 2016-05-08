@@ -171,16 +171,6 @@ prop.table(ge_hrs, 1)
 ge_sp_ca <- table(z$sexcat[z$educat==4 & z$married==1], z$incstat[z$educat==4 & z$married==1], z$spwrkcat[z$educat==4 & z$married==1]) 
 ftable(ge_sp_ca, 1)
 
-# Gender, income and Spouse Work Status (row probabilities)
-ge_sp_ca1 <- table(z$sexcat[z$educat==4 & z$married==1], z$income_status[z$educat==4 & z$married==1], z$spwrkcat[z$educat==4 & z$married==1]) 
-ftable(prop.table(ge_sp_ca1, c(1,2)))
-ftable(ge_sp_ca1)
-
-# Gender, income and Spouse Work Status (row probabilities)
-ge_sp_ca2 <- table(z$sexcat[z$educat==4 & z$married==1], z$income_status[z$educat==4 & z$married==1], z$spwrkcat[z$educat==4 & z$married==1]) 
-ftable(prop.table(ge_sp_ca2, c(1,2)))
-ftable(ge_sp_ca2)
-
 # Gender and spouse education
 ge_speducat <- table(z$sexcat[z$married==1], z$speducat[z$married==1])
 prop.table(ge_speducat, 1)
@@ -196,18 +186,22 @@ ftable(ge_sp_edu)
 
 summary(ge_sp_edu)
 
-### Manual latex format
-\begin{table}[]
-\centering
-\caption{Gender, income and spouse education (row percentages)}
-\label{my-label}
-\begin{tabular}{llllll}
-\hline
-&             & Less than highshcool & Highschool & Between 12 to 16 years & College educated \\ \hline
-Female & High-income & 9.37                 & 28.92      & 19.22                  & 42.49            \\
-& Low-income  & 17.27                & 33.09      & 19.06                  & 30.58            \\
-Male   & High-income & 9.26                 & 34.6       & 21.39                  & 34.75            \\
-& Low-income  & 14.94                & 41.96      & 16.41                  & 26.68            \\ \hline
-\end{tabular}
-\end{table}
+## 3-Way Frequency Table 
+
+# Gender, income and Spouse Work Status (row probabilities)
+ge_sp_ca1 <- table(z$sexcat[z$educat==4 & z$married==1], 
+                   z$income_status[z$educat==4 & z$married==1], 
+                   z$spwrkcat[z$educat==4 & z$married==1]) 
+ftable(prop.table(ge_sp_ca1, c(1,2)))
+ftable(ge_sp_ca1)
+
+# Gender, income and Spouse Work Status (row probabilities)
+ge_sp_ca2 <- table(z$sexcat[z$educat==4 & z$married==1], 
+                   z$income_status[z$educat==4 & z$married==1], 
+                   z$spwrkcat[z$educat==4 & z$married==1]) 
+ftable(prop.table(ge_sp_ca2, c(1,2)))
+ftable(ge_sp_ca2)
+
+
+
 
