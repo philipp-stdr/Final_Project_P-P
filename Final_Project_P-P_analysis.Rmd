@@ -150,7 +150,6 @@ hist(z$def_rinc[z$sex == 2 & z$educat ==4],
      xlab = "Respondent's income (College educated women)",
      main = ""
      )
-grid.arrange(interM1, interM2, ncol = 2) 
 ```
 
 **Needs to be populated**
@@ -356,7 +355,7 @@ T1.4 <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor
 
 
 stargazer(T1.1, T1.2, T1.3, T1.4,
-    type = 'text',
+    type = 'latex',
     omit.stat = c("f", "rsq", "ser"),
     omit = c("age", "agesq", "year", "race", "bdec"),
     omit.labels = c("Age", "Age-squared", "Year", "Race", "Cohort"),
@@ -481,7 +480,6 @@ Do we have a problem of maternity leave? I guess they are excluded as they wont 
 
 z$inccat <- trunc(z$def_inc/10000)
 z$inccat[is.na(z$def_inc)] <- -1
-table(z$inccat)
 
 z$spouse_ft <- NULL
 z$spouse_ft[z$spwrksta==1] <- 1
@@ -496,37 +494,19 @@ z$spouse_home[z$spwrksta==7] <- 1
 z$spouse_home[z$spwrksta==1 | z$spwrksta==2] <- 0
 
 ##Marriage happiness
-z$hapmarr <- NA
-z$hapmarr[z$hapmar==3] <- 1
-z$hapmarr[z$hapmar==2] <- 2
-z$hapmarr[z$hapmar==1] <- 3
-
-z$hapmar <- NULL
-z <- rename(z, c(hapmarr="hapmar"))
-
 z$vhapmarb <- NA
 z$vhapmarb[z$hapmar==1 | z$hapmar==2] <- 0
 z$vhapmarb[z$hapmar==3] <- 100
 
 # Regressions
 
-T4.1 <- lm(vhappyb ~ spouse_ft + kid , 
-           data = subset(z, sex == 2 & educat == 4 & married ==1))
-summary(T4.1)
+# T4.1 <- lm(vhappyb ~ spouse_ft + kid ,  data = subset(z, sex == 2 & educat == 4 & married ==1))
 
-T4.2 <- lm(vhappyb ~ spouse_ft + spouse_home + kid, 
-           data = subset(z, sex == 1 & educat == 4 & married ==1))
-summary(T4.2)
+# T4.2 <- lm(vhappyb ~ spouse_ft + spouse_home + kid, data = subset(z, sex == 1 & educat == 4 & married ==1))
 
-T4.3 <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-           data = subset(z, sex == 2 & educat == 4 & married ==1))
-summary(T4.3)
+# T4.3 <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec),  data = subset(z, sex == 2 & educat == 4 & married ==1))
 
-table(z$spouse_home[z$sex==1 & z$educat == 4 & z$married == 1])
-
-T4.4 <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-           data = subset(z, sex == 1 & educat == 4 & married ==1))
-summary(T4.4)
+# T4.4 <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), data = subset(z, sex == 1 & educat == 4 & married ==1))
 
 # Marriage happiness
 
@@ -550,7 +530,7 @@ T5.6 <- lm(vhapmarb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + 
                data = subset(z, sex == 1 & educat == 4 & family ==1 & career1 == 1))
 
 stargazer(T5.1, T5.2, T5.3, T5.4, T5.5, T5.6,
-    type = "text",
+    type = "latex",
     omit.stat = c("f", "rsq", "ser"),
     digits = 2,
     omit = c("inccat", "age", "agesq", "year", "race", "bdec"),
@@ -574,7 +554,7 @@ Another meth. problem: A full-time job is not necessarily intensive. 40 hours a 
 
 **Populate with text.**
 
-```{r,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and family constellation (college educated women)"}
+```{r,fig.height=6, warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and family constellation (college educated women)"}
 z$meanhap1 <- NA
 z$meanhap1[z$family==0 & z$career1==0] <- "Low-inc., no family"
 z$meanhap1[z$family==0 & z$career1==1] <- "High-inc., no family"
@@ -583,10 +563,10 @@ z$meanhap1[z$family==1 & z$career1==1] <- "High-inc., family"
 
 # Marriage rather than family
 z$meanhap_m1 <- NA
-z$meanhap_m1[z$family==0 & z$career1==0] <- "Low-inc., unmarried"
-z$meanhap_m1[z$family==0 & z$career1==1] <- "High-inc., unmarried"
-z$meanhap_m1[z$family==1 & z$career1==0] <- "Low-inc., married"
-z$meanhap_m1[z$family==1 & z$career1==1] <- "High-inc., married"
+z$meanhap_m1[z$married==0 & z$career1==0] <- "Low-inc., unmarried"
+z$meanhap_m1[z$married==0 & z$career1==1] <- "High-inc., unmarried"
+z$meanhap_m1[z$married==1 & z$career1==0] <- "Low-inc., married"
+z$meanhap_m1[z$married==1 & z$career1==1] <- "High-inc., married"
 
 # - ggplot based on three cohorts
 genplot1 <- ggplot() + 
@@ -613,7 +593,7 @@ genplot2 <- ggplot() +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
 
-grid.arrange(genplot1, genplot2, ncol = 2) 
+grid.arrange(genplot1, genplot2, ncol = 1) 
 ```
 
 

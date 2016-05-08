@@ -319,19 +319,19 @@ summary(SpF6)
 ## Spouse work status and Marriage happiness
 
 MarF1 <- lm(vhapmar ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-            data = subset(t, sex == 2 & educat == 4 & married ==1))
+            data = subset(z, sex == 2 & educat == 4 & married ==1))
 summary(MarF1)
 
-MarF2 <- lm(vhapmar ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-            data = subset(t, sex == 2 & educat == 4 & family ==1))
+MarF2 <- lm(vhapmar ~ spouse_ft + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(z, sex == 2 & educat == 4 & family ==1))
 summary(MarF2)
 
 MarM1 <- lm(vhapmar ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-            data = subset(t, sex == 1 & educat == 4 & married ==1))
+            data = subset(z, sex == 1 & educat == 4 & married ==1))
 summary(MarM1)
 
-MarM2 <- lm(vhapmar ~ spouse_ft + spouse_pt + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-            data = subset(t, sex == 1 & educat == 4 & family ==1))
+MarM2 <- lm(vhapmar ~ spouse_ft + spouse_pt + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(z, sex == 1 & educat == 4 & family ==1))
 summary(MarM2)
 
 #- As we expect. Women significantly more happy when spouse is in full-time employment. 
@@ -341,31 +341,31 @@ summary(MarM2)
 ### Spouse-work and career ###
 
 CarM <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-           data = subset(t, sex == 1 & educat == 4 & married ==1 & career1 == 1))
+           data = subset(z, sex == 1 & educat == 4 & married ==1 & career1 == 1))
 summary(CarM)
 
 CarF <- lm(vhappyb ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-           data = subset(t, sex == 2 & educat == 4 & married ==1 & career1 == 1))
+           data = subset(z, sex == 2 & educat == 4 & married ==1 & career == 1))
 summary(CarF)
 
 #- Women are substantially less happy with marriage when husband is working full-time and career1. 
 
 CarM_mar <- lm(vhapmar ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-               data = subset(t, sex == 1 & educat == 4 & married ==1 & career1 == 1))
+               data = subset(z, sex == 1 & educat == 4 & married ==1 & career1 == 1))
 summary(CarM_mar)
 
-CarF_mar <- lm(vhapmar ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-               data = subset(t, sex == 2 & educat == 4 & married ==1 & career1 == 1))
+CarF_mar <- lm(vhapmar ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+               data = subset(z, sex == 2 & educat == 4 & family ==1 & career1 == 1))
 summary(CarF_mar)
 
 #- The marriage happiness story here is quite strong. 
 
 CarkidM_mar <- lm(vhapmar ~ spouse_ft + spouse_home + young_child + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-               data = subset(t, sex == 1 & educat == 4 & family ==1 & career1 == 1))
+               data = subset(z, sex == 1 & educat == 4 & family ==1 & career1 == 1))
 summary(CarkidM_mar)
 
-CarkidF_mar <- lm(vhappyb ~ spouse_ft + spouse_home + young_child + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-                  data = subset(t, sex == 2 & educat == 4 & family ==1 & career == 1))
+CarkidF_mar <- lm(vhappyb ~ spouse_ft + young_child + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+                  data = subset(z, sex == 2 & educat == 4 & family ==1 & career1 == 1))
 summary(CarkidF_mar)
 
 #### Marriage happiness and young children ### 
