@@ -150,6 +150,7 @@ hist(z$def_rinc[z$sex == 2 & z$educat ==4],
      xlab = "Respondent's income (College educated women)",
      main = ""
      )
+grid.arrange(interM1, interM2, ncol = 2) 
 ```
 
 **Needs to be populated**
@@ -398,10 +399,10 @@ z$othinccat <- trunc(z$def_othinc/10000)
 z$othinccat[is.na(z$othinc)] <- -1
 
 # Regressions
-T2.1 <- lm(vhappyb ~ career1 + keepinghouse,
+T2.1 <- lm(vhappyb ~ career1 + keepinghouse + kid,
            data = subset(z, sex==2 & educat == 4 & married == 1))
 
-T2.2 <- lm(vhappyb ~ career1 + keepinghouse, 
+T2.2 <- lm(vhappyb ~ career1 + keepinghouse + kid, 
            data = subset(z, sex==1 & educat == 4 & married == 1))
 
 T2.3 <- lm(vhappyb ~ career1 + keepinghouse + kid + as.factor(othinccat) + age + agesq + as.factor(year) +              as.factor(race) + as.factor(bdec), 
@@ -411,7 +412,7 @@ T2.4 <- lm(vhappyb ~ career1 + keepinghouse + kid + as.factor(othinccat) + age +
            data = subset(z, sex==1 & educat == 4 & married == 1))
 
 stargazer(T2.1, T2.2, T2.3, T2.4,
-    type = 'text',
+    type = 'latex',
     omit.stat = c("f", "rsq", "ser"),
     digits = 2,
     omit = c("othinccat", "age", "agesq", "year", "race", "bdec"),
@@ -422,6 +423,152 @@ stargazer(T2.1, T2.2, T2.3, T2.4,
     notes = "Models are restricted to married, college educated men and women")
 ```    
 **The omit.label function is still bugging!!!!!!!!**
+
+## Effect of young children
+
+# Regressions
+```{r, results='asis', warning=FALSE,echo=FALSE,cache=TRUE}
+
+# Variables
+z$young_child <- 0
+z$young_child[z$old1 <= 3 | z$old2 <= 3 | z$old3 <= 3 | z$old4 <= 3 | z$old5 <= 3 | z$old6 <= 3 
+              | z$old7 <= 3 | z$old8 <= 3 | z$old9 <= 3 | z$old10 <= 3] <- 1
+
+# Regressions
+T3.1 <- lm(vhappyb ~ career1 + keepinghouse,
+           data = subset(z, sex==2 & educat == 4 & family == 1))
+
+T3.2 <- lm(vhappyb ~ career1 + keepinghouse, 
+           data = subset(z, sex==1 & educat == 4 & family == 1))
+
+T3.3 <- lm(vhappyb ~ career1 + keepinghouse + as.factor(othinccat) + age + agesq + as.factor(year) +              as.factor(race) + as.factor(bdec), 
+           data = subset(z, sex==2 & educat == 4 & family == 1))
+
+T3.4 <- lm(vhappyb ~ career1 + keepinghouse + as.factor(othinccat) + age + agesq + as.factor(year) +              as.factor(race) + as.factor(bdec), 
+           data = subset(z, sex==1 & educat == 4 & family == 1))
+
+T3.5 <- lm(vhappyb ~  keepinghouse*young_child + young_child*career1 + as.factor(othinccat)  + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(z, sex==2 & educat == 4 & family == 1))
+
+T3.6 <- lm(vhappyb ~ young_child*career1 + as.factor(othinccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+             data = subset(z, sex==1 & educat == 4 & family == 1))
+
+stargazer(T3.1, T3.2, T3.3, T3.4, T3.5, T3.6,
+    type = 'latex',
+    omit.stat = c("f", "rsq", "ser"),
+    digits = 2,
+    omit = c("othinccat", "age", "agesq", "year", "race", "bdec"),
+    omit.labels = c("Partner's income", "Age", "Age-squared", "Year", "Race", "Cohort"),
+    column.labels = c("Women", "Men", "Women", "Men", "Women", "Men"),
+    covariate.labels = c("High-income", "Keeping house", "Young child", "Keeping House*Young child", "High-income*Young child"),
+    dep.var.labels   = "Very happy",
+    notes = "Models are restricted to married + child, college educated men and women")
+```    
+
+**Needs to be populated**
+
+There story remains relatively weak. We don't have a significant negative interaction term, partly because we have less than 50 individuals that have both career1 and a young child.
+
+Nonetheless, we can argue that at least it seems to be the career individuals with a young child that reports low 
+life hapiness. 
+
+Do we have a problem of maternity leave? I guess they are excluded as they wont earn much. 
+
+## Marriage happiness and family constellation. 
+
+```{r, results='asis', warning=FALSE,echo=FALSE,cache=TRUE}
+# Variables
+
+z$inccat <- trunc(z$def_inc/10000)
+z$inccat[is.na(z$def_inc)] <- -1
+table(z$inccat)
+
+z$spouse_ft <- NULL
+z$spouse_ft[z$spwrksta==1] <- 1
+z$spouse_ft[z$spwrksta==2 | z$spwrksta==7] <- 0
+
+z$spouse_pt <- NULL
+z$spouse_pt[z$spwrksta==2] <- 1
+z$spouse_pt[z$spwrksta==1 | z$spwrksta==7] <- 0
+
+z$spouse_home <- NULL
+z$spouse_home[z$spwrksta==7] <- 1
+z$spouse_home[z$spwrksta==1 | z$spwrksta==2] <- 0
+
+##Marriage happiness
+z$hapmarr <- NA
+z$hapmarr[z$hapmar==3] <- 1
+z$hapmarr[z$hapmar==2] <- 2
+z$hapmarr[z$hapmar==1] <- 3
+
+z$hapmar <- NULL
+z <- rename(z, c(hapmarr="hapmar"))
+
+z$vhapmarb <- NA
+z$vhapmarb[z$hapmar==1 | z$hapmar==2] <- 0
+z$vhapmarb[z$hapmar==3] <- 100
+
+# Regressions
+
+T4.1 <- lm(vhappyb ~ spouse_ft + kid , 
+           data = subset(z, sex == 2 & educat == 4 & married ==1))
+summary(T4.1)
+
+T4.2 <- lm(vhappyb ~ spouse_ft + spouse_home + kid, 
+           data = subset(z, sex == 1 & educat == 4 & married ==1))
+summary(T4.2)
+
+T4.3 <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(z, sex == 2 & educat == 4 & married ==1))
+summary(T4.3)
+
+table(z$spouse_home[z$sex==1 & z$educat == 4 & z$married == 1])
+
+T4.4 <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+           data = subset(z, sex == 1 & educat == 4 & married ==1))
+summary(T4.4)
+
+# Marriage happiness
+
+T5.1 <- lm(vhapmarb ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(z, sex == 2 & educat == 4 & married ==1))
+
+T5.2 <- lm(vhapmarb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+            data = subset(z, sex == 1 & educat == 4 & married ==1))
+
+
+T5.3 <- lm(vhapmarb ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+               data = subset(z, sex == 2 & educat == 4 & married ==1 & career1 == 1))
+
+T5.4 <- lm(vhapmarb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+               data = subset(z, sex == 1 & educat == 4 & married ==1 & career1 == 1))
+
+T5.5 <- lm(vhapmarb ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+               data = subset(z, sex == 2 & educat == 4 & family ==1 & career1 == 1))
+
+T5.6 <- lm(vhapmarb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
+               data = subset(z, sex == 1 & educat == 4 & family ==1 & career1 == 1))
+
+stargazer(T5.1, T5.2, T5.3, T5.4, T5.5, T5.6,
+    type = "text",
+    omit.stat = c("f", "rsq", "ser"),
+    digits = 2,
+    omit = c("inccat", "age", "agesq", "year", "race", "bdec"),
+    omit.labels = c("Family income", "Age", "Age-squared", "Year", "Race", "Cohort"),
+    column.labels = c("Women", "Men", "Women", "Men", "Women", "Men"),
+    covariate.labels = c("Spouse FT", "Spouse Home", "Children"),
+    dep.var.labels   = "Very happy (marriage)",
+    notes = "Models are restricted to married, college educated men and women")
+```
+**We need to shine up the table and indicate (3) and (4) is for career1 == 1**
+
+Text: The story needs to be pushed here again. Problem is that people presumably choose the career constellations they believe they will be happy in. 
+
+We should probably add the contingency tables here. 
+
+Question to be answered: Do we also report life happiness and family constellation? Problem is that career women actually prefer their husband to not work full-time :/ It could work as a story, but does hardly align with the lower marriage happiness. 
+
+Another meth. problem: A full-time job is not necessarily intensive. 40 hours a week is not unmanageble. Problem is that we don't have a better variable. 
 
 ## Cohorts and norms
 
@@ -434,37 +581,39 @@ z$meanhap1[z$family==0 & z$career1==1] <- "High-inc., no family"
 z$meanhap1[z$family==1 & z$career1==0] <- "Low-inc., family"
 z$meanhap1[z$family==1 & z$career1==1] <- "High-inc., family"
 
-# Based on marriage rather than family
-
-z$meanhap_m <- NA
-z$meanhap_m[z$married==0 & z$career==0] <- "Low-inc., no family"
-z$meanhap_m[z$married==0 & z$career==1] <- "High-inc., no family"
-z$meanhap_m[z$married==1 & z$career==0] <- "Low-inc., family"
-z$meanhap_m[z$married==1 & z$career==1] <- "High-inc., family"
-
+# Marriage rather than family
 z$meanhap_m1 <- NA
-z$meanhap_m1[z$family==0 & z$career1==0] <- "Low-inc., no family"
-z$meanhap_m1[z$family==0 & z$career1==1] <- "High-inc., no family"
-z$meanhap_m1[z$family==1 & z$career1==0] <- "Low-inc., family"
-z$meanhap_m1[z$family==1 & z$career1==1] <- "High-inc., family"
+z$meanhap_m1[z$family==0 & z$career1==0] <- "Low-inc., unmarried"
+z$meanhap_m1[z$family==0 & z$career1==1] <- "High-inc., unmarried"
+z$meanhap_m1[z$family==1 & z$career1==0] <- "Low-inc., married"
+z$meanhap_m1[z$family==1 & z$career1==1] <- "High-inc., married"
 
 # - ggplot based on three cohorts
-ggplot() + 
+genplot1 <- ggplot() + 
   stat_summary(data = z[z$sex == 2 & z$educat==4 & z$cohort == 4,], aes(x=factor(meanhap_m1), y=vhappyb), 
                fun.y="mean", geom="point", col="Navyblue") +
   stat_summary(data = z[z$sex == 2 & z$educat==4 & z$cohort == 5,], aes(x=factor(meanhap_m1), y=vhappyb), 
                fun.y="mean", geom="point", col="Red") +
   stat_summary(data = z[z$sex == 2 & z$educat==4 & z$cohort == 6,], aes(x=factor(meanhap_m1), y=vhappyb), 
                fun.y="mean", geom="point", col="Purple") +
+    scale_x_discrete("Family-work combination", limits=c("Low-inc., unmarried", "High-inc., unmarried", 
+                                                         "Low-inc., married", "High-inc., married")) +
+  scale_y_continuous("Percentage very happy") +
+  theme_bw()
+
+genplot2 <- ggplot() + 
+  stat_summary(data = z[z$sex == 2 & z$educat==4 & z$cohort == 4,], aes(x=factor(meanhap1), y=vhappyb), 
+               fun.y="mean", geom="point", col="Navyblue") +
+  stat_summary(data = z[z$sex == 2 & z$educat==4 & z$cohort == 5,], aes(x=factor(meanhap1), y=vhappyb), 
+               fun.y="mean", geom="point", col="Red") +
+  stat_summary(data = z[z$sex == 2 & z$educat==4 & z$cohort == 6,], aes(x=factor(meanhap1), y=vhappyb), 
+               fun.y="mean", geom="point", col="Purple") +
     scale_x_discrete("Family-work combination", limits=c("Low-inc., no family", 
                                                        "High-inc., no family", "Low-inc., family", "High-inc., family")) +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
 
-#- Take-aways: 1. With family and p25, we have a narrative that there are few generational changes. Issue, it cannot
-#- be implemented in a regression design as the observations are way too few in the high-income, family group. 
-#- 2. With p50, family, the point is different in high, fam, who "have it all". However, there is no significance. 
-#- 3. Married and p25 the narrative is blurry. But we do seem to see a "bettering". 
+grid.arrange(genplot1, genplot2, ncol = 2) 
 ```
 
 
