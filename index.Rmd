@@ -10,9 +10,21 @@ bibliography:
 
 ```{r setup, include=FALSE}
 library(dplyr)
-library(tidyr)
 library(ggplot2)
-library(gdata) 
+library(plotly)
+library(repmis)
+library(plyr)
+library(MASS)
+library(Hmisc)
+library(interplot)
+library(gridExtra)
+library(car)
+library(reshape)
+library(gmodels)
+library(quantmod)
+library(foreign)
+library(stargazer)
+
 load("~/R_data/Final_Project_P-P/data/data_final.rda")
 
 ```
@@ -49,3 +61,65 @@ barplot(satjob_dist,
 
 
 **Cool plotly graph**
+``` {r, warning=FALSE,echo=FALSE,fig.align = 'center',fig.cap="Average reported happiness over survey year, 1972-2014"}
+
+fig_survyear <- ddply(z, c("year"), summarise,
+              vhappyb = mean(vhappyb, na.rm=TRUE))
+
+fig_survyear <- na.omit(fig_survyear)
+
+hap_year <- ggplot() +
+                geom_point(data = fig_survyear, aes(x=year, y=vhappyb), color="Navyblue") +
+                stat_smooth(data = fig_survyear, aes(x=year, y=vhappyb), method ="loess", col = "Navyblue") +
+                scale_y_continuous("Percentage very happy") +
+                scale_x_continuous("Survey Year") +
+                expand_limits(y=c(25,45)) +
+                theme_bw()
+
+ggplotly(hap_year)
+```
+
+**Second cool plotly grpah**
+```{r,warning=FALSE,echo=FALSE,fig.align = 'center',fig.cap="Happiness and age (college educated men and women)"}
+
+fig_age <- ddply(z[z$educat==4,], c("age", "sex"), summarise,
+              vhappyb = mean(vhappyb, na.rm=TRUE))
+
+fig_age <- na.omit(fig_age)
+
+hap_age <-  ggplot() +
+                geom_point(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), color="Navyblue") + 
+                geom_point(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), color="Red") +
+                stat_smooth(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Navyblue") +
+                stat_smooth(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Red") +
+                expand_limits(y=c(20,60)) +
+                scale_x_continuous("Age") +
+                scale_y_continuous("Percentage very happy") +
+                expand_limits(y=c(20,60)) +
+                theme_bw()
+
+ggplotly(hap_age)
+```
+
+**Grid arrange figure**
+```{r, fig.height=6, warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of income"}
+
+par(mfrow=c(2,1))
+hist(z$def_rinc[z$sex == 1 & z$educat == 4],
+     col = c("Navyblue"),
+     border = "White",
+     xlim = c(0,250000),
+     breaks = 20,
+     xlab = "Respondent's income (College educated men)",
+     main = ""
+     )
+
+hist(z$def_rinc[z$sex == 2 & z$educat ==4],
+     col = c("Darkred"),
+     border = "White",
+     xlim = c(0,250000),
+     breaks = 20,
+     xlab = "Respondent's income (College educated women)",
+     main = ""
+     )
+```
