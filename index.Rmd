@@ -23,9 +23,9 @@ load("~/R_data/Final_Project_P-P/data/data_final.rda")
 
 @hipp2015
 
-## Headline
 
 
+**Figure 1**
 ```{r warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of reported happiness and job-satisfaction"}
 
 happy_dist <- table(z$happy)/sum(table(z$happy))*100
@@ -46,3 +46,6 @@ barplot(satjob_dist,
         legend = c("Job-satisfcation"),
         ylim = c(0, 80))
 ```
+
+
+**Cool plotly graph**
