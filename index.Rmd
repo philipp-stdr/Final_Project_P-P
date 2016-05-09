@@ -33,7 +33,10 @@ load("~/R_data/Final_Project_P-P/data/data_final.rda")
 
 *This website presents findings from the research project "Can we have it all?" in which we explore the reconcilability of work and family and its effect on life satisfaction of US adults.*
 
-In western societies having a job and pursuing a fulfilling career is a major life goal. At the same time the attempt to tear down the male-breadwinner norm has moved the reconciliation of family and work more into the focus for many couples. We are interested whether the progressive ideal of combining career and family is also rewarded with higher life happiness. On the other hand "having it all" might also imply a more stressful life, where different roles of being a dedicated worker and a caring partner or parent might clash with each other.
+In western societies having a job and pursuing a fulfilling career is a major life goal. At the same time the attempt to tear down the male-breadwinner norm has moved the reconciliation of family and work more into the focus for many couples. We are interested whether the progressive ideal of combining career and family is also rewarded with higher life happiness. This website gives you a taste how reported happiness of people changes along criteria such as gender, age, income and family status. 
+
+Fragment:
+On the other hand "having it all" might also imply a more stressful life, where different roles of being a dedicated worker and a caring partner or parent might clash with each other.
 
 
 **Facts and findings that motivated our project:**
@@ -44,7 +47,7 @@ In western societies having a job and pursuing a fulfilling career is a major li
 
 **Goal of the project**
 
-
+In our research project we explore the 
 
 
 **Figure 1**
@@ -169,3 +172,5 @@ hist(z$def_rinc[z$sex == 2 & z$educat ==4],
      main = ""
      )
 ```
+
+### References
