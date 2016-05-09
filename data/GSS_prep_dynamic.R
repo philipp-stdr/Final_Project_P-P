@@ -463,19 +463,6 @@ z$satjobb[z$satjob==1] <- 4
 z$satjob <- NULL
 z <- rename(z, c(satjobb="satjob"))
 
-# Invert family satisfaction
-z$satfamb <- NA
-z$satfamb[z$satfam==7] <- 1
-z$satfamb[z$satfam==6] <- 2
-z$satfamb[z$satfam==5] <- 3
-z$satfamb[z$satfam==4] <- 4
-z$satfamb[z$satfam==3] <- 5
-z$satfamb[z$satfam==2] <- 6
-z$satfamb[z$satfam==1] <- 7
-
-z$satfam <- NULL
-z <- rename(z, c(satfamb="satfam"))
-
 ################################
 # Additional variable creation #
 ################################
