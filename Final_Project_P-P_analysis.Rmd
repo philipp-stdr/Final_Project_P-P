@@ -23,8 +23,11 @@ bibliography:
 PackagesUsed <- c("ggplot2", "repmis", "plyr", "dplyr", "MASS", "Hmisc", "interplot", "gridExtra", "repmis", "car", "reshape", "gmodels", "quantmod", "foreign", "stargazer")
 
 # Set working directory
- setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
-# setwd("~/R_data/Final_Project_P-P") # Staender
+try(setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P"), silent = TRUE)
+try(setwd("~/R_data/Final_Project_P-P"), silent = TRUE)
+
+#setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
+#setwd("~/R_data/Final_Project_P-P") # Staender
 
 # Load PackagesUsed and create .bib BibTeX file
 repmis::LoadandCite(PackagesUsed, file = "packages.bib", install = FALSE)
@@ -246,19 +249,7 @@ plot2 <- ggplot() +
 grid.arrange(plot1, plot2, ncol=2)
 ```
 
-\begin{table}[]
-\centering
-\caption{Gender, income (p50) and spouse work status (row percentages)}
-\label{my-label}
-\begin{tabular}{llllll}
-\hline
-       &             & Full-time & Part-time & Keeping house & n    \\ \hline
-Female & High-income & 92.45     & 4.15      & 3.4           & 265  \\
-       & Low-income  & 95.62     & 0.99      & 3.39          & 1713 \\
-Male   & High-income & 42.28     & 33.56     & 24.16         & 745  \\
-       & Low-income  & 54.86     & 25.06     & 20.08         & 1285 \\ \hline
-\end{tabular}
-\end{table}
+[take table out if not needed elsewhere]
 
 \begin{table}[]
 \centering
@@ -443,8 +434,6 @@ stargazer(T3.1, T3.2, T3.3, T3.4, T3.5, T3.6,
     notes = "Models are restricted to married + child, college educated men and women")
 ```    
 
-**Needs to be populated**
-
 In the third model we seek to investigate whether having young children (children below the age of 4) can explain part of the observed differences in preferences for keeping-house or having a high income. The underlying assumption is that young children demand more intensive care which could makes a reconciliation of a high-income job with having family more difficult. Model three further restricts the sample to people who have a family, which we define as being married and having kids. The specifications 1 to 4 are comparable to the previous model with the difference that all observed individuals have children. Specification 1 and 2 without controls show again that women are significantly happier when keeping house while having a high income makes men significantly more happy. When adding control variables (specification 3 and 4), the effect of high-income equals out, although it reaches only weak significance for men. The effect is positive and of some magnitude, indicating that in a family men and women are happier when they have a high income. The effect of keeping house is still opposite although of no significance.
 
 The specifications 5 and 6 add interaction terms of both independent variables with having a young child. Women with a high income but without a young child tend to report higher life satisfaction. The coefficient of having a high-income but no young child is only weakly significant but of high magnitude. The second interaction term indicates a large decrease of life satisfaction for women who have a high income and a young child, although the coefficient remains insignificant. A potential reason for the low significance is the low number of observations for women who have both, a high income job and a young child (less than 50). The observation for women is nonetheless interesting as it indicates that women who have children that are four years and older are happier when they have a high income career while this seems not to be the case for women with young children. Men's life satisfaction on the other hand is neither impacted by high income when not having a child nor by having both. In contrast to women the interaction term is positive and of low magnitude [story for men is confusing].
@@ -453,13 +442,32 @@ The specifications 5 and 6 add interaction terms of both independent variables w
 
 ## Satisfaction with marriage and family constellation. 
 
-In the next step we investigate the impact of the spouse's work status on marriage happiness. We choose a different dependent variable in this model because we want to isolate the preference of individuals for spouses work status for a satisfying family life. While life satisfaction might be impacted by job satisfaction, health and other endogenous or unobservable factors, marriage happiness focuses on the couples' relationship that we assume is fundamental for a satisfying family life.
+In the next step we investigate the impact of the spouse's work status on marriage happiness. We choose marriage happiness as dependent variable in this model because we assume that the spouse's work intensity affects the quality of family life and relationship more strongly than the respodents overall happiness which is also affected by other individual factors. 
 
-Our fourth model shows the same model specifications for two different sample restrictions. Specficiation 1 and 2 limit the sample to married, college-educated individuals. Specification 3 and 4 further limit the sample to the individuals of the former group who have a high income. The coefficients from specification 1 and 2 point in the expected directions. Women report higher happiness with marriage when their men work full-time, while men report the oppiste although at much lower magnitude. Men report however higher happiness when their spouse stays at home[^omit].
+Table X shows that the spouse's work status differs significantly between married, college-educated male and female respondents. Regardles of the income, more than 90 percent of married female respondents have a partner who works full-time. For male respondants the picture differs slightly depending on the income group. 54 percent of low-income married males have a spouse who works full-time, while this share drops to 42 percent for high-income males. The share of spouses who work part-time increase by 8 percent for high-income males and the share of spouses who keep home increase by 4 percent.
 
-[^omit]: We omitted the coefficient for women's spouses who stay at home due to too few observations.
+\begin{table}[]
+\centering
+\caption{Gender, income (p50) and spouse work status (row percentages)}
+\label{my-label}
+\begin{tabular}{llllll}
+\hline
+       &             & Full-time & Part-time & Keeping house & n    \\ \hline
+Female & High-income & 92.45     & 4.15      & 3.4           & 265  \\
+       & Low-income  & 95.62     & 0.99      & 3.39          & 1713 \\
+Male   & High-income & 42.28     & 33.56     & 24.16         & 745  \\
+       & Low-income  & 54.86     & 25.06     & 20.08         & 1285 \\ \hline
+\end{tabular}
+\end{table}
 
-**Table 4: Marriage happiness and spouse working conditions**
+
+Table X shows regression results for marriage happiness and the spouse's work status. We apply the same model specifications for two different sample restrictions. Specficiation 1 and 2 limit the sample to married, college-educated individuals. Specification 3 and 4 further limit the sample to the individuals of the former group who have a high income. The work status coefficients in specification 1 and 2 point in the expected directions. Women report higher happiness with marriage when their men work full-time rather than part-time (base categroy), while men report the oppiste although at a very low magnitude. Men report however higher happiness when their spouse stays at home compared to working part-time[^omit]. Having children has a strong and significant negative effect on marriage happiness of women. 
+
+[^omit]: We omit the coefficient for women's spouses who stay at home due to too few observations.
+
+When limiting the sample only to high income individuals, the coefficient magnitude of the spouse's work status increases. Women report much higher happiness with marriage when their spouses work full-time. The significant drop in sample size between model 1 and 3 probably explains why the effect remains insignificant. Men's marriage happiness decreases when their spouses work full-time. This effect is of strong magnitude and reaches weak significance. Also the happiness increase when the spouse stays at home increased for men but stays insignificant. Having children is now found to be insignificant for both genders.
+
+**Table 4: Marriage happiness and spouse employment status**
 
 ```{r, fig.align = "center", results='asis', warning=FALSE, echo=FALSE, message=FALSE}
 # Variables
@@ -509,13 +517,8 @@ T5.3 <- lm(vhapmarb ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.fac
 T5.4 <- lm(vhapmarb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
                data = subset(z, sex == 1 & educat == 4 & married ==1 & career1 == 1))
 
-T5.5 <- lm(vhapmarb ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-               data = subset(z, sex == 2 & educat == 4 & family ==1 & career1 == 1))
 
-T5.6 <- lm(vhapmarb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
-               data = subset(z, sex == 1 & educat == 4 & family ==1 & career1 == 1))
-
-stargazer(T5.1, T5.2, T5.3, T5.4, T5.5, T5.6,
+stargazer(T5.1, T5.2, T5.3, T5.4,
     type = "latex",
     header = FALSE,
     title = "Marriage happiness and spouse's work-status",
@@ -526,21 +529,14 @@ stargazer(T5.1, T5.2, T5.3, T5.4, T5.5, T5.6,
     column.labels = c("Women", "Men", "Women", "Men", "Women", "Men"),
     covariate.labels = c("Spouse FT", "Spouse Home", "Children"),
     dep.var.labels   = "Very happy (marriage)",
+    add.lines = list(c("Restricted to high-income", "No", "No", "Yes", "Yes")),
     notes = "Models are restricted to married, college educated men and women")
+
 ```
-**We need to shine up the table and indicate (3) and (4) is for career1 == 1**
-
-Text: The story needs to be pushed here again. Problem is that people presumably choose the career constellations they believe they will be happy in. 
-
-We should probably add the contingency tables here. 
-
-Question to be answered: Do we also report life happiness and family constellation? Problem is that career women actually prefer their husband to not work full-time :/ It could work as a story, but does hardly align with the lower marriage happiness. 
-
-Another meth. problem: A full-time job is not necessarily intensive. 40 hours a week is not unmanageble. Problem is that we don't have a better variable. 
 
 ## Cohorts and norms
 
-**Populate with text.**
+In a final step we investigate graphically 
 
 **Figure: Cohortian differences**
 
