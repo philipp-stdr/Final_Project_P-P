@@ -445,13 +445,19 @@ stargazer(T3.1, T3.2, T3.3, T3.4, T3.5, T3.6,
 
 **Needs to be populated**
 
-There story remains relatively weak. We don't have a significant negative interaction term, partly because we have less than 50 individuals that have both career1 and a young child.
+In the third model we seek to investigate whether having young children (children below the age of 4) can explain part of the observed differences in preferences for keeping-house or having a high income. The underlying assumption is that young children demand more intensive care which could makes a reconciliation of a high-income job with having family more difficult. Model three further restricts the sample to people who have a family, which we define as being married and having kids. The specifications 1 to 4 are comparable to the previous model with the difference that all observed individuals have children. Specification 1 and 2 without controls show again that women are significantly happier when keeping house while having a high income makes men significantly more happy. When adding control variables (specification 3 and 4), the effect of high-income equals out, although it reaches only weak significance for men. The effect is positive and of some magnitude, indicating that in a family men and women are happier when they have a high income. The effect of keeping house is still opposite although of no significance.
 
-Nonetheless, we can argue that at least it seems to be the career individuals with a young child that reports low  life hapiness. 
+The specifications 5 and 6 add interaction terms of both independent variables with having a young child. Women with a high income but without a young child tend to report higher life satisfaction. The coefficient of having a high-income but no young child is only weakly significant but of high magnitude. The second interaction term indicates a large decrease of life satisfaction for women who have a high income and a young child, although the coefficient remains insignificant. A potential reason for the low significance is the low number of observations for women who have both, a high income job and a young child (less than 50). The observation for women is nonetheless interesting as it indicates that women who have children that are four years and older are happier when they have a high income career while this seems not to be the case for women with young children. Men's life satisfaction on the other hand is neither impacted by high income when not having a child nor by having both. In contrast to women the interaction term is positive and of low magnitude [story for men is confusing].
 
-Do we have a problem of maternity leave? I guess they are excluded as they wont earn much. 
+[F-test is missting]
 
 ## Satisfaction with marriage and family constellation. 
+
+In the next step we investigate the impact of the spouse's work status on marriage happiness. We choose a different dependent variable in this model because we want to isolate the preference of individuals for spouses work status for a satisfying family life. While life satisfaction might be impacted by job satisfaction, health and other endogenous or unobservable factors, marriage happiness focuses on the couples' relationship that we assume is fundamental for a satisfying family life.
+
+Our fourth model shows the same model specifications for two different sample restrictions. Specficiation 1 and 2 limit the sample to married, college-educated individuals. Specification 3 and 4 further limit the sample to the individuals of the former group who have a high income. The coefficients from specification 1 and 2 point in the expected directions. Women report higher happiness with marriage when their men work full-time, while men report the oppiste although at much lower magnitude. Men report however higher happiness when their spouse stays at home[^omit].
+
+[^omit]: We omitted the coefficient for women's spouses who stay at home due to too few observations.
 
 **Table 4: Marriage happiness and spouse working conditions**
 
