@@ -1,7 +1,7 @@
 ---
 title: "Can we have it all?"
-author: "Philipp Staender"
-date: "8 May 2016"
+author: "Philip Unger & Philipp Staender"
+date: "13 May 2016"
 output: html_document
 bibliography: 
 - main.bib
@@ -33,7 +33,7 @@ load("~/R_data/Final_Project_P-P/data/data_final.rda")
 
 *This website presents findings from the research project "Can we have it all?" in which we explore the reconcilability of work and family and its effect on life satisfaction of US adults.*
 
-In western capitalist societies having a job and pursuing a fulfilling career is a major life goal. At the same time the attempt to tear down the male-breadwinner norm has also moved the reconciliation of family and work more into the focus of many couples. Political actors as well as civil society promote an equal share of care and paid work between men and women as an ideal in a gender equal society. We are interested whether the progressive ideal of combining career and family is also rewarded with higher life happiness. On the other hand "having it all" might also imply a more stressful life, where different roles of being a dedicated worker and a caring partner or parent might clash with each other.
+In western societies having a job and pursuing a fulfilling career is a major life goal. At the same time the attempt to tear down the male-breadwinner norm has moved the reconciliation of family and work more into the focus for many couples. We are interested whether the progressive ideal of combining career and family is also rewarded with higher life happiness. On the other hand "having it all" might also imply a more stressful life, where different roles of being a dedicated worker and a caring partner or parent might clash with each other.
 
 
 **Facts and findings that motivated our project:**
@@ -42,7 +42,7 @@ In western capitalist societies having a job and pursuing a fulfilling career is
 - Men and women seem to have different preferences for working full-time or part-time. Men prefer working full-time, while women report higher-life satisfaction in part-time jobs [@booth2008].
 - Having a family contributes more strongly to women’s happiness than having a career. Reported happiness is higher for women who have a family and no career relative to women with both [@bertrand2013].
 
-**
+**Goal of the project**
 
 
 
@@ -76,18 +76,17 @@ fig_survyear <- ddply(z, c("year"), summarise,
 
 fig_survyear <- na.omit(fig_survyear)
 
-hap_year <- ggplot() +
-                geom_point(data = fig_survyear, aes(x=year, y=vhappyb), color="Navyblue") +
-                stat_smooth(data = fig_survyear, aes(x=year, y=vhappyb), method ="loess", col = "Navyblue") +
-                scale_y_continuous("Percentage very happy") +
-                scale_x_continuous("Survey Year") +
-                expand_limits(y=c(25,45)) +
-                theme_bw()
+ggplot() +
+    geom_point(data = fig_survyear, aes(x=year, y=vhappyb), color="Navyblue") +
+    stat_smooth(data = fig_survyear, aes(x=year, y=vhappyb), method ="loess", col = "Navyblue") +
+    scale_y_continuous("Percentage very happy") +
+    scale_x_continuous("Survey Year") +
+    expand_limits(y=c(25,45)) +
+    theme_bw()
 
-ggplotly(hap_year)
 ```
 
-**Cool plotly graph**
+**plotly graph**
 ``` {r, warning=FALSE,echo=FALSE,fig.cap="Average reported happiness over survey year, 1972-2014"}
 
 fig_survyear <- ddply(z, c("year"), summarise,
@@ -102,11 +101,10 @@ hap_year <- ggplot() +
                 scale_x_continuous("Survey Year") +
                 expand_limits(y=c(25,45)) +
                 theme_bw()
-
-ggplotly(hap_year)
+hap_year
+#ggplotly(hap_year)
 ```
 
-**Second cool plotly grpah**
 ```{r,warning=FALSE,echo=FALSE,fig.cap="Happiness and age (college educated men and women)"}
 
 fig_age <- ddply(z[z$educat==4,], c("age", "sex"), summarise,
@@ -125,6 +123,28 @@ ggplot() +
                 expand_limits(y=c(20,60)) +
                 theme_bw()
 
+```
+
+**Second plotly graph**
+```{r,warning=FALSE,echo=FALSE,fig.cap="Happiness and age (college educated men and women)"}
+
+fig_age <- ddply(z[z$educat==4,], c("age", "sex"), summarise,
+              vhappyb = mean(vhappyb, na.rm=TRUE))
+
+fig_age <- na.omit(fig_age)
+
+hap_age <- ggplot() +
+                geom_point(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), color="Navyblue") + 
+                geom_point(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), color="Red") +
+                stat_smooth(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Navyblue") +
+                stat_smooth(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Red") +
+                expand_limits(y=c(20,60)) +
+                scale_x_continuous("Age") +
+                scale_y_continuous("Percentage very happy") +
+                expand_limits(y=c(20,60)) +
+                theme_bw()
+hap_age
+#ggplotly(hap_age)
 ```
 
 **Grid arrange figure**
