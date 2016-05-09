@@ -536,7 +536,13 @@ stargazer(T5.1, T5.2, T5.3, T5.4,
 
 ## Cohorts and norms
 
-In a final step we investigate graphically 
+In a final step we investigate graphically whether the happiness penalty for women who combine a high-income job with a family persists over generations. Our hypothesis is that younger generations who grew up with more progressive gender norms might find it easier to reconcile family and work. Figure X shows differences in average reported life satisfaction for three generations, depending on their marriage-income or family-income constallation. The oldest cohort is born between 1944 and 1957 (blue), the second cohort is born between 1958 and 1973 (red) and the youngest cohort is born between 1974 and 1991 (purple), which includes the youngest individuals in the survey.
+
+Figure X shows that there are several important differences between generations. The upper plot shows four constallations of being married and having a high-income job. All generations are considerably happier when being married. Happiness of unmarried women only increases slightly when having a high-income job compared to a low-income job. Among married women differences between the generations become apparent. The youngest generation is most happy in both income constallations. While happiness decreases for the two older generations when they have a high-income job, happiness slightly increases for the youngest generation. The oldest generation experiences the largest happiness penalty from combining marriage and high-income and is almost pushed back to the level of unmarried women. The penalty for the second generation is already around 5 percent smaller. 
+
+We observe similar cohort differences in reported happiness when comparing four constallations of having a family and high-income (lower plot). Thus, the findings are robust, regardless whether we look at married women or women with a family.
+
+The graphical analysis suggests, that "having it all" is easier reconcilable with a happy life for women from younger cohorts than for their peers from earlier generations. This hints to changes that either reflect more progressive gender norms, a more supportive environment such as the availability of high quality care or a combination of both.
 
 **Figure: Cohortian differences**
 
@@ -562,7 +568,7 @@ genplot1 <- ggplot() +
                fun.y="mean", geom="point", col="Red") +
   stat_summary(data = z[z$sex == 2 & z$educat==4 & z$cohort == 6,], aes(x=factor(meanhap_m1), y=vhappyb), 
                fun.y="mean", geom="point", col="Purple") +
-    scale_x_discrete("Family-work combination", limits=c("Low-inc., unmarried", "High-inc., unmarried", 
+    scale_x_discrete("Marriage-work combination", limits=c("Low-inc., unmarried", "High-inc., unmarried", 
                                                          "Low-inc., married", "High-inc., married")) +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
@@ -581,8 +587,6 @@ genplot2 <- ggplot() +
 
 grid.arrange(genplot1, genplot2, ncol = 1) 
 ```
-
-
 
 # Discussion
 
