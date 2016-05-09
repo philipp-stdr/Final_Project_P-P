@@ -31,15 +31,19 @@ load("~/R_data/Final_Project_P-P/data/data_final.rda")
 
 ![](lead_large.jpg)
 
-This website presents findings from the research project "Can we have it all?" in which we explore the reconcilability of work and family and its effect on life satisfaction of US adults.
+*This website presents findings from the research project "Can we have it all?" in which we explore the reconcilability of work and family and its effect on life satisfaction of US adults.*
 
 In western capitalist societies having a job and pursuing a fulfilling career is a major life goal. At the same time the attempt to tear down the male-breadwinner norm has also moved the reconciliation of family and work more into the focus of many couples. Political actors as well as civil society promote an equal share of care and paid work between men and women as an ideal in a gender equal society. We are interested whether the progressive ideal of combining career and family is also rewarded with higher life happiness. On the other hand "having it all" might also imply a more stressful life, where different roles of being a dedicated worker and a caring partner or parent might clash with each other.
 
 
 **Facts and findings that motivated our project:**
 
-- Working time is still very unequally distributed within couples across industrialized countries with men working much more than women [@hipp2015].
-- Men and women seem to have different preferences for working full-time or part-time. Men prefer 
+- Working time within couplesis is still very unequally distributed across industrialized countries with men working much more than women [@hipp2015].
+- Men and women seem to have different preferences for working full-time or part-time. Men prefer working full-time, while women report higher-life satisfaction in part-time jobs [@booth2008].
+- Having a family contributes more strongly to women’s happiness than having a career. Reported happiness is higher for women who have a family and no career relative to women with both [@bertrand2013].
+
+**
+
 
 
 
