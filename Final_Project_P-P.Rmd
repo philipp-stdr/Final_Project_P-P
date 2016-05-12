@@ -314,7 +314,7 @@ ggplot() +
   theme_bw()
 ```
 
-A key variable in the research design is whether the respondents earn a high-income or not. To define high-income we use whether respondents earn more than the 50th income percentile of males in their education-age cohort. Figure 7 indicates that women have the same propensity to be very happe regardless of whether they are high earners or not, whereas the difference is substantial for men. [Footnote: The same is true if high-income is defined as the 25th income percentile for college educated men and women]. [Footnote: We only have data on cohort income from 1977 to 2010, and the sample is therefore restricted to these years]. 
+A key variable in the research design is whether the respondents earn a high income or not. To define high-income we use whether respondents earn more than the 50th income percentile of males in their education-age cohort. Figure 7 indicates that women have the same propensity to be very happy regardless of whether they are high earners or not, whereas the difference is substantial for men. [Footnote: The same is true if high-income is defined as the 25th income percentile for college educated men and women]. [Footnote: We only have data on cohort income from 1977 to 2010, and the sample is therefore restricted to these years]. 
 
 ```{r,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and income level, college educated men and women"}
 
@@ -348,7 +348,7 @@ ggplot() +
 
 ## Marriage constellation, income and happiness
 
-Figure 8 illustrates how reported happiness depend on respondent's income and family affiliation. Specificially, we differentiate between the four combinations of marriage and having a high-income job or not. On average, both college educated men and women are more likely to report being very happy when they are married relative to not being married. Furthermore, when not married, both genders report higher happiness when having a high-income job. For married respondents, however, there are considerable gender differences. When married, men continue to report higher happiness when having high-income, whereas the opposite is true for women. This provides preliminary evidence on the thesis that women face difficulties in reconciling having a high-income job and marriage. 
+Figure 8 illustrates how reported happiness depend on respondent's income and family affiliation. Specificially, we differentiate between the four combinations of marriage and having a high-income job or not. On average, both college educated men and women are more likely to report being very happy when they are married relative to not being married. Furthermore, when not married, both genders report higher happiness when having a high-income job. For married respondents, however, there are considerable gender differences. When married, men continue to report higher happiness when having high-income, whereas the opposite is true for women. This provides preliminary evidence on the thesis that women face difficulties in reconciling having a high-income job and marriage [Comment: maybe already state family, most married women also have chidren]. 
 
 **Figure: Happiness and marriage/income constellation.**
 
@@ -393,7 +393,7 @@ T1.4 <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor
 
 
 stargazer(T1.3, T1.4, T1.1, T1.2,
-    type = 'text',
+    type = 'latex',
     header = FALSE,
     title = "Happiness, marriage and income for college educated men and women",
     omit.stat = c("f", "rsq", "ser"),
@@ -437,7 +437,7 @@ T2.4 <- lm(vhappyb ~ career1 + keepinghouse + kid + as.factor(othinccat) + age +
            data = subset(z, sex==1 & educat == 4 & married == 1))
 
 stargazer(T2.3, T2.4, T2.1, T2.2,
-    type = 'text',
+    type = 'latex',
     header = FALSE,
     title = "Happiness and work-status for married, college educated women and men",
     omit.stat = c("f", "rsq", "ser"),
