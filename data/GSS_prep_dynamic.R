@@ -15,7 +15,7 @@ library(plyr)
 library(Hmisc)
 
 # Load GSS-data file
-# load( "data/GSS.CS.rda" )
+# load( "data/data_sets/GSS.CS.rda" )
 
 # copy to a different object
 z <- GSS.CS.df
@@ -364,6 +364,11 @@ z$hapmarr[z$hapmar==1] <- 3
 z$hapmar <- NULL
 z <- rename(z, c(hapmarr="hapmar"))
 
+z$vhapmarb <- NA
+z$vhapmarb[z$hapmar==1 | z$hapmar==2] <- 0
+z$vhapmarb[z$hapmar==3] <- 100
+
+
 # Work-status
 z$workstatus <- NA
 z$workstatus[z$wrkstat==1] <- "Full-time work"
@@ -388,14 +393,10 @@ z <- subset(z, z$working==1 | z$keepinghouse == 1)
 # Keep if age>=25 & age<=54
 z <- subset(z, z$age>=25 & z$age <= 54)
 
-# One of these are redundant !!!
+# log-deflated income
 z$def_linc <- log(z$def_inc)
 z$def_lrinc <- log(z$def_rinc)
 z$def_lothinc <- log(z$def_othinc)
-
-z$linc <- log(z$def_inc)
-z$lrinc <- log(z$def_rinc)
-z$lothinc <- log(z$def_othinc)
 
 # Cohorts
 z$by <- z$year-z$age

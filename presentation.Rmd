@@ -22,7 +22,7 @@ setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P") # Unger
 # setwd("~/R_data/Final_Project_P-P") # Staender
 
 # Load PackagesUsed
-repmis::LoadandCite(PackagesUsed, file = "packages_pres.bib", install = FALSE)
+repmis::LoadandCite(PackagesUsed, file = "packages_presentation.bib", install = FALSE)
 ```
 
 ```{r, include=FALSE}
@@ -32,7 +32,7 @@ if(!file.exists("data/datasets/data_final.rda")) {
 
 # Opens data_final.rda if not already loaded as an object
 if(!exists("z.df" )) {
-  load("data/datasets/data_final.rda")
+  load("data/data_sets/data_final.rda")
 }
 ```
 
