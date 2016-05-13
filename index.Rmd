@@ -23,7 +23,7 @@ library(quantmod)
 library(foreign)
 library(stargazer)
 
-setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P")
+#setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P")
 load("data/data_final.rda")
 
 ```
