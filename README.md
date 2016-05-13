@@ -26,6 +26,7 @@ The repository includes all files necessary to reproduce our research. The markd
     ├── presentation.pdf              # Presentation as pdf
     ├── main_paper.bib                # Contains literature cited in the final paper
     ├── packages_paper.bib            # Contains packages used in throughout the analysis 
+    ├── packages_presentation.bib     # Contains packages used in presentation 
     ├── README.md                     # Readme file
     ├── Data                          # Folder containing data files and R files to gather and prepare the data
     │   ├── data_combine.R            # Sources the four below mentioned files sequentially 
