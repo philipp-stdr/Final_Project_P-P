@@ -1,8 +1,8 @@
-# Can we have it all? How reconcilability of career pursuits and life satisfaction differs between women and men
+# Can we have it all? Reconcilability of career pursuits and life satisfaction for women and men
 
 by Philipp Ständer and Philip Unger
 
-This repository contains the final paper, the webpage as well as the presentation for the course 'Introduction to Collaborative Data Science' at the Hertie School of Governance taught by <a href="https://github.com/christophergandrud
+This repository contains our research paper, webpage and presentation for the final project in the course 'Introduction to Collaborative Data Science' at the Hertie School of Governance taught by <a href="https://github.com/christophergandrud
 " target="_blank">@ChristopherGandrud</a>.
 
 - <a href="http://philipp-stdr.github.io/Final_Project_P-P/" target="_blank"> Link to the project webpage </a>
