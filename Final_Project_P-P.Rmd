@@ -383,7 +383,6 @@ T1.3 <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor
 T1.4 <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
           data = subset(z, sex==1 & educat == 4))
 
-
 stargazer(T1.3, T1.4, T1.1, T1.2,
     type = 'latex',
     header = FALSE,
@@ -394,8 +393,8 @@ stargazer(T1.3, T1.4, T1.1, T1.2,
     column.labels = c("Women", "Men", "Women", "Men"),
     digits = 2,
     covariate.labels = c("High-income", "Married", "High-income*Married"),
-    dep.var.labels   = "Very happy",
-    notes = "Models are restricted to college educated men and women")
+    dep.var.labels   = "Very happy"
+    )
 ```    
 
 ## Double-click on married respondent's: How does high-income differ between genders? 
@@ -414,6 +413,8 @@ Table Y thus paints a similar picture to table X, which is that men are the happ
 # Create a variable for partner's income
 z$othinccat <- trunc(z$def_othinc/10000)
 z$othinccat[is.na(z$othinc)] <- -1
+
+table(z$keepinghouse[z$sex==2 & z$educat==4 & z$married ==1])
 
 # Regressions
 T2.1 <- lm(vhappyb ~ career1 + keepinghouse + kid,
@@ -438,8 +439,7 @@ stargazer(T2.3, T2.4, T2.1, T2.2,
     omit.labels = c("Partner's income", "Age", "Age-squared", "Year", "Race", "Cohort"),
     column.labels = c("Women", "Men", "Women", "Men"),
     covariate.labels = c("High-income", "Keeping house", "Child"),
-    dep.var.labels   = "Very happy",
-    notes = "Models include married, college educated men and women"
+    dep.var.labels   = "Very happy"
    )
 ```  
 
@@ -454,10 +454,10 @@ z$young_child[z$old1 <= 3 | z$old2 <= 3 | z$old3 <= 3 | z$old4 <= 3 | z$old5 <= 
               | z$old7 <= 3 | z$old8 <= 3 | z$old9 <= 3 | z$old10 <= 3] <- 1
 
 # Regressions
-T3.1 <- lm(vhappyb ~ career1 + keepinghouse,
+# T3.1 <- lm(vhappyb ~ career1 + keepinghouse,
            data = subset(z, sex==2 & educat == 4 & family == 1))
 
-T3.2 <- lm(vhappyb ~ career1 + keepinghouse, 
+# T3.2 <- lm(vhappyb ~ career1 + keepinghouse, 
            data = subset(z, sex==1 & educat == 4 & family == 1))
 
 T3.3 <- lm(vhappyb ~ career1 + keepinghouse + as.factor(othinccat) + age + agesq + as.factor(year) +              as.factor(race) + as.factor(bdec), 
@@ -472,8 +472,10 @@ T3.5 <- lm(vhappyb ~  keepinghouse*young_child + young_child*career1 + as.factor
 T3.6 <- lm(vhappyb ~ young_child*career1 + as.factor(othinccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
              data = subset(z, sex==1 & educat == 4 & family == 1))
 
-stargazer(T3.1, T3.2, T3.3, T3.4, T3.5, T3.6,
-    type = 'latex',
+table(z$career1[z$sex==2 & z$educat==4 & z$married == 1 & z$young_child == 1])
+
+stargazer(T3.3, T3.4, T3.5, T3.6,
+    type = 'text',
     header = FALSE,
     title = "Happiness and young children, college educated women and men with a family",
     omit.stat = c("f", "rsq", "ser"),
@@ -543,6 +545,8 @@ z$spouse_home[z$spwrksta==1 | z$spwrksta==2] <- 0
 z$vhapmarb <- NA
 z$vhapmarb[z$hapmar==1 | z$hapmar==2] <- 0
 z$vhapmarb[z$hapmar==3] <- 100
+
+table(z$vhappyb[z$sex==2 & z$educat==4 & z$married == 1 & z$career1 == 1])
 
 # Regressions
 
