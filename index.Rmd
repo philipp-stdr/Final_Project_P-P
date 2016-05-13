@@ -3,9 +3,9 @@ title: "Can we have it all?"
 author: "Philip Unger & Philipp Staender"
 date: "13 May 2016"
 output: html_document
+subtitle: Gender differences in life satisfaction
 bibliography: 
 - main.bib
-- packages.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -35,28 +35,28 @@ load("~/R_data/Final_Project_P-P/data/data_final.rda")
 
 In western societies having a job and pursuing a fulfilling career is a major life goal. At the same time the attempt to tear down the male-breadwinner norm has moved the reconciliation of family and work more into the focus for many couples. We are interested whether the progressive ideal of combining career and family is also rewarded with higher life happiness. This website gives you a taste how reported happiness of people changes along criteria such as gender, age, income and family status. 
 
-Fragment:
-On the other hand "having it all" might also imply a more stressful life, where different roles of being a dedicated worker and a caring partner or parent might clash with each other.
-
-
 **Facts and findings that motivated our project:**
 
-- Working time within couplesis is still very unequally distributed across industrialized countries with men working much more than women [@hipp2015].
+- Working time within couples is still very unequally distributed across industrialized countries with men working much more than women [@hipp2015].
 - Men and women seem to have different preferences for working full-time or part-time. Men prefer working full-time, while women report higher-life satisfaction in part-time jobs [@booth2008].
 - Having a family contributes more strongly to women’s happiness than having a career. Reported happiness is higher for women who have a family and no career relative to women with both [@bertrand2013].
 
-**Goal of the project**
+**Goal of this website**
 
-In our research project we explore the 
+Life-satisfaction is a fascinating field of study. What could be more rewarding than finding out what makes people happy? With this website we provide the curious reader with some statistics on who is happy and who is not.
 
+**How is happiness measured?**
 
-**Figure 1**
+The General Social Survey asked about 60.000 US adults: *"Taken all together, how would you say things are these days?"* and *"Taking things all together, how would you describe your marriage?"*. Possible answers were "very happy", "pretty happy" and "not to happy". Higher numbers indicate higher happiness.
+
+The Graph shows that a majority of respondents are rather satisfied with their life and about 40% are very happy with their marriage. 
 ```{r warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of reported happiness and job-satisfaction"}
 
 happy_dist <- table(z$happy)/sum(table(z$happy))*100
 satjob_dist <- table(z$satjob)/sum(table(z$happy))*100
+hapmar_dist <- table(z$hapmar)/sum(table(z$happy))*100
 
-par(mfrow=c(1,2)) 
+par(mfrow=c(1,3)) 
 
 barplot(happy_dist, 
         col=c("navyblue"),
@@ -65,12 +65,20 @@ barplot(happy_dist,
         legend = c("Happiness"),
         ylim = c(0, 80))  
 
+barplot(hapmar_dist, 
+        col=c("navyblue"),
+        xlab = "Reported happiness with marriage",
+        legend = c("Marriage-happiness"),
+        ylim = c(0, 80))
+
 barplot(satjob_dist, 
         col=c("navyblue"),
         xlab = "Reported job-satisfaction",
         legend = c("Job-satisfcation"),
         ylim = c(0, 80))
 ```
+
+
 
 ``` {r, warning=FALSE,echo=FALSE,fig.cap="Average reported happiness over survey year, 1972-2014"}
 
