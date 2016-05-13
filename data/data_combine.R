@@ -4,14 +4,14 @@
 
 
 # Set working directory
-setwd("~/Documents/CDA/collaborative_projects/Assignment3_P-P") # Unger
+# setwd("~/Documents/CDA/collaborative_projects/Assignment3_P-P") # Unger
 
 # Source PCE deflator 
 source('data/bdeflator.R')
 
 # Source CPS income percentile data from Bertrand (2013)'s replication file
 # The file is only downloaded if not already present in working directory
-if(!file.exists('data/CPS_Bertrand.rda')) {
+if(!file.exists('data/data_sets/CPS_Bertrand.rda')) {
   source('data/CPS_Bertrand.R')
 }
 

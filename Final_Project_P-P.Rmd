@@ -31,13 +31,13 @@ repmis::LoadandCite(PackagesUsed, file = "packages_paper.bib", install = FALSE)
 ```
 
 ```{r, include=FALSE}
-if(!file.exists("data/datasets/data_final.rda")) {
+if(!file.exists("data/data_sets/data_final.rda")) {
   source('data/data_combine.R')
 }
 
 # Opens data_final.rda if not already loaded as an object
 if(!exists("z.df" )) {
-  load("data/datasets/data_final.rda")
+  load("data/data_sets/data_final.rda")
 }
 ```
 
