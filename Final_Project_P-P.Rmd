@@ -500,6 +500,38 @@ In the next step we investigate the impact of the spouse's work status on marria
 
 Table X shows that the spouse's work status differs significantly between married, college-educated male and female respondents. Regardles of the income, more than 90 percent of married female respondents have a partner who works full-time. For male respondants the picture differs slightly depending on the income group. 54 percent of low-income married males have a spouse who works full-time, while this share drops to 42 percent for high-income males. The share of spouses who work part-time increase by 8 percent for high-income males and the share of spouses who keep home increase by 4 percent.
 
+```{r, warning=FALSE, echo=FALSE, message=FALSE}
+
+## Numbers for 3-Way Frequency Table 
+
+#Variables necessary 
+z$career1 <- z$rinc > z$p50
+z$career1 <- as.numeric(z$career1)
+z$career1[is.na(z$career1)] <- 0 
+
+z$sexcat <- NULL
+z$sexcat[z$sex==1] <- "Male"
+z$sexcat[z$sex==2] <- "Female"
+
+z$spwrkcat <- NULL
+z$spwrkcat[z$spwrksta==1] <- "Full-time"
+z$spwrkcat[z$spwrksta==2] <- "Part-time"
+z$spwrkcat[z$spwrksta==7] <- "Keeping house"
+
+z$income_status1 <- NULL
+z$income_status1[z$career1==1] <- "High-income"
+z$income_status1[z$career1==0] <- "Low-income"
+
+# Gender, income and Spouse Work Status (row probabilities)
+ge_sp_ca1 <- table(z$sexcat[z$educat==4 & z$married==1], 
+                   z$income_status1[z$educat==4 & z$married==1], 
+                   z$spwrkcat[z$educat==4 & z$married==1]) 
+ftable(prop.table(ge_sp_ca1, c(1,2)))
+ftable(ge_sp_ca1)
+
+```
+
+
 \begin{table}[]
 \centering
 \caption{Gender, income (p50) and spouse work status (row percentages)}
