@@ -13,8 +13,8 @@ output:
     toc: yes
 subtitle: How reconcilability of career pursuits and life satisfaction differs between women and men
 bibliography: 
-- main.bib
-- packages.bib
+- main_paper.bib
+- packages_paper.bib
 ---
 \pagebreak
 
@@ -27,17 +27,17 @@ try(setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P"), silent = 
 try(setwd("~/R_data/Final_Project_P-P"), silent = TRUE)
 
 # Load PackagesUsed and create .bib BibTeX file
-repmis::LoadandCite(PackagesUsed, file = "packages.bib", install = FALSE)
+repmis::LoadandCite(PackagesUsed, file = "packages_paper.bib", install = FALSE)
 ```
 
 ```{r, include=FALSE}
-if(!file.exists("data/data_sets/data_final.rda")) {
+if(!file.exists("data/datasets/data_final.rda")) {
   source('data/data_combine.R')
 }
 
 # Opens data_final.rda if not already loaded as an object
 if(!exists("z.df" )) {
-  load("data/data_sets/data_final.rda")
+  load("data/datasets/data_final.rda")
 }
 ```
 
@@ -455,10 +455,10 @@ z$young_child[z$old1 <= 3 | z$old2 <= 3 | z$old3 <= 3 | z$old4 <= 3 | z$old5 <= 
 
 # Regressions
 # T3.1 <- lm(vhappyb ~ career1 + keepinghouse,
-           data = subset(z, sex==2 & educat == 4 & family == 1))
+#           data = subset(z, sex==2 & educat == 4 & family == 1))
 
 # T3.2 <- lm(vhappyb ~ career1 + keepinghouse, 
-           data = subset(z, sex==1 & educat == 4 & family == 1))
+#           data = subset(z, sex==1 & educat == 4 & family == 1))
 
 T3.3 <- lm(vhappyb ~ career1 + keepinghouse + as.factor(othinccat) + age + agesq + as.factor(year) +              as.factor(race) + as.factor(bdec), 
            data = subset(z, sex==2 & educat == 4 & family == 1))
@@ -475,7 +475,7 @@ T3.6 <- lm(vhappyb ~ young_child*career1 + as.factor(othinccat) + age + agesq + 
 table(z$career1[z$sex==2 & z$educat==4 & z$married == 1 & z$young_child == 1])
 
 stargazer(T3.3, T3.4, T3.5, T3.6,
-    type = 'text',
+    type = 'latex',
     header = FALSE,
     title = "Happiness and young children, college educated women and men with a family",
     omit.stat = c("f", "rsq", "ser"),
@@ -483,9 +483,11 @@ stargazer(T3.3, T3.4, T3.5, T3.6,
     omit = c("othinccat", "age", "agesq", "year", "race", "bdec"),
     omit.labels = c("Partner's income", "Age", "Age-squared", "Year", "Race", "Cohort"),
     column.labels = c("Women", "Men", "Women", "Men", "Women", "Men"),
-    covariate.labels = c("High-income", "Keeping house", "Young child", "Keeping House*Young child", "High-income*Young child"),
-    dep.var.labels   = "Very happy",
-    notes = "Models are restricted to married + child, college educated men and women")
+    covariate.labels = c("High-income", "Keeping house", "Young child", 
+                         "Keeping House*Young child", "High-income*Young child"),
+    dep.var.labels   = "Very happy"
+    )
+    
 ```    
 
 In the third model we seek to investigate whether having young children (children below the age of 4) can explain part of the observed differences in preferences for keeping-house or having a high income. The underlying assumption is that young children demand more intensive care which could makes a reconciliation of a high-income job with having family more difficult. Model three further restricts the sample to people who have a family, which we define as being married and having kids. The specifications 1 to 4 are comparable to the previous model with the difference that all observed individuals have children. Specification 1 and 2 without controls show again that women are significantly happier when keeping house while having a high income makes men significantly more happy. When adding control variables (specification 3 and 4), the effect of high-income equals out, although it reaches only weak significance for men. The effect is positive and of some magnitude, indicating that in a family men and women are happier when they have a high income. The effect of keeping house is still opposite although of no significance.
