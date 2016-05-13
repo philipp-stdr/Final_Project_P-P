@@ -17,7 +17,7 @@ The repository includes all files necessary to reproduce our research. The markd
 
 ## Folder and file structure
 
-### master branch
+### master branch (contains research paper)
 
     .
     ├── final_paper.rmd               # Rmd file used to produce the final paper as pdf
@@ -38,7 +38,7 @@ The repository includes all files necessary to reproduce our research. The markd
     |       ├── CPS_Bertrand.rda      # Replication file from Bertrand (2013)
     |       ├── data_final.rda        # Final data set
     
-### gh-pages branch
+### gh-pages branch (hosts website)
 
     .
     ├── index.rmd                     # Rmd file used to produce the website hosted at the gh-pages branch
