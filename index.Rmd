@@ -1,9 +1,9 @@
 ---
-title: "Can we have it all?"
+title: "What makes people happy?"
 author: "Philip Unger & Philipp Staender"
 date: "13 May 2016"
 output: html_document
-subtitle: Gender differences in life satisfaction
+subtitle: A brief overview over the determinants of life satisfaction
 bibliography: 
 - main.bib
 ---
@@ -29,28 +29,25 @@ load("~/R_data/Final_Project_P-P/data/data_final.rda")
 
 ```
 
-![](lead_large.jpg)
 
-*This website presents findings from the research project "Can we have it all?" in which we explore the reconcilability of work and family and its effect on life satisfaction of US adults.*
+*This website presents a variety of socio-economic determinants of life-satisfaction. The graphics shown here are part of the research project "Can we have it all?"*
 
-In western societies having a job and pursuing a fulfilling career is a major life goal. At the same time the attempt to tear down the male-breadwinner norm has moved the reconciliation of family and work more into the focus for many couples. We are interested whether the progressive ideal of combining career and family is also rewarded with higher life happiness. This website gives you a taste how reported happiness of people changes along criteria such as gender, age, income and family status. 
+Life-satisfaction is a fascinating field of study. What makes us happy? Is it having a family, success at work or both together? On this website we show some interesting graphics on determinants of life satisfaction such as gender, income or marriage. If you find this information interesting please also take a look on our study "Can we have it all?" in which we explore the reconcilability of work and family and its effect on life satisfaction of US adults.
 
-**Facts and findings that motivated our project:**
+You can find our full research paper [here](https://github.com/philipp-stdr/Final_Project_P-P/blob/master/Final_Project_P-P.pdf). 
 
-- Working time within couples is still very unequally distributed across industrialized countries with men working much more than women [@hipp2015].
-- Men and women seem to have different preferences for working full-time or part-time. Men prefer working full-time, while women report higher-life satisfaction in part-time jobs [@booth2008].
-- Having a family contributes more strongly to women’s happiness than having a career. Reported happiness is higher for women who have a family and no career relative to women with both [@bertrand2013].
-
-**Goal of this website**
-
-Life-satisfaction is a fascinating field of study. What could be more rewarding than finding out what makes people happy? With this website we provide the curious reader with some statistics on who is happy and who is not.
+## Determinants of happiness
 
 **How is happiness measured?**
 
-The General Social Survey asked about 60.000 US adults: *"Taken all together, how would you say things are these days?"* and *"Taking things all together, how would you describe your marriage?"*. Possible answers were "very happy", "pretty happy" and "not to happy". Higher numbers indicate higher happiness.
+The General Social Survey asked about 60.000 US adults: *"Taken all together, how would you say things are these days?"* and *"Taking things all together, how would you describe your marriage?"*. Possible answers were "very happy", "pretty happy" and "not to happy". 
 
-The Graph shows that a majority of respondents are rather satisfied with their life and about 40% are very happy with their marriage. 
-```{r warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of reported happiness and job-satisfaction"}
+Furthermore, survey respondends were asked *"On the whole, how satisfied are you with the work you do?"* Possible answers range from "very satisfied" to "very dissatisfied"?
+
+Higher numbers indicate higher happiness for all three measures.
+
+The Graph shows that a majority of respondents are rather satisfied with their life and about 40% are very happy with their marriage. Also a majority is satisfied with the work they do. Thus, Americans seem to be overall quite satisfied with their lives.
+```{r warning=FALSE,echo=FALSE,cache=TRUE}
 
 z$hapmarr <- NA
 z$hapmarr[z$hapmar==3] <- 1
@@ -84,7 +81,6 @@ barplot(hapmar_dist,
 barplot(satjob_dist, 
         col=c("navyblue"),
         xlab = "Reported job-satisfaction",
-        legend = c("Job-satisfcation"),
         ylim = c(0, 80),
         main = "Panel C: Job-satisfaction",
         font.main=1)
@@ -92,11 +88,11 @@ barplot(satjob_dist,
 
 **Happiness, gender and age**
 
-
+The graph below shows that women (red line) are on average more likely to be very happy than men (blue line). The difference is strongest for young and old people. Around the age of 40 women and men are equally happy.
 
 ``` {r, warning=FALSE,echo=FALSE}
 
-fig_age <- ddply(z[z$educat==4,], c("age", "sex"), summarise,
+fig_age <- ddply(z, c("age", "sex"), summarise,
               vhappyb = mean(vhappyb, na.rm=TRUE))
 
 fig_age <- na.omit(fig_age)
@@ -106,21 +102,25 @@ ggplot() +
   geom_point(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), color="Red") +
   stat_smooth(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Navyblue") +
   stat_smooth(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Red") +
-  expand_limits(y=c(20,60)) +
+  expand_limits(y=c(20,50)) +
   scale_x_continuous("Age") +
   scale_y_continuous("Percentage very happy") +
-  expand_limits(y=c(20,60)) +
+  expand_limits(y=c(20,50)) +
   theme_bw()
 ```
 
+
 **Income and happiness**
-``` {r, warning=FALSE,echo=FALSE,fig.cap="Average reported happiness over survey year, 1972-2014"}
+
+The more you earn the happier you are. This relationship seems to be equally strong for men (blue line) and women (red line) with higher incomes. For incomes below 50.000 USD per year there is a very strong happiness boost for men who earn between 25.000 and 50.000 USD a year. Women on the other hand firs see a slight decline in happiness and no strengthened impact on happiness. We assume this results from a greater share of women who have no income themselves but who's spouse is working and thus their family has still a decent income which makes them happier.
+
+``` {r, warning=FALSE,echo=FALSE}
 
 par(mfrow=c(1,1))
 
 ggplot() +
-  stat_smooth(data = z[z$sex == 1 & z$educat ==4,], aes(x=def_rinc, y=vhappyb), method ="loess", col="Navyblue") + 
-  stat_smooth(data = z[z$sex == 2 & z$educat ==4,], aes(x=def_rinc, y=vhappyb), method ="loess", col = "Red") +
+  stat_smooth(data = z[z$sex == 1,], aes(x=def_rinc, y=vhappyb), method ="loess", col="Navyblue") + 
+  stat_smooth(data = z[z$sex == 2,], aes(x=def_rinc, y=vhappyb), method ="loess", col = "Red") +
   scale_x_continuous("Respondent's income") +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
@@ -128,6 +128,8 @@ ggplot() +
 ```
 
 **Work and household constallation**
+
+Does it matter whether you work full-time, part-time or stay at home to take care of house and family? The figure shows that men (red dots) are much happier when they work full-time compared to part-time employment or staying at home. This does not hold for women (blue dots) who seem to be almost equally happy in all three arrangements. 
 
 ```{r,fig.heigth=6,warning=FALSE,echo=FALSE}
 
@@ -143,20 +145,56 @@ z$workstatus[z$wrkstat==1] <- "Full-time work"
 z$workstatus[z$wrkstat==2] <- "Part-time work"
 z$workstatus[z$wrkstat==7] <- "Keeping house"
 
-pp <- ggplot() + 
-  stat_summary(data = z[z$sex == 2 & z$educat==4,], aes(x=factor(workstatus), y=vhappy_women), 
+p1 <- ggplot() + 
+        stat_summary(data = z[z$sex == 2,], aes(x=factor(workstatus), y=vhappy_women), 
                fun.y="mean", geom="point", col="red") + 
-  stat_summary(data = z[z$sex == 1 & z$educat ==4,], aes(x=factor(workstatus), y=vhappy_men), 
+        stat_summary(data = z[z$sex == 1,], aes(x=factor(workstatus), y=vhappy_men), 
                fun.y="mean", geom="point", col="Navyblue") + 
-  scale_x_discrete("Work status", limits=c("Full-time work", "Part-time work", 
+        scale_x_discrete("Work status", limits=c("Full-time work", "Part-time work", 
                 "Keeping house")) +
-  expand_limits(y=c(20,60)) +
-  scale_y_continuous("Percentage very happy") +
-  theme_bw()
+        expand_limits(y=c(20,40)) +
+        scale_y_continuous("Percentage very happy") +
+        theme_bw()
 
-ggplotly(pp)
+ggplotly(p1)
 ```
 
+**Happiness and marriage/income constellation (college-educated people)**
 
+What is more important, having a high income or being married? In this figure we show the four possible constallations of having a high income[^high-inc] and being married. On average, both college educated men and women are more likely to report being very happy when they are married relative to not being married. Furthermore, when not married, both genders report higher happiness when having a high-income job. For married respondents, however, there are considerable gender differences. When married, men continue to report higher happiness when having high-income, whereas the opposite is true for women. This provides preliminary evidence on the thesis that women face difficulties in reconciling having a high-income job and marriage.
 
-### References
+[^high-inc]: Having a high income means that the respondent earns more than the median male respondent from the same age cohort and with the same level of education.
+
+```{r,warning=FALSE,echo=FALSE}
+
+z$career1 <- z$rinc > z$p50
+z$career1 <- as.numeric(z$career1)
+z$career1[is.na(z$career1)] <- 0 
+
+z$meanhap_m1 <- NA
+z$meanhap_m1[z$married==0 & z$career1==0] <- "Low-inc., unmarried"
+z$meanhap_m1[z$married==0 & z$career1==1] <- "High-inc., unmarried"
+z$meanhap_m1[z$married==1 & z$career1==0] <- "Low-inc., married"
+z$meanhap_m1[z$married==1 & z$career1==1] <- "High-inc., married"
+
+p2 <- ggplot() + 
+  stat_summary(data = z[z$sex == 1 & z$educat==4 ,], aes(x=factor(meanhap_m1), y=vhappy_men), 
+               fun.y="mean", geom="point", col="Navyblue") +
+  stat_summary(data = z[z$sex == 2 & z$educat==4,], aes(x=factor(meanhap_m1), y=vhappy_women), 
+             fun.y="mean", geom="point", col="Red") +
+  scale_x_discrete("Marriage-work combination", limits=c("Low-inc., unmarried", 
+              "High-inc., unmarried", "Low-inc., married", "High-inc., married")) +
+  scale_y_continuous("Percentage very happy") +
+  expand_limits(y=c(20,50)) +
+  theme_bw()
+
+ggplotly(p2)
+```
+
+Especially the last two figures uncovers some interesting differences between men and women. In our research project we explore several factors that could explain why women find it more difficult to reconcile having a family with a high-income job.
+
+## Further information
+
+Our research project is fully replicatable. All data has been accessed from publicly available sources. You can repiclate the analysis yourself by following the instructions in our [online repository](https://github.com/philipp-stdr/Final_Project_P-P).
+
+If you have any questions please contact us via [p.staender@mpp.hertie-school.org](mailto:p.staender@mpp.hertie-school.org) or [c.unger@mpp.hertie-school.org](mailto:c.unger@mpp.hertie-school.org).
