@@ -1,11 +1,9 @@
 ---
 title: "What makes people happy?"
 author: "Philip Unger & Philipp Staender"
-date: "13 May 2016"
 output: html_document
 subtitle: A brief overview over the determinants of life satisfaction
-bibliography: 
-- main.bib
+
 ---
 
 ```{r setup, include=FALSE}
@@ -47,7 +45,7 @@ Furthermore, survey respondends were asked *"On the whole, how satisfied are you
 Higher numbers indicate higher happiness for all three measures.
 
 The Graph shows that a majority of respondents are rather satisfied with their life and about 40% are very happy with their marriage. Also a majority is satisfied with the work they do. Thus, Americans seem to be overall quite satisfied with their lives.
-```{r warning=FALSE,echo=FALSE,cache=TRUE}
+```{r warning=FALSE,echo=FALSE}
 
 z$hapmarr <- NA
 z$hapmarr[z$hapmar==3] <- 1
@@ -131,7 +129,7 @@ ggplot() +
 
 Does it matter whether you work full-time, part-time or stay at home to take care of house and family? The figure shows that men (red dots) are much happier when they work full-time compared to part-time employment or staying at home. This does not hold for women (blue dots) who seem to be almost equally happy in all three arrangements. 
 
-```{r,fig.heigth=6,warning=FALSE,echo=FALSE}
+```{r,warning=FALSE,echo=FALSE}
 
 z$vhappy_women[z$sex==2] <- NULL
 z$vhappy_women[z$sex==2] <- z$vhappyb[z$sex==2] 
