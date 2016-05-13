@@ -356,6 +356,20 @@ z$def_othinc <- z$othinc / z$PCEPI * 100
 z$vhappy <- z$happy==1
 z$vhappy <- as.numeric(z$vhappy)
 
+z$hapmarr <- NA
+z$hapmarr[z$hapmar==3] <- 1
+z$hapmarr[z$hapmar==2] <- 2
+z$hapmarr[z$hapmar==1] <- 3
+
+z$hapmar <- NULL
+z <- rename(z, c(hapmarr="hapmar"))
+
+# Work-status
+z$workstatus <- NA
+z$workstatus[z$wrkstat==1] <- "Full-time work"
+z$workstatus[z$wrkstat==2] <- "Part-time work"
+z$workstatus[z$wrkstat==7] <- "Keeping house"
+
 # 4 education categories
 
 z$educat <- NA
@@ -419,11 +433,15 @@ z <- d
 
 rm(CPS.df, d, df.p25, temp, vars)
 
-#gen career
-##########################
+# Career variables
+
 z$career <- z$rinc > z$p25
 z$career <- as.numeric(z$career)
 z$career[is.na(z$career)] <- 0
+
+z$career1 <- z$rinc > z$p50
+z$career1 <- as.numeric(z$career1)
+z$career1[is.na(z$career1)] <- 0 
 
 ## Generate Interaction Variables
 
@@ -480,6 +498,18 @@ z$spouse_work[z$spwrksta==1] <- 1
 z$spouse_work[z$spwrksta==2] <- 2
 z$spouse_work[z$spwrksta==7] <- 7
 
+z$spouse_ft <- NULL
+z$spouse_ft[z$spwrksta==1] <- 1
+z$spouse_ft[z$spwrksta==2 | z$spwrksta==7] <- 0
+
+z$spouse_pt <- NULL
+z$spouse_pt[z$spwrksta==2] <- 1
+z$spouse_pt[z$spwrksta==1 | z$spwrksta==7] <- 0
+
+z$spouse_home <- NULL
+z$spouse_home[z$spwrksta==7] <- 1
+z$spouse_home[z$spwrksta==1 | z$spwrksta==2] <- 0
+
 # Job-satisfaction dummies
 z$vjobsat1 <- z$satjob == 4 
 z$vjobsat2 <- z$satjob == 3 | z$satjob == 4
@@ -490,6 +520,15 @@ z$vjobsat2 <- as.numeric(z$vjobsat2)
 # Gender dummy for regressions
 z$d_sex <- z$sex == 1
 z$d_sex <- as.numeric(z$d_sex)
+
+z$sexcat <- NULL
+z$sexcat[z$sex==1] <- "Male"
+z$sexcat[z$sex==2] <- "Female"
+
+# Income controls 
+
+z$inccat <- trunc(z$def_inc/10000)
+z$inccat[is.na(z$def_inc)] <- -1
 
 
 # limiting the data set to years where career variable is defined

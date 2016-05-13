@@ -168,14 +168,6 @@ In the remainder of the paper we use binary variables to capture whether respond
 
 ```{r, warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of reported happiness and job-satisfaction"}
 
-z$hapmarr <- NA
-z$hapmarr[z$hapmar==3] <- 1
-z$hapmarr[z$hapmar==2] <- 2
-z$hapmarr[z$hapmar==1] <- 3
-
-z$hapmar <- NULL
-z <- rename(z, c(hapmarr="hapmar"))
-
 happy_dist <- table(z$happy)/sum(table(z$happy))*100
 hapmar_dist <- table(z$hapmar)/sum(table(z$hapmar))*100
 
@@ -232,8 +224,10 @@ fig_age <- na.omit(fig_age)
 ggplot() +
   geom_point(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), color="Navyblue") + 
   geom_point(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), color="Red") +
-  stat_smooth(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Navyblue") +
-  stat_smooth(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Red") +
+  stat_smooth(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), method ="loess", 
+              se = FALSE, col="Navyblue") +
+  stat_smooth(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), method ="loess", 
+              se = FALSE, col="Red") +
   expand_limits(y=c(20,60)) +
   scale_x_continuous("Age") +
   scale_y_continuous("Percentage very happy") +
@@ -274,8 +268,10 @@ Figure 5 shows the correlation between respondents income and the propensity to 
 par(mfrow=c(1,1))
 
 ggplot() +
-  stat_smooth(data = z[z$sex == 1 & z$educat ==4,], aes(x=def_rinc, y=vhappyb), method ="loess", col="Navyblue") + 
-  stat_smooth(data = z[z$sex == 2 & z$educat ==4,], aes(x=def_rinc, y=vhappyb), method ="loess", col = "Red") +
+  stat_smooth(data = z[z$sex == 1 & z$educat ==4,], aes(x=def_rinc, y=vhappyb), 
+              method ="loess", col="Navyblue") + 
+  stat_smooth(data = z[z$sex == 2 & z$educat ==4,], aes(x=def_rinc, y=vhappyb), 
+              method ="loess", col = "Red") +
   scale_x_continuous("Respondent's income") +
   scale_y_continuous("Percentage very happy") +
   theme_bw()
@@ -288,11 +284,6 @@ In this section we explore how reported happiness depend on labour market affili
 Figure 6 shows how reported happiness depends on labour-market affiliation for men (blue) and women (red) with a college degree. It shows that men are substantially more likely to report being very happy when in full-time employment relative to part-time employment, which is not the case for women. Furthermore, both men and women report high happiness levels when keeping house. Note, however, that there are only 35 college educated men in the full sample who keep house, whereas there are 650 women. When looking at all men, the average share who reports being very happy while keeping house is only 24 %. 
 
 ```{r,fig.heigth=6,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and labour-market affiliation (college educated men and women)"}
-
-z$workstatus <- NA
-z$workstatus[z$wrkstat==1] <- "Full-time work"
-z$workstatus[z$wrkstat==2] <- "Part-time work"
-z$workstatus[z$wrkstat==7] <- "Keeping house"
 
 ggplot() + 
   stat_summary(data = z[z$sex == 2 & z$educat==4,], aes(x=factor(workstatus), y=vhappyb), 
@@ -308,16 +299,9 @@ ggplot() +
 
 A key variable in the research design is whether the respondents earn a high income or not. To define high-income we use whether respondents earn more than the 50th income percentile of males in their education-age cohort. Figure 7 indicates that women have the same propensity to be very happy regardless of whether they are high earners or not, whereas the difference is substantial for men. [Footnote: The same is true if high-income is defined as the 25th income percentile for college educated men and women]. [Footnote: We only have data on cohort income from 1977 to 2010, and the sample is therefore restricted to these years]. 
 
-```{r,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and income level, college educated men and women"}
+```{r,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and income level (college educated men and women)"}
 
 z = z[z$year >= 1977 & z$year < 2012,]
-
-  # Following Bertrand (2013), respondents who report no income (Not applicable) is coded as
-  # having low-income. Thus there are no N/A's in the career variables (see also below). 
-
-z$career1 <- z$rinc > z$p50
-z$career1 <- as.numeric(z$career1)
-z$career1[is.na(z$career1)] <- 0 
 
 z$income_status1 <- NULL
 z$income_status1[z$career1==1] <- "High-income"
@@ -344,7 +328,7 @@ Figure 8 illustrates how reported happiness depend on respondent's income and fa
 
 **Figure: Happiness and marriage/income constellation.**
 
-```{r,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and marriage constellation (college educated subsample)"}
+```{r,warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Happiness and marriage constellation (college educated sub-sample)"}
 z$meanhap_m1 <- NA
 z$meanhap_m1[z$married==0 & z$career1==0] <- "Low-inc., unmarried"
 z$meanhap_m1[z$married==0 & z$career1==1] <- "High-inc., unmarried"
@@ -386,7 +370,7 @@ T1.4 <- lm(vhappyb ~ career1*married + age + agesq + as.factor(year) + as.factor
 stargazer(T1.3, T1.4, T1.1, T1.2,
     type = 'latex',
     header = FALSE,
-    title = "Happiness, marriage and income for college educated men and women",
+    title = "Happiness, marriage and income (college educated men and women)",
     omit.stat = c("f", "rsq", "ser"),
     omit = c("age", "agesq", "year", "race", "bdec"),
     omit.labels = c("Age", "Age-squared", "Year", "Race", "Cohort"),
@@ -414,8 +398,6 @@ Table Y thus paints a similar picture to table X, which is that men are the happ
 z$othinccat <- trunc(z$def_othinc/10000)
 z$othinccat[is.na(z$othinc)] <- -1
 
-table(z$keepinghouse[z$sex==2 & z$educat==4 & z$married ==1])
-
 # Regressions
 T2.1 <- lm(vhappyb ~ career1 + keepinghouse + kid,
            data = subset(z, sex==2 & educat == 4 & married == 1))
@@ -432,7 +414,7 @@ T2.4 <- lm(vhappyb ~ career1 + keepinghouse + kid + as.factor(othinccat) + age +
 stargazer(T2.3, T2.4, T2.1, T2.2,
     type = 'latex',
     header = FALSE,
-    title = "Happiness and work-status for married, college educated women and men",
+    title = "Happiness and work-status (married, college educated women and men)",
     omit.stat = c("f", "rsq", "ser"),
     digits = 2,
     omit = c("othinccat", "age", "agesq", "year", "race", "bdec"),
@@ -454,12 +436,6 @@ z$young_child[z$old1 <= 3 | z$old2 <= 3 | z$old3 <= 3 | z$old4 <= 3 | z$old5 <= 
               | z$old7 <= 3 | z$old8 <= 3 | z$old9 <= 3 | z$old10 <= 3] <- 1
 
 # Regressions
-# T3.1 <- lm(vhappyb ~ career1 + keepinghouse,
-#           data = subset(z, sex==2 & educat == 4 & family == 1))
-
-# T3.2 <- lm(vhappyb ~ career1 + keepinghouse, 
-#           data = subset(z, sex==1 & educat == 4 & family == 1))
-
 T3.3 <- lm(vhappyb ~ career1 + keepinghouse + as.factor(othinccat) + age + agesq + as.factor(year) +              as.factor(race) + as.factor(bdec), 
            data = subset(z, sex==2 & educat == 4 & family == 1))
 
@@ -472,12 +448,10 @@ T3.5 <- lm(vhappyb ~  keepinghouse*young_child + young_child*career1 + as.factor
 T3.6 <- lm(vhappyb ~ young_child*career1 + as.factor(othinccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
              data = subset(z, sex==1 & educat == 4 & family == 1))
 
-table(z$career1[z$sex==2 & z$educat==4 & z$married == 1 & z$young_child == 1])
-
 stargazer(T3.3, T3.4, T3.5, T3.6,
     type = 'latex',
     header = FALSE,
-    title = "Happiness and young children, college educated women and men with a family",
+    title = "Happiness and young children (college educated women and men with a family)",
     omit.stat = c("f", "rsq", "ser"),
     digits = 2,
     omit = c("othinccat", "age", "agesq", "year", "race", "bdec"),
@@ -504,12 +478,9 @@ Table X shows that the spouse's work status differs significantly between marrie
 
 ```{r, warning=FALSE, echo=FALSE, message=FALSE}
 
-## Numbers for 3-Way Frequency Table 
+## This code-chunck provides the numbers for the hard-coded latex table used in the paper below.
 
-#Variables necessary 
-z$career1 <- z$rinc > z$p50
-z$career1 <- as.numeric(z$career1)
-z$career1[is.na(z$career1)] <- 0 
+# Variables
 
 z$sexcat <- NULL
 z$sexcat[z$sex==1] <- "Male"
@@ -520,9 +491,6 @@ z$spwrkcat[z$spwrksta==1] <- "Full-time"
 z$spwrkcat[z$spwrksta==2] <- "Part-time"
 z$spwrkcat[z$spwrksta==7] <- "Keeping house"
 
-z$income_status1 <- NULL
-z$income_status1[z$career1==1] <- "High-income"
-z$income_status1[z$career1==0] <- "Low-income"
 
 # Gender, income and Spouse Work Status (row probabilities)
 ge_sp_ca1 <- table(z$sexcat[z$educat==4 & z$married==1], 
@@ -558,41 +526,8 @@ When limiting the sample only to high income individuals, the coefficient magnit
 **Table 4: Marriage happiness and spouse employment status**
 
 ```{r, fig.align = "center", results='asis', warning=FALSE, echo=FALSE, message=FALSE}
-# Variables
 
-z$inccat <- trunc(z$def_inc/10000)
-z$inccat[is.na(z$def_inc)] <- -1
-
-z$spouse_ft <- NULL
-z$spouse_ft[z$spwrksta==1] <- 1
-z$spouse_ft[z$spwrksta==2 | z$spwrksta==7] <- 0
-
-z$spouse_pt <- NULL
-z$spouse_pt[z$spwrksta==2] <- 1
-z$spouse_pt[z$spwrksta==1 | z$spwrksta==7] <- 0
-
-z$spouse_home <- NULL
-z$spouse_home[z$spwrksta==7] <- 1
-z$spouse_home[z$spwrksta==1 | z$spwrksta==2] <- 0
-
-##Marriage happiness
-z$vhapmarb <- NA
-z$vhapmarb[z$hapmar==1 | z$hapmar==2] <- 0
-z$vhapmarb[z$hapmar==3] <- 100
-
-table(z$vhappyb[z$sex==2 & z$educat==4 & z$married == 1 & z$career1 == 1])
-
-# Regressions
-
-# T4.1 <- lm(vhappyb ~ spouse_ft + kid ,  data = subset(z, sex == 2 & educat == 4 & married ==1))
-
-# T4.2 <- lm(vhappyb ~ spouse_ft + spouse_home + kid, data = subset(z, sex == 1 & educat == 4 & married ==1))
-
-# T4.3 <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec),  data = subset(z, sex == 2 & educat == 4 & married ==1))
-
-# T4.4 <- lm(vhappyb ~ spouse_ft + spouse_home + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), data = subset(z, sex == 1 & educat == 4 & married ==1))
-
-# Marriage happiness
+# Regressions 
 
 T5.1 <- lm(vhapmarb ~ spouse_ft + kid + as.factor(inccat) + age + agesq + as.factor(year) + as.factor(race) + as.factor(bdec), 
             data = subset(z, sex == 2 & educat == 4 & married ==1))
@@ -620,7 +555,7 @@ stargazer(T5.1, T5.2, T5.3, T5.4,
     covariate.labels = c("Spouse FT", "Spouse Home", "Children"),
     dep.var.labels   = "Very happy (marriage)",
     add.lines = list(c("Restricted to high-income", "No", "No", "Yes", "Yes")),
-    notes = "Models are restricted to married, college educated men and women")
+    )
 
 ```
 
