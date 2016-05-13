@@ -2,7 +2,7 @@
 title: "What makes people happy?"
 author: "Philip Unger & Philipp Staender"
 output: html_document
-subtitle: A brief overview over the determinants of life satisfaction
+subtitle: A brief overview of a few determinants of life satisfaction
 
 ---
 
@@ -28,7 +28,7 @@ load("~/R_data/Final_Project_P-P/data/data_final.rda")
 ```
 
 
-*This website presents a variety of socio-economic determinants of life-satisfaction. The graphics shown here are part of the research project "Can we have it all?"*
+*This website presents the correlation between a variety of socio-economic characteristics and life-satisfaction. The graphics shown here are part of the research project: "Can we have it all?"*
 
 Life-satisfaction is a fascinating field of study. What makes us happy? Is it having a family, success at work or both together? On this website we show some interesting graphics on determinants of life satisfaction such as gender, income or marriage. If you find this information interesting please also take a look on our study "Can we have it all?" in which we explore the reconcilability of work and family and its effect on life satisfaction of US adults.
 
