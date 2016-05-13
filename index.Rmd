@@ -23,22 +23,25 @@ library(quantmod)
 library(foreign)
 library(stargazer)
 
-load("~/R_data/Final_Project_P-P/data/data_final.rda")
+setwd("~/Documents/CDA/collaborative_projects/Final_Project_P-P")
+load("data/data_final.rda")
 
 ```
 
 
-*This website presents the correlation between a variety of socio-economic characteristics and life-satisfaction. The graphics shown here are part of the research project: "Can we have it all?"*
+*This website presents a variety of socio-economic determinants of life-satisfaction. The illustrated graphics are part of the research project: "Can we have it all?"*
 
-Life-satisfaction is a fascinating field of study. What makes us happy? Is it having a family, success at work or both together? On this website we show some interesting graphics on determinants of life satisfaction such as gender, income or marriage. If you find this information interesting please also take a look on our study "Can we have it all?" in which we explore the reconcilability of work and family and its effect on life satisfaction of US adults.
+Life-satisfaction is a fascinating field of study. On this website we show some interesting correlations between self-reported life-satisfaction and socio-economic characteristics such as gender, income or marriage. If you find this information interesting please also take a look on our study "Can we have it all?", in which we explore the reconcilability of work and family and its effect on life satisfaction for adults in the United States.
 
 You can find our full research paper [here](https://github.com/philipp-stdr/Final_Project_P-P/blob/master/Final_Project_P-P.pdf). 
+
+Note that the figures presented on this website differ from similar figures presented in the research paper, as we do not apply sample restrictions for graphs shown here.  
 
 ## Determinants of happiness
 
 **How is happiness measured?**
 
-The General Social Survey asked about 60.000 US adults: *"Taken all together, how would you say things are these days?"* and *"Taking things all together, how would you describe your marriage?"*. Possible answers were "very happy", "pretty happy" and "not to happy". 
+Between 1972-2014, the General Social Survey has asked about 60.000 US adults: *"Taken all together, how would you say things are these days?"* and *"Taking things all together, how would you describe your marriage?"*. Possible answers were "very happy", "pretty happy" and "not to happy". 
 
 Furthermore, survey respondends were asked *"On the whole, how satisfied are you with the work you do?"* Possible answers range from "very satisfied" to "very dissatisfied"?
 
@@ -86,7 +89,7 @@ barplot(satjob_dist,
 
 **Happiness, gender and age**
 
-The graph below shows that women (red line) are on average more likely to be very happy than men (blue line). The difference is strongest for young and old people. Around the age of 40 women and men are equally happy.
+The graph below shows that women (red line) are on average more likely to be very happy than men (blue line). The difference is largest for young and old people. Around the age of 40 women and men are equally happy.
 
 ``` {r, warning=FALSE,echo=FALSE}
 
@@ -110,7 +113,7 @@ ggplot() +
 
 **Income and happiness**
 
-The more you earn the happier you are. This relationship seems to be equally strong for men (blue line) and women (red line) with higher incomes. For incomes below 50.000 USD per year there is a very strong happiness boost for men who earn between 25.000 and 50.000 USD a year. Women on the other hand firs see a slight decline in happiness and no strengthened impact on happiness. We assume this results from a greater share of women who have no income themselves but who's spouse is working and thus their family has still a decent income which makes them happier.
+The more you earn the happier you are. This relationship seems to be equally strong for men (blue line) and women (red line) at higher income levels. For incomes below 50.000 USD per year, happiness increases quickly with income for men who earn more than 25.000 USD per year. Women on the other hand first see a slight decline in happiness and no strengthened impact on happiness. As we outline in our research paper, this is because women who stay at home often report rather high levels of happiness. 
 
 ``` {r, warning=FALSE,echo=FALSE}
 
@@ -127,7 +130,7 @@ ggplot() +
 
 **Work and household constallation**
 
-Does it matter whether you work full-time, part-time or stay at home to take care of house and family? The figure shows that men (red dots) are much happier when they work full-time compared to part-time employment or staying at home. This does not hold for women (blue dots) who seem to be almost equally happy in all three arrangements. 
+Does it matter whether you work full-time, part-time or stay at home to take care of house and family? The figure shows that men (blue dots) are much happier when they work full-time compared to part-time employment or staying at home. This does not hold for women (red dots) who seem to be almost equally happy in all three arrangements. 
 
 ```{r,warning=FALSE,echo=FALSE}
 
