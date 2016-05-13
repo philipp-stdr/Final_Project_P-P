@@ -52,9 +52,17 @@ The General Social Survey asked about 60.000 US adults: *"Taken all together, ho
 The Graph shows that a majority of respondents are rather satisfied with their life and about 40% are very happy with their marriage. 
 ```{r warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of reported happiness and job-satisfaction"}
 
+z$hapmarr <- NA
+z$hapmarr[z$hapmar==3] <- 1
+z$hapmarr[z$hapmar==2] <- 2
+z$hapmarr[z$hapmar==1] <- 3
+
+z$hapmar <- NULL
+z <- rename(z, c(hapmarr="hapmar"))
+
 happy_dist <- table(z$happy)/sum(table(z$happy))*100
+hapmar_dist <- table(z$hapmar)/sum(table(z$hapmar))*100
 satjob_dist <- table(z$satjob)/sum(table(z$happy))*100
-hapmar_dist <- table(z$hapmar)/sum(table(z$happy))*100
 
 par(mfrow=c(1,3)) 
 
@@ -62,61 +70,31 @@ barplot(happy_dist,
         col=c("navyblue"),
         xlab = "Reported happiness",
         ylab = "Frequency (percent)",
-        legend = c("Happiness"),
-        ylim = c(0, 80))  
+        ylim = c(0, 80),
+        main = "Panel A: Marriage happiness",
+        font.main = 1)
 
 barplot(hapmar_dist, 
         col=c("navyblue"),
         xlab = "Reported happiness with marriage",
-        legend = c("Marriage-happiness"),
-        ylim = c(0, 80))
+        ylim = c(0, 80),
+        main = "Panel B: Marriage happiness",
+        font.main=1)
 
 barplot(satjob_dist, 
         col=c("navyblue"),
         xlab = "Reported job-satisfaction",
         legend = c("Job-satisfcation"),
-        ylim = c(0, 80))
+        ylim = c(0, 80),
+        main = "Panel C: Job-satisfaction",
+        font.main=1)
 ```
 
+**Happiness, gender and age**
 
 
-``` {r, warning=FALSE,echo=FALSE,fig.cap="Average reported happiness over survey year, 1972-2014"}
 
-fig_survyear <- ddply(z, c("year"), summarise,
-              vhappyb = mean(vhappyb, na.rm=TRUE))
-
-fig_survyear <- na.omit(fig_survyear)
-
-ggplot() +
-    geom_point(data = fig_survyear, aes(x=year, y=vhappyb), color="Navyblue") +
-    stat_smooth(data = fig_survyear, aes(x=year, y=vhappyb), method ="loess", col = "Navyblue") +
-    scale_y_continuous("Percentage very happy") +
-    scale_x_continuous("Survey Year") +
-    expand_limits(y=c(25,45)) +
-    theme_bw()
-
-```
-
-**plotly graph**
-``` {r, warning=FALSE,echo=FALSE,fig.cap="Average reported happiness over survey year, 1972-2014"}
-
-fig_survyear <- ddply(z, c("year"), summarise,
-              vhappyb = mean(vhappyb, na.rm=TRUE))
-
-fig_survyear <- na.omit(fig_survyear)
-
-hap_year <- ggplot() +
-                geom_point(data = fig_survyear, aes(x=year, y=vhappyb), color="Navyblue") +
-                stat_smooth(data = fig_survyear, aes(x=year, y=vhappyb), method ="loess", col = "Navyblue") +
-                scale_y_continuous("Percentage very happy") +
-                scale_x_continuous("Survey Year") +
-                expand_limits(y=c(25,45)) +
-                theme_bw()
-hap_year
-#ggplotly(hap_year)
-```
-
-```{r,warning=FALSE,echo=FALSE,fig.cap="Happiness and age (college educated men and women)"}
+``` {r, warning=FALSE,echo=FALSE}
 
 fig_age <- ddply(z[z$educat==4,], c("age", "sex"), summarise,
               vhappyb = mean(vhappyb, na.rm=TRUE))
@@ -124,61 +102,61 @@ fig_age <- ddply(z[z$educat==4,], c("age", "sex"), summarise,
 fig_age <- na.omit(fig_age)
 
 ggplot() +
-                geom_point(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), color="Navyblue") + 
-                geom_point(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), color="Red") +
-                stat_smooth(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Navyblue") +
-                stat_smooth(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Red") +
-                expand_limits(y=c(20,60)) +
-                scale_x_continuous("Age") +
-                scale_y_continuous("Percentage very happy") +
-                expand_limits(y=c(20,60)) +
-                theme_bw()
+  geom_point(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), color="Navyblue") + 
+  geom_point(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), color="Red") +
+  stat_smooth(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Navyblue") +
+  stat_smooth(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Red") +
+  expand_limits(y=c(20,60)) +
+  scale_x_continuous("Age") +
+  scale_y_continuous("Percentage very happy") +
+  expand_limits(y=c(20,60)) +
+  theme_bw()
+```
+
+**Income and happiness**
+``` {r, warning=FALSE,echo=FALSE,fig.cap="Average reported happiness over survey year, 1972-2014"}
+
+par(mfrow=c(1,1))
+
+ggplot() +
+  stat_smooth(data = z[z$sex == 1 & z$educat ==4,], aes(x=def_rinc, y=vhappyb), method ="loess", col="Navyblue") + 
+  stat_smooth(data = z[z$sex == 2 & z$educat ==4,], aes(x=def_rinc, y=vhappyb), method ="loess", col = "Red") +
+  scale_x_continuous("Respondent's income") +
+  scale_y_continuous("Percentage very happy") +
+  theme_bw()
 
 ```
 
-**Second plotly graph**
-```{r,warning=FALSE,echo=FALSE,fig.cap="Happiness and age (college educated men and women)"}
+**Work and household constallation**
 
-fig_age <- ddply(z[z$educat==4,], c("age", "sex"), summarise,
-              vhappyb = mean(vhappyb, na.rm=TRUE))
+```{r,fig.heigth=6,warning=FALSE,echo=FALSE}
 
-fig_age <- na.omit(fig_age)
+z$vhappy_women[z$sex==2] <- NULL
+z$vhappy_women[z$sex==2] <- z$vhappyb[z$sex==2] 
 
-hap_age <- ggplot() +
-                geom_point(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), color="Navyblue") + 
-                geom_point(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), color="Red") +
-                stat_smooth(data = fig_age[fig_age$sex == 1,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Navyblue") +
-                stat_smooth(data = fig_age[fig_age$sex == 2,], aes(x=age, y=vhappyb), method ="loess", se = FALSE, col="Red") +
-                expand_limits(y=c(20,60)) +
-                scale_x_continuous("Age") +
-                scale_y_continuous("Percentage very happy") +
-                expand_limits(y=c(20,60)) +
-                theme_bw()
-hap_age
-#ggplotly(hap_age)
+z$vhappy_men[z$sex==1] <- NULL
+z$vhappy_men[z$sex==1] <- z$vhappyb[z$sex==1] 
+
+
+z$workstatus <- NA
+z$workstatus[z$wrkstat==1] <- "Full-time work"
+z$workstatus[z$wrkstat==2] <- "Part-time work"
+z$workstatus[z$wrkstat==7] <- "Keeping house"
+
+pp <- ggplot() + 
+  stat_summary(data = z[z$sex == 2 & z$educat==4,], aes(x=factor(workstatus), y=vhappy_women), 
+               fun.y="mean", geom="point", col="red") + 
+  stat_summary(data = z[z$sex == 1 & z$educat ==4,], aes(x=factor(workstatus), y=vhappy_men), 
+               fun.y="mean", geom="point", col="Navyblue") + 
+  scale_x_discrete("Work status", limits=c("Full-time work", "Part-time work", 
+                "Keeping house")) +
+  expand_limits(y=c(20,60)) +
+  scale_y_continuous("Percentage very happy") +
+  theme_bw()
+
+ggplotly(pp)
 ```
 
-**Grid arrange figure**
-```{r, fig.height=6, warning=FALSE,echo=FALSE,cache=TRUE,fig.cap="Distribution of income"}
 
-par(mfrow=c(2,1))
-hist(z$def_rinc[z$sex == 1 & z$educat == 4],
-     col = c("Navyblue"),
-     border = "White",
-     xlim = c(0,250000),
-     breaks = 20,
-     xlab = "Respondent's income (College educated men)",
-     main = ""
-     )
-
-hist(z$def_rinc[z$sex == 2 & z$educat ==4],
-     col = c("Darkred"),
-     border = "White",
-     xlim = c(0,250000),
-     breaks = 20,
-     xlab = "Respondent's income (College educated women)",
-     main = ""
-     )
-```
 
 ### References
