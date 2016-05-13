@@ -13,31 +13,38 @@ In our paper we investigate on survey data from the US whether reconcilability o
 
 ## How to reproduce the paper
 
-The repository includes all files necessary to reproduce our research. The markdown-file 'Final_Project_P-P.Rmd' is dynamically reproducible and sources 'data_combine.R', which downloads and transforms all relevant sub-datasets into the final dataset 'data_final.rda'. Note, however, that it is computational demanding and can take 15-35 minutes to run. To ease computation, each of the data-generation files saves a dataset after their first run, and if they are present in the "data_sets" folder, the 'data_combine.R' skips the phase. Further, if the final dataset is present in the working directory, the markdown-file simply loads the final dataset rather than re-download and re-transform all the sub-datasets. 
+The repository includes all files necessary to reproduce our research. The markdown-file 'final_paper.Rmd' is dynamically reproducible and sources 'data_combine.R', which downloads and transforms all relevant sub-datasets into the final dataset 'data_final.rda'. Note, however, that it is computational demanding and can take 15-35 minutes to run. To ease computation, each of the data-generation files saves a dataset after their first run, and if they are present in the "data_sets" folder, the 'data_combine.R' skips the phase. Further, if the final dataset is present in the working directory, the markdown-file simply loads the final dataset rather than re-download and re-transform all the sub-datasets. 
 
 ## Folder and file structure
 
-    .
-    ├── Final_Project_P-P.rmd               # Rmd file used to produce the final paper as pdf
-    ├── Final_Project_P-P.pdf               # Final paper as pdf
-    ├── Presentation.rmd                    # Rmd file used to produce the presentation of the results as html
-    ├── Presentation.pdf                    # Presentation as pdf
-    ├── index.rmd                           # Rmd file used to produce the website hosted at the gh-pages branch
-    ├── index.html                          # Website hosted at the gh-pages branch
-    ├── main_paper.bib                      # Contains literature cited in the final paper
-    ├── packages_paper.bib                  # Contains packages used in throughout the analysis 
-    ├── README.md                           # Readme file
-    ├── Data                                # Folder containing data files and R files to gather and prepare the data sets
-    │   ├── data_combine.R                  # Sources the four below mentioned files sequentially 
-    │   ├── GSS_data_downloader.R           # Downloads the General Social Survey (GSS) from 1972-2014
-    │   ├── deflator.R                      # Downloads the Personal Consumption Expenditure (PCE) index
-    │   ├── CPS_Bertrand.R                  # Downloads the replication file from Bertrand (2013) and extracts data on income percentiles
-    │   ├── GSS_prep_dynamic                # Combines the data from all three previous data sources and prepares final data set
-    │   ├── data_sets                       # Folder containing the data sets
-    |       ├── GSS.CS.rda                  # General Social Survey from 1972-2014
-    |       ├── CPS_Bertrand.rda            # Replication file from Bertrand (2013)
-    |       ├── data_final.rda              # Final data set
+### master branch
 
+    .
+    ├── final_paper.rmd               # Rmd file used to produce the final paper as pdf
+    ├── final_paper.pdf               # Final paper as pdf
+    ├── presentation.rmd              # Rmd file used to produce the presentation of the results as html
+    ├── presentation.pdf              # Presentation as pdf
+    ├── main_paper.bib                # Contains literature cited in the final paper
+    ├── packages_paper.bib            # Contains packages used in throughout the analysis 
+    ├── README.md                     # Readme file
+    ├── Data                          # Folder containing data files and R files to gather and prepare the data
+    │   ├── data_combine.R            # Sources the four below mentioned files sequentially 
+    │   ├── GSS_data_downloader.R     # Downloads the General Social Survey (GSS) from 1972-2014
+    │   ├── deflator.R                # Downloads the Personal Consumption Expenditure (PCE) index
+    │   ├── CPS_Bertrand.R            # Downloads the Bertrand (2013) replication file & extracts data on income percentiles
+    │   ├── GSS_prep_dynamic          # Combines the data from all three previous data sources and prepares final data set
+    │   ├── data_sets                 # Folder containing the data sets
+    |       ├── GSS.CS.rda            # General Social Survey from 1972-2014
+    |       ├── CPS_Bertrand.rda      # Replication file from Bertrand (2013)
+    |       ├── data_final.rda        # Final data set
+    
+### gh-pages branch
+
+    .
+    ├── index.rmd                     # Rmd file used to produce the website hosted at the gh-pages branch
+    ├── index.html                    # Website hosted at the gh-pages branch
+    ├── Data                          # Folder containing final data set
+    │   ├── data_final.rda            # Copy of the final data set
 
 
 
